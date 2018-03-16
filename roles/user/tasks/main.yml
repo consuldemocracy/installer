@@ -1,0 +1,25 @@
+---
+- name: Make sure we have a 'wheel' group
+  group:
+    name: wheel
+    state: present
+
+- name: Allow 'wheel' group to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%wheel'
+    line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+
+- name: Create the deploy user
+  user:
+    name: deploy
+    group: wheel
+    state: present
+    shell: /bin/bash
+
+- name: Install SSH key
+  authorized_key:
+    user: deploy
+    key: "{{ lookup('file', '{{ ssh_public_key_path }}') }}"
+  notify: Restart ssh
