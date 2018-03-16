@@ -1,0 +1,13 @@
+---
+- include_role:
+    name: galaxy/geerlingguy.nginx
+
+- name: Change default template
+  become: true
+  become_method: sudo
+  template:
+    src: "{{ playbook_dir }}/roles/nginx/templates/consul_vhost.conf"
+    dest: /etc/nginx/sites-enabled/default
+    owner: deploy
+    group: wheel
+  notify: restart nginx
