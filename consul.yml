@@ -1,0 +1,22 @@
+---
+- name: Create deploy user
+  hosts: servers
+  remote_user: vagrant
+  become: yes
+  roles:
+    - user
+
+- name: Setup CONSUL
+  hosts: servers
+  remote_user: deploy
+  gather_facts: yes
+  roles:
+    - system
+    - timezone
+    - postgresql
+    - ruby
+    - rails
+    - unicorn
+    - nginx
+    - memcached
+    
