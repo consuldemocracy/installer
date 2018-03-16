@@ -1,0 +1,14 @@
+---
+- name: gather facts
+  setup:
+
+- name: Update and upgrade apt packages (this may take a few minutes)
+  become: true
+  become_method: sudo
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400
+
+#- include: hostname.yml
+- include: tools.yml
