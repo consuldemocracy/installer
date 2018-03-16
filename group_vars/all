@@ -1,0 +1,57 @@
+---
+# Server Timzone + Locale
+timezone: Europe/Madrid
+locale: en_US.UTF-8
+
+# General settings
+deploy_dir: /home/deploy/
+deploy_user: deploy
+deploy_password: test
+deploy_app_name: test
+deploy_server_hostname: 127.0.0.1
+shared_dirs:
+  - releases
+  - repo
+  - shared
+  - shared/config
+  - shared/log
+  - shared/public
+  - shared/tmp
+
+ssh_public_key_path: "~/.ssh/id_rsa.pub"
+
+# Ruby
+ruby_version: 2.3.2
+
+#Ruby
+rvm1_user: "{{ deploy_user }}"
+rvm1_rubies: ['ruby-2.3.2']
+rvm1_install_path: "/home/{{ deploy_user }}/.rvm"
+
+#Postgresql
+postgresql_version: 9.6
+database_name: "consul_development"
+database_user: "deploy"
+database_password: "deploy"
+database_hostname: "localhost"
+database_port: 5432
+
+postgresql_users:
+  - name: deploy
+    pass: deploy
+    encrypted: no
+
+postgresql_databases:
+  - name: "{{database_name}}"
+
+postgresql_user_privileges:
+  - name: "{{database_user}}"
+    db: "{{database_name}}"
+    priv: "ALL"
+
+postgresql_database_extensions:
+  - db: "{{database_name}}"
+    extensions:
+      - plpgsql
+      - unaccent
+      - pg_trgm
