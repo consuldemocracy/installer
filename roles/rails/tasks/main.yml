@@ -20,7 +20,7 @@
     recurse: true
     mode: 0755
 
-- name: Install gems
+- name: Install gems (this may take a few minutes)
   shell: source /home/deploy/.rvm/scripts/rvm && bundle install
   args:
     chdir: /home/{{ deploy_user }}/consul
