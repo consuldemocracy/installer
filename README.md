@@ -46,10 +46,15 @@ Initialize a new virtual linux machine
 vagrant up
 ```
 
+Uncomment [line 5 at consul.yml](https://github.com/consul/installer/blob/configuration/consul.yml#L5) to set the remote_user as vagrant:
+```
+sed -i -e 's/#remote_user: vagrant/remote_user: vagrant/g' consul.yml
+```
+
 Run the ansible playbook
     
 ```
-sudo ansible-playbook -v consul.yml -i hosts
+sudo ansible-playbook -v consul.yml -i hosts --extra-vars "target=vagrant"
 ```
 
 Visit http://192.168.33.10/
@@ -61,7 +66,7 @@ Setup a remote server with Ubuntu 16.04
 Confirm root ssh access to the remote server:
 
 ```
-$ ssh root@your-ip-address
+$ ssh root@remote-server-ip-address
 ```
 
 Install Python 2 in the remote server:
@@ -70,20 +75,30 @@ Install Python 2 in the remote server:
 sudo apt-get -y install python-simplejson
 ```
 
-Update the local `hosts` file with your ip address
+Create your local `hosts` file
+```
+cp hosts.example hosts
+```
+
+Update your local `hosts` file with your ip address
     
 ```
 [servers]
-your-ip-address
+remote-server-ip-address
+```
+
+Comment [line 5 at consul.yml](https://github.com/consul/installer/blob/configuration/consul.yml#L5) to set the remote_user as root:
+```
+sed -i -e 's/remote_user: vagrant/#remote_user: vagrant/g' consul.yml
 ```
 
 Run the ansible playbook
     
 ```
-sudo ansible-playbook consul.yml -i hosts
+sudo ansible-playbook consul.yml -i hosts --extra-vars "target=servers"
 ```
 
-Visit your-ip-address
+Visit remote-server-ip-address
 
 ## Admin user
 
