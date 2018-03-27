@@ -1,0 +1,22 @@
+---
+- name: Create deploy user
+  hosts: "{{ target }}"
+  become: yes
+  #remote_user: vagrant #Uncomment this line to use Vagrant
+  roles:
+    - user
+
+- name: Setup CONSUL
+  hosts: "{{ target }}"
+  remote_user: deploy
+  gather_facts: yes
+  roles:
+    - system
+    - postgresql
+    - ruby
+    - rails
+    - unicorn
+    - nginx
+    - memcached
+    - timezone
+    

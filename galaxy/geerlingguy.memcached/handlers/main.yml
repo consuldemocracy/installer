@@ -1,0 +1,5 @@
+---
+- name: restart memcached
+  become: true
+  service: name=memcached state=restarted
+  when: not memcached_install.changed

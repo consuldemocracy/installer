@@ -1,0 +1,59 @@
+---
+- name: Check that CONSUL exists
+  stat:
+    path: /home/{{ deploy_user }}/consul
+  register: consul_repo
+
+- name: Git clone CONSUL
+  become_user: deploy
+  git:
+    repo: https://github.com/consul/consul.git
+    dest: /home/{{ deploy_user }}/consul
+    clone: yes
+  when: consul_repo.stat.exists == False 
+
+- name: Deploy user permissions
+  file:
+    path: /home/{{ deploy_user }}/consul
+    owner: deploy
+    group: wheel
+    recurse: true
+    mode: 0755
+
+- name: Install gems (this may take a few minutes)
+  shell: source /home/deploy/.rvm/scripts/rvm && bundle install
+  args:
+    chdir: /home/{{ deploy_user }}/consul
+    executable: /bin/bash
+
+#this should be in a template
+- name: Copy secrets configuration
+  become_user: deploy
+  copy:
+    src: /home/{{ deploy_user }}/consul/config/secrets.yml.example
+    dest: /home/{{ deploy_user }}/consul/config/secrets.yml
+    remote_src: yes
+
+- name: Copy database configuration
+  become_user: deploy
+  template:
+    src: "{{ playbook_dir }}/roles/rails/templates/database.yml"
+    dest: /home/deploy/consul/config/database.yml
+    owner: deploy
+    group: wheel
+
+- name: Create Database
+  become_user: deploy
+  shell: "source /home/deploy/.rvm/scripts/rvm && /home/deploy/.rvm/gems/ruby-2.3.2/bin/rake db:migrate RAILS_ENV=development"
+  args:
+    chdir: /home/{{ deploy_user }}/consul
+    executable: /bin/bash
+  environment:
+    RAILS_ENV: 'development'
+
+- name: Load configuration seeds
+  become_user: deploy
+  shell: source /home/deploy/.rvm/scripts/rvm && bin/rake db:seed
+  args:
+    chdir: /home/{{ deploy_user }}/consul
+    executable: /bin/bash
