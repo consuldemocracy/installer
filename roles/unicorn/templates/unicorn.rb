@@ -1,6 +1,6 @@
 # set path to the application
-app_dir = "/home/deploy/consul/"
-shared_dir = "#{app_dir}/shared"
+app_dir = "/home/deploy/consul/current"
+shared_dir = "/home/deploy/consul/shared"
 working_directory app_dir
 
 # Set unicorn options

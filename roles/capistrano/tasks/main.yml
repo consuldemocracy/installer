@@ -1,0 +1,156 @@
+- name: Check that CONSUL exists (locally)
+  hosts: 127.0.0.1
+  connection: local
+  stat:
+    path: "{{ playbook_dir }}/consul"
+  register: consul_repo
+
+- name: Git clone CONSUL (locally)
+  hosts: 127.0.0.1
+  connection: local
+  git:
+    repo: https://github.com/consul/consul.git
+    dest: "{{ playbook_dir }}/consul"
+    clone: yes
+  when: consul_repo.stat.exists == False 
+
+- name: Copy deploy.rb (locally)
+  hosts: 127.0.0.1
+  connection: local
+  template:
+    src: "../templates/deploy.rb"
+    dest: "{{ playbook_dir }}/{{ app_name }}/config/"
+    owner: deploy
+    group: wheel
+    mode: 0644
+
+- name: Copy deploy-secrets.yml (locally)
+  hosts: 127.0.0.1
+  connection: local
+  template:
+    src: "../templates/deploy-secrets.yml"
+    dest: "{{ playbook_dir }}/{{ app_name }}/config/"
+    owner: deploy
+    group: wheel
+    mode: 0644
+
+- name: Copy development.rb (locally)
+  hosts: 127.0.0.1
+  connection: local
+  template:
+    src: "../templates/development.rb"
+    dest: "{{ playbook_dir }}/{{ app_name }}/config/deploy/"
+    owner: deploy
+    group: wheel
+    mode: 0644
+
+- name: Add config/deploy/development.rb to .gitignore
+  hosts: 127.0.0.1
+  connection: local
+  lineinfile:
+    path: "{{ playbook_dir }}/consul/.gitignore"
+    line: '/config/deploy'
+
+- name: Creates shared folder
+  file: 
+    path: /home/{{ deploy_user }}/consul/shared
+    state: directory    
+    owner: deploy
+    group: wheel
+    mode: 0755
+
+- name: Creates shared config folder
+  file: 
+    path: /home/{{ deploy_user }}/consul/shared/config
+    state: directory    
+    owner: deploy
+    group: wheel
+    mode: 0755
+
+- name: Copy secrets configuration to shared folder
+  become_user: deploy
+  become: true
+  copy:
+    src: /home/{{ deploy_user }}/consul/config/secrets.yml.example
+    dest: /home/{{ deploy_user }}/consul/shared/config/secrets.yml
+    remote_src: yes
+
+- name: Copy database configuration to shared folder
+  become_user: deploy
+  template:
+    src: "{{ playbook_dir }}/roles/rails/templates/database.yml"
+    dest: /home/deploy/consul/shared/config/database.yml
+    owner: deploy
+    group: wheel
+
+- name: Copy unicorn.rb to shared folder
+  become_user: deploy
+  template:
+    src: "{{ playbook_dir }}/roles/unicorn/templates/unicorn.rb"
+    dest: /home/deploy/consul/shared/config/unicorn.rb
+    owner: deploy
+    group: wheel
+
+- name: Copy temporary config/environments/development.rb
+  become_user: deploy
+  template:
+    src: "{{ playbook_dir }}/roles/rails/templates/development.rb"
+    dest: /home/deploy/consul/config/environments/development.rb
+    owner: deploy
+    group: wheel
+
+- name: Install gems (this may take a few minutes)
+  hosts: 127.0.0.1
+  connection: local
+  shell: gem install bundler && bundle install
+  args:
+    chdir: "{{ playbook_dir }}/{{ app_name }}"
+    executable: /bin/bash
+
+- name: Capistrano deploy setup
+  hosts: 127.0.0.1
+  connection: local
+  shell: cap development setup
+  args:
+    chdir: "{{ playbook_dir }}/{{ app_name }}"
+    executable: /bin/bash
+
+- name: Capistrano deploy (this may take a few minutes)
+  hosts: 127.0.0.1
+  connection: local
+  shell: cap development deploy
+  args:
+    chdir: "{{ playbook_dir }}/{{ app_name }}"
+    executable: /bin/bash
+
+- name: Create unicorn 
+  file:
+    path: "/home/deploy/consul/shared/{{ item }}"
+    state: directory
+    owner: deploy
+    group: wheel
+    mode: 0775
+  with_items:
+    - "pids" 
+    - "sockets" 
+    - "log"
+
+- name: Check that Unicorn is running
+  stat:
+    path: /home/deploy/consul/shared/pids/unicorn.pid
+  register: unicorn_process
+
+- name: Get running unicorn process
+  shell: "cat /home/deploy/consul/shared/pids/unicorn.pid"
+  register: running_process
+  when: unicorn_process.stat.exists == True
+
+- name: Kill running process
+  shell: "kill -QUIT {{ item }}"
+  with_items: "{{ running_process.stdout_lines }}"
+  when: unicorn_process.stat.exists == True
+
+- name: Start Unicorn
+  shell: "/home/deploy/.rvm/gems/ruby-2.3.2/wrappers/unicorn -c config/unicorn.rb -E development -D"
+  args:
+    chdir: /home/{{ deploy_user }}/consul/current
