@@ -1,4 +1,6 @@
 ---
+app_name: consul
+
 # Server Timzone + Locale
 timezone: Europe/Madrid
 locale: en_US.UTF-8

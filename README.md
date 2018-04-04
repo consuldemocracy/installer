@@ -29,6 +29,12 @@ git clone https://github.com/consul/installer
 cd installer
 ```
 
+Python
+
+```
+easy_install simplejson
+```
+
 ## Running playbook localy:
 
 Install VirtualBox, Vagrant and sshpass
@@ -58,6 +64,16 @@ sudo ansible-playbook -v consul.yml -i hosts --extra-vars "target=vagrant"
 ```
 
 Visit http://192.168.33.10/
+
+Gotchas
+
+To reset your vagrant machine run:
+
+```
+vagrant destroy -f
+vagrant up
+vagrant reload
+```
 
 ## Running playbook in a remote server
     

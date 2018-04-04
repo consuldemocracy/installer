@@ -15,6 +15,7 @@
     - postgresql
     - ruby
     - rails
+    - capistrano
     - unicorn
     - nginx
     - memcached
