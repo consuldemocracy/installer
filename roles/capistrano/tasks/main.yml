@@ -34,17 +34,17 @@
     group: wheel
     mode: 0644
 
-- name: Copy development.rb (locally)
+- name: Copy production.rb (locally)
   hosts: 127.0.0.1
   connection: local
   template:
-    src: "../templates/development.rb"
+    src: "../templates/production.rb"
     dest: "{{ playbook_dir }}/{{ app_name }}/config/deploy/"
     owner: deploy
     group: wheel
     mode: 0644
 
-- name: Add config/deploy/development.rb to .gitignore
+- name: Add config/deploy/production.rb to .gitignore
   hosts: 127.0.0.1
   connection: local
   lineinfile:
@@ -71,7 +71,7 @@
   become_user: deploy
   become: true
   copy:
-    src: /home/{{ deploy_user }}/consul/config/secrets.yml.example
+    src: /home/{{ deploy_user }}/consul/current/config/secrets.yml.example
     dest: /home/{{ deploy_user }}/consul/shared/config/secrets.yml
     remote_src: yes
 
@@ -91,11 +91,11 @@
     owner: deploy
     group: wheel
 
-- name: Copy temporary config/environments/development.rb
+- name: Copy temporary config/environments/production.rb
   become_user: deploy
   template:
-    src: "{{ playbook_dir }}/roles/rails/templates/development.rb"
-    dest: /home/deploy/consul/config/environments/development.rb
+    src: "{{ playbook_dir }}/roles/rails/templates/production.rb"
+    dest: /home/deploy/consul/config/environments/production.rb
     owner: deploy
     group: wheel
 
@@ -118,7 +118,7 @@
 - name: Capistrano deploy (this may take a few minutes)
   hosts: 127.0.0.1
   connection: local
-  shell: cap development deploy
+  shell: cap production deploy
   args:
     chdir: "{{ playbook_dir }}/{{ app_name }}"
     executable: /bin/bash
@@ -151,6 +151,6 @@
   when: unicorn_process.stat.exists == True
 
 - name: Start Unicorn
-  shell: "/home/deploy/.rvm/gems/ruby-2.3.2/wrappers/unicorn -c config/unicorn.rb -E development -D"
+  shell: "/home/deploy/.rvm/gems/ruby-2.3.2/wrappers/unicorn -c config/unicorn.rb -E production -D"
   args:
     chdir: /home/{{ deploy_user }}/consul/current

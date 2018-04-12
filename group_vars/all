@@ -32,7 +32,7 @@ rvm1_install_path: "/home/{{ deploy_user }}/.rvm"
 
 #Postgresql
 postgresql_version: 9.6
-database_name: "consul_development"
+database_name: "consul_production"
 database_user: "deploy"
 database_password: "deploy"
 database_hostname: "localhost"
