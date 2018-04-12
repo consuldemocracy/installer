@@ -111,7 +111,7 @@ sed -i -e 's/remote_user: vagrant/#remote_user: vagrant/g' consul.yml
 Run the ansible playbook
     
 ```
-sudo ansible-playbook consul.yml -i hosts --extra-vars "target=servers"
+sudo ansible-playbook -v consul.yml -i hosts --extra-vars "target=servers"
 ```
 
 Visit remote-server-ip-address
