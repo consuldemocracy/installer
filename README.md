@@ -35,46 +35,6 @@ Python
 easy_install simplejson
 ```
 
-## Running playbook localy:
-
-Install VirtualBox, Vagrant and sshpass
-
-```
-brew cask install virtualbox
-brew cask install vagrant
-brew install vagrant-completion
-brew install hudochenkov/sshpass/sshpass
-```
-
-Initialize a new virtual linux machine
-
-```
-vagrant up
-```
-
-Uncomment [line 5 at consul.yml](https://github.com/consul/installer/blob/configuration/consul.yml#L5) to set the remote_user as vagrant:
-```
-sed -i -e 's/#remote_user: vagrant/remote_user: vagrant/g' consul.yml
-```
-
-Run the ansible playbook
-    
-```
-sudo ansible-playbook -v consul.yml -i hosts --extra-vars "target=vagrant"
-```
-
-Visit http://192.168.33.10/
-
-Gotchas
-
-To reset your vagrant machine run:
-
-```
-vagrant destroy -f
-vagrant up
-vagrant reload
-```
-
 ## Running playbook in a remote server
     
 Setup a remote server with Ubuntu 16.04
@@ -101,11 +61,6 @@ Update your local `hosts` file with your ip address
 ```
 [servers]
 remote-server-ip-address
-```
-
-Comment [line 5 at consul.yml](https://github.com/consul/installer/blob/configuration/consul.yml#L5) to set the remote_user as root:
-```
-sed -i -e 's/remote_user: vagrant/#remote_user: vagrant/g' consul.yml
 ```
 
 Run the ansible playbook

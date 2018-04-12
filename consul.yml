@@ -2,7 +2,6 @@
 - name: Create deploy user
   hosts: "{{ target }}"
   become: yes
-  #remote_user: vagrant #Uncomment this line to use Vagrant
   roles:
     - user
 
