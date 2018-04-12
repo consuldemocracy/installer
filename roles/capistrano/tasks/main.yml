@@ -107,14 +107,6 @@
     chdir: "{{ playbook_dir }}/{{ app_name }}"
     executable: /bin/bash
 
-- name: Capistrano deploy setup
-  hosts: 127.0.0.1
-  connection: local
-  shell: cap development setup
-  args:
-    chdir: "{{ playbook_dir }}/{{ app_name }}"
-    executable: /bin/bash
-
 - name: Capistrano deploy (this may take a few minutes)
   hosts: 127.0.0.1
   connection: local
