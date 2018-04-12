@@ -68,10 +68,3 @@ task :refresh_sitemap do
     end
   end
 end
-
-
-task :setup do
-  on roles(:app) do
-    execute 'cd /home/deploy && git clone https://github.com/consul/consul.git tmp'
-  end
-end
