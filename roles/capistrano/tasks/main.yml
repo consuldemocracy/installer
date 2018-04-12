@@ -12,6 +12,7 @@
     repo: https://github.com/consul/consul.git
     dest: "{{ playbook_dir }}/consul"
     clone: yes
+    version: installer
   when: consul_repo.stat.exists == False 
 
 - name: Copy deploy.rb (locally)
