@@ -83,6 +83,8 @@ Confirm root ssh access to the remote server:
 
 ```
 $ ssh root@remote-server-ip-address
+ssh-keygen -R "remote-server-ip-address"
+ssh root@remote-server-ip-address
 ```
 
 Install Python 2 in the remote server:
@@ -101,6 +103,7 @@ Update your local `hosts` file with your ip address
 ```
 [servers]
 remote-server-ip-address
+remote-server-ip-address (maintain other default options)
 ```
 
 Comment [line 5 at consul.yml](https://github.com/consul/installer/blob/configuration/consul.yml#L5) to set the remote_user as root:
