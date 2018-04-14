@@ -12,6 +12,7 @@
     repo: https://github.com/consul/consul.git
     dest: "{{ playbook_dir }}/consul"
     clone: yes
+    version: installer
   when: consul_repo.stat.exists == False 
 
 - name: Copy deploy.rb (locally)
@@ -69,11 +70,11 @@
 
 - name: Copy secrets configuration to shared folder
   become_user: deploy
-  become: true
-  copy:
-    src: /home/{{ deploy_user }}/consul/current/config/secrets.yml.example
+  template:
+    src: "{{ playbook_dir }}/consul/config/secrets.yml.example"
     dest: /home/{{ deploy_user }}/consul/shared/config/secrets.yml
-    remote_src: yes
+    owner: deploy
+    group: wheel
 
 - name: Copy database configuration to shared folder
   become_user: deploy
