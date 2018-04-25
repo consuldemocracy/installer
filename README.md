@@ -39,11 +39,20 @@ easy_install simplejson
     
 Setup a remote server with Ubuntu 16.04
 
-Confirm root ssh access to the remote server:
+Regenerate your local fingerprint for the remote server:
 
 ```
-$ ssh root@remote-server-ip-address
-ssh-keygen -R "remote-server-ip-address"
+ssh-keygen -R remote-server-ip-address
+```
+
+Copy your public ssh key to the remote server:
+
+```
+ssh-copy-id -i ~/.ssh/id_rsa.pub root@remote-server-ip-address
+```
+
+Confirm root ssh access to the remote server with your public ssh key (a.k.a without password):
+```
 ssh root@remote-server-ip-address
 ```
 
@@ -62,7 +71,6 @@ Update your local `hosts` file with your ip address
     
 ```
 [servers]
-remote-server-ip-address
 remote-server-ip-address (maintain other default options)
 ```
 
