@@ -45,8 +45,7 @@ namespace :deploy do
   #before :starting, 'rvm1:install:ruby' # install Ruby and create gemset
   #before :starting, 'install_bundler_gem' # install bundler gem
 
-  #FIX THIS
-  #after :publishing, 'deploy:restart'
+  after :publishing, 'restart_unicorn'
   after :published, 'delayed_job:restart'
   after :published, 'refresh_sitemap'
 
@@ -67,4 +66,9 @@ task :refresh_sitemap do
       end
     end
   end
+end
+
+task :restart_unicorn do
+  execute "kill -QUIT `cat /home/deploy/consul/shared/pids/unicorn.pid`"
+  execute "cd /home/deploy/consul/current && /home/deploy/.rvm/gems/ruby-2.3.2/wrappers/unicorn -c config/unicorn.rb -E production -D"
 end
