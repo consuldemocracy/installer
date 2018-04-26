@@ -45,7 +45,7 @@ namespace :deploy do
   #before :starting, 'rvm1:install:ruby' # install Ruby and create gemset
   #before :starting, 'install_bundler_gem' # install bundler gem
 
-  after :publishing, 'restart_unicorn'
+  #after :publishing, 'restart_unicorn'
   after :published, 'delayed_job:restart'
   after :published, 'refresh_sitemap'
 
