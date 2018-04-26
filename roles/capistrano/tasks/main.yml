@@ -23,7 +23,7 @@
     dest: "{{ playbook_dir }}/{{ app_name }}/config/"
     owner: deploy
     group: wheel
-    mode: 0644
+    mode: 0774
 
 - name: Copy deploy-secrets.yml (locally)
   hosts: 127.0.0.1
@@ -33,7 +33,7 @@
     dest: "{{ playbook_dir }}/{{ app_name }}/config/"
     owner: deploy
     group: wheel
-    mode: 0644
+    mode: 0774
 
 - name: Copy production.rb (locally)
   hosts: 127.0.0.1
@@ -43,7 +43,7 @@
     dest: "{{ playbook_dir }}/{{ app_name }}/config/deploy/"
     owner: deploy
     group: wheel
-    mode: 0644
+    mode: 0774
 
 - name: Add config/deploy/production.rb to .gitignore
   hosts: 127.0.0.1
