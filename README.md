@@ -14,12 +14,44 @@ Using [Ansible](http://docs.ansible.com/), it will install and configure the fol
 
 It will also create a `deploy` user to install these libraries using a public ssh key
 
+## Screencast
+[How to setup CONSUL for a production environment](https://public.3.basecamp.com/p/dSTKWbqxtZSaSSpMiYWiqR9U)
+
 ## Prerequisities
+
+A remote server with the supported distrubition
+
+```
+Ubuntu 16.04 x64
+```
+
+Root ssh access to the remote server with a public ssh key
+
+```
+ssh root@remote-server-ip-address
+```
+
+Python 2 installed in the remote server
+
+```
+sudo apt-get -y install python-simplejson
+```
+
+
+## Running the installer
+    
+The following commands are to be executed in your local machine
 
 Ansible
 
 ```
 brew install ansible
+```
+
+Python
+
+```
+easy_install simplejson
 ```
 
 Playbook
@@ -29,45 +61,12 @@ git clone https://github.com/consul/installer
 cd installer
 ```
 
-Python
-
-```
-easy_install simplejson
-```
-
-## Running playbook in a remote server
-    
-Setup a remote server with Ubuntu 16.04 x64
-
-Regenerate your local fingerprint for the remote server:
-
-```
-ssh-keygen -R remote-server-ip-address
-```
-
-Copy your public ssh key to the remote server:
-
-```
-ssh-copy-id -i ~/.ssh/id_rsa.pub root@remote-server-ip-address
-```
-
-Confirm root ssh access to the remote server with your public ssh key (a.k.a without password):
-```
-ssh root@remote-server-ip-address
-```
-
-Install Python 2 in the remote server:
-
-```
-sudo apt-get -y install python-simplejson
-```
-
 Create your local `hosts` file
 ```
 cp hosts.example hosts
 ```
 
-Update your local `hosts` file with your ip address
+Update your local `hosts` file with the remote server's ip address
     
 ```
 [servers]
@@ -84,7 +83,7 @@ Visit remote-server-ip-address
 
 ## Admin user
 
-You can sign in with a default admin user:
+You can sign in to the application with the default admin user:
 
 ```
 admin@consul.dev
@@ -104,7 +103,7 @@ locale: en_US.UTF-8
 ssh_public_key_path: "change_me/.ssh/id_rsa.pub"
 
 # Ruby
-ruby_version: 2.3.3
+ruby_version: 2.3.2
 
 #Postgresql
 postgresql_version: 9.6
