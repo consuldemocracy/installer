@@ -37,7 +37,7 @@ easy_install simplejson
 
 ## Running playbook in a remote server
     
-Setup a remote server with Ubuntu 16.04
+Setup a remote server with Ubuntu 16.04 x64
 
 Regenerate your local fingerprint for the remote server:
 
