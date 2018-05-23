@@ -92,14 +92,6 @@
     owner: deploy
     group: wheel
 
-- name: Copy temporary config/environments/production.rb
-  become_user: deploy
-  template:
-    src: "{{ playbook_dir }}/roles/rails/templates/production.rb"
-    dest: /home/deploy/consul/config/environments/production.rb
-    owner: deploy
-    group: wheel
-
 - name: Install gems (this may take a few minutes)
   hosts: 127.0.0.1
   connection: local
@@ -115,6 +107,14 @@
   args:
     chdir: "{{ playbook_dir }}/{{ app_name }}"
     executable: /bin/bash
+
+- name: Copy temporary config/environments/production.rb
+  become_user: deploy
+  template:
+    src: "{{ playbook_dir }}/roles/rails/templates/production.rb"
+    dest: /home/deploy/consul/current/config/environments/production.rb
+    owner: deploy
+    group: wheel
 
 - name: Capistrano log permissions
   hosts: 127.0.0.1
