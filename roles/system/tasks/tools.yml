@@ -20,5 +20,5 @@
     - libcurl3-gnutls
     - libcurl4-openssl-dev
     - nodejs
-    #for postgres
     - libpq-dev
+    - imagemagick
