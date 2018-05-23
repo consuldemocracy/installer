@@ -112,6 +112,14 @@ database_user: "deploy"
 database_password: "change_me"
 database_hostname: "localhost"
 database_port: 5432
+
+#SMTP
+smtp_address:        "smtp.example.com"
+smtp_port:           25
+smtp_domain:         "your_domain.com"
+smtp_user_name:      "username"
+smtp_password:       "password"
+smtp_authentication: "plain"
 ```
 
 There are many more variables available check them out [here](link_to group_vars/all)
