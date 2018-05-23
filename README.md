@@ -90,6 +90,20 @@ admin@consul.dev
 12345678
 ```
 
+## Email configuration
+
+Update the following local [configuration variables](https://github.com/consul/installer/blob/master/group_vars/all) and rerun the ansible playbook
+```
+server_hostname: remote_server_ip_address_or_domain_name
+
+smtp_address:        "smtp.example.com"
+smtp_port:           25
+smtp_domain:         "your_domain.com"
+smtp_user_name:      "username"
+smtp_password:       "password"
+smtp_authentication: "plain"
+```
+
 ## Configuration Variables
 
 These are the main configuration variables:

@@ -1,5 +1,6 @@
 ---
 app_name: consul
+server_hostname: remote_server_ip_address_or_domain_name
 
 # Server Timzone + Locale
 timezone: Europe/Madrid
