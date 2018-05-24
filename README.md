@@ -42,7 +42,7 @@ sudo apt-get -y install python-simplejson
     
 The following commands are to be executed in your local machine
 
-Ansible
+Ansible >= 2.4
 
 ```
 brew install ansible
