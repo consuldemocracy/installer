@@ -152,6 +152,10 @@ Greater diversity of interchangeable roles (nginx/apache, unicorn/puma/passenger
 - Open an issue
 - Send us a Pull Request
 
+## Support
+
+[![Join the chat at https://gitter.im/consul/consul](https://badges.gitter.im/consul/consul.svg)](https://gitter.im/consul/consul?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ## License
 
 Code published under AFFERO GPL v3 (see [LICENSE-AGPLv3.txt](LICENSE-AGPLv3.txt))
