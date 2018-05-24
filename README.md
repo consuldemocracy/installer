@@ -8,6 +8,7 @@ Using [Ansible](http://docs.ansible.com/), it will install and configure the fol
  - Postgres
  - Nginx
  - Unicorn
+ - SMTP
  - Memcached
  - DelayedJobs
  - HTTPS
