@@ -1,6 +1,6 @@
 # CONSUL Installer
 
-CONSUL installer for production environments
+[CONSUL](https://github.com/consul/consul) installer for production environments
 
 Using [Ansible](http://docs.ansible.com/), it will install and configure the following:
  - Ruby
