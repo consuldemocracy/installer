@@ -19,7 +19,7 @@ It will also create a `deploy` user to install these libraries using a public ss
 
 ## Prerequisities
 
-A remote server with the supported distrubition
+A remote server with the supported distribution
 
 ```
 Ubuntu 16.04 x64
@@ -136,7 +136,7 @@ smtp_password:       "password"
 smtp_authentication: "plain"
 ```
 
-There are many more variables available check them out [here](link_to group_vars/all)
+There are many more variables available check them out [here]((https://github.com/consul/installer/blob/master/group_vars/all))
 For further configuration and customization options check out the CONSUL [docs](https://consul_docs.gitbooks.io/docs/content/en/customization/introduction.html)
 
 ## Ansible Documentation
