@@ -76,6 +76,12 @@
     owner: deploy
     group: wheel
 
+- name: Update host configuration in secrets.yml
+  lineinfile:
+    path: /home/{{ deploy_user }}/consul/shared/config/secrets.yml
+    regexp: 'server_name'
+    line: '  server_name: "{{ server_hostname }}"'
+
 - name: Copy database configuration to shared folder
   become_user: deploy
   template:
