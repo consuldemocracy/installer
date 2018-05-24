@@ -12,7 +12,7 @@ Using [Ansible](http://docs.ansible.com/), it will install and configure the fol
  - DelayedJobs
  - HTTPS
 
-It will also create a `deploy` user to install these libraries using a public ssh key
+It will also create a `deploy` user to install these libraries
 
 ## Screencast
 [How to setup CONSUL for a production environment](https://public.3.basecamp.com/p/dSTKWbqxtZSaSSpMiYWiqR9U)
