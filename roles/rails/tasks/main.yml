@@ -26,13 +26,24 @@
     chdir: /home/{{ deploy_user }}/consul
     executable: /bin/bash
 
-#this should be in a template
 - name: Copy secrets configuration
   become_user: deploy
   copy:
     src: /home/{{ deploy_user }}/consul/config/secrets.yml.example
     dest: /home/{{ deploy_user }}/consul/config/secrets.yml
     remote_src: yes
+
+- name: Update secret_key_base configuration in secrets.yml
+  lineinfile:
+    path: /home/{{ deploy_user }}/consul/config/secrets.yml
+    regexp: 'secret_key_base'
+    line: '  secret_key_base: "{{ secret_key_base }}"'
+
+- name: Update host configuration in secrets.yml
+  lineinfile:
+    path: /home/{{ deploy_user }}/consul/config/secrets.yml
+    regexp: 'server_name'
+    line: '  server_name: "{{ server_hostname }}"'
 
 - name: Copy database configuration
   become_user: deploy
@@ -54,6 +65,13 @@
 - name: Load configuration seeds
   become_user: deploy
   shell: source /home/deploy/.rvm/scripts/rvm && bin/rake db:seed RAILS_ENV=production
+  args:
+    chdir: /home/{{ deploy_user }}/consul
+    executable: /bin/bash
+
+- name: Precompile assets
+  become_user: deploy
+  shell: source /home/deploy/.rvm/scripts/rvm && bin/rake assets:precompile RAILS_ENV=production
   args:
     chdir: /home/{{ deploy_user }}/consul
     executable: /bin/bash

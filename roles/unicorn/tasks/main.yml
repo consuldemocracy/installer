@@ -1,8 +1,40 @@
 ---
-- name: Configure Unicorn
+- name: Add unicorn.rb
   template:
     src: ../templates/unicorn.rb
-    dest: /home/deploy/consul/current/config
+    dest: /home/deploy/consul/config
     owner: deploy
     group: wheel
+
+- name: Add unicorn files and folders
+  file:
+    path: "/home/deploy/consul/{{ item }}"
+    state: directory
+    owner: deploy
+    group: wheel
+    mode: 0775
+  with_items:
+    - "pids" 
+    - "sockets" 
+    - "log"
+
+- name: Check that Unicorn is running
+  stat:
+    path: /home/deploy/consul/pids/unicorn.pid
+  register: unicorn_process
+
+- name: Get running unicorn process
+  shell: "cat /home/deploy/consul/pids/unicorn.pid"
+  register: running_process
+  when: unicorn_process.stat.exists == True
+
+- name: Kill running process
+  shell: "kill -QUIT {{ item }}"
+  with_items: "{{ running_process.stdout_lines }}"
+  when: unicorn_process.stat.exists == True
+
+- name: Start Unicorn
+  shell: "/home/deploy/.rvm/gems/ruby-2.3.2/wrappers/unicorn -c config/unicorn.rb -E production -D"
+  args:
+    chdir: /home/{{ deploy_user }}/consul
     
