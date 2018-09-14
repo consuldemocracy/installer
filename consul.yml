@@ -16,6 +16,7 @@
     - rails
     - ssl
     - email
+    - queue
     - unicorn
     - nginx
     - memcached
