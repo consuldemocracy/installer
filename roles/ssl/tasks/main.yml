@@ -1,0 +1,5 @@
+- name: Use http instead of https (for now https://github.com/consul/installer/issues/8)
+  lineinfile:
+    path: /home/{{ deploy_user }}/consul/config/environments/production.rb
+    regexp: 'force_ssl'
+    line: '  config.force_ssl = false'
