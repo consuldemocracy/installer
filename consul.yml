@@ -15,6 +15,7 @@
     - ruby
     - rails
     - ssl
+    - email
     - unicorn
     - nginx
     - memcached
