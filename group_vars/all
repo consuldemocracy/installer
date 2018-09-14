@@ -41,11 +41,11 @@ database_hostname: "localhost"
 database_port: 5432
 
 #SMTP
-smtp_address:        "smtp.example.com"
+smtp_address:        "smtp.sendgrid.net"
 smtp_port:           25
-smtp_domain:         "your_domain.com"
-smtp_user_name:      "username"
-smtp_password:       "password"
+smtp_domain:         "example.com"
+smtp_user_name:      "apikey"
+smtp_password:       "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"
 smtp_authentication: "plain"
 
 postgresql_users:
