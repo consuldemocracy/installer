@@ -1,6 +1,7 @@
 ---
 app_name: consul
-server_hostname: remote_server_ip_address_or_domain_name
+server_hostname: "{{ ansible_default_ipv4.address }}"
+secret_key_base: "change_me"
 
 # Server Timzone + Locale
 timezone: Europe/Madrid
