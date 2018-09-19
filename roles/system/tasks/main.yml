@@ -10,5 +10,17 @@
     update_cache: yes
     cache_valid_time: 86400
 
+- name: Add Node repository
+  become: true
+  apt_repository:
+    repo: deb https://deb.nodesource.com/node_6.x bionic main
+    state: present
+
+- name: Add Node key
+  become: yes
+  apt_key:
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+    state: present
+
 #- include: hostname.yml
 - include: tools.yml
