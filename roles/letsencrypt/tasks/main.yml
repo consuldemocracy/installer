@@ -1,0 +1,12 @@
+- name: update
+  command: sudo apt-get update
+- name: install software-properties-common
+  command: sudo apt-get install software-properties-common
+- name: repository ppa:certbot/certbot
+  command: sudo add-apt-repository ppa:certbot/certbot
+- name: update
+  command: sudo apt-get update
+- name: install python-certbot-nginx 
+  command: sudo apt-get install python-certbot-nginx 
+- name: grab certificate
+  command: sudo certbot --nginx --noninteractive --agree-tos --email wmattgardner@gmail.com -d dev.pbnyc.participatorybudgeting.org

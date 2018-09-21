@@ -9,6 +9,7 @@
     - ruby
     - rails
     - ssl
+    - letsencrypt
     - email
     - queue
     - unicorn
