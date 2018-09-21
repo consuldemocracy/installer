@@ -12,6 +12,7 @@ Using [Ansible](http://docs.ansible.com/), it will install and configure the fol
  - Memcached
  - DelayedJobs
  - HTTPS
+ - Capistrano
 
 It will also create a `deploy` user to install these libraries
 
@@ -139,6 +140,72 @@ smtp_authentication: "plain"
 
 There are many more variables available check them out [here]((https://github.com/consul/installer/blob/master/group_vars/all))
 For further configuration and customization options check out the CONSUL [docs](https://consul_docs.gitbooks.io/docs/content/en/customization/introduction.html)
+
+## Deploys with Capistrano
+
+## Screencast
+[How to setup Capistrano](https://public.3.basecamp.com/p/SxF1BrYFHBZkRWkqVX4NUxGU)
+
+Create your [fork](https://help.github.com/articles/fork-a-repo/)
+
+Setup locally for your [development environment](https://github.com/consul/consul#configuration-for-development-and-test-environments)
+
+Uncomment this line in `consul.yml` and rerun the installer
+    
+```
+# - capistrano
+```
+
+Run the ansible playbook
+    
+```
+sudo ansible-playbook -v consul.yml -i hosts --extra-vars "target=servers"
+```
+
+Download changes from the `capistrano` branch to your fork
+
+```
+git remote add upstream git@github.com:consul/consul.git
+git fetch upstream
+git merge upstream/capistrano
+git push origin master
+```
+
+Create your `deploy-secrets.yml`
+
+```
+cp config/deploy-secrets.yml.example config/deploy-secrets.yml
+```
+
+Update `deploy-secrets.yml` with your server's info
+
+```
+deploy_to: "/home/deploy/consul"
+server1: "your_remote_ip_address"
+db_server: "localhost"
+server_name: "your_remote_ip_address"
+```
+
+Update your `repo_url` in `deploy.rb`
+```
+set :repo_url, 'https://github.com/your_github_username/consul.git' 
+```
+
+Make a change in a view and push it your fork in Github
+
+```
+git add .
+git commit -a -m "Add sample text to homepage"
+git push origin master
+```
+
+Deploy to production
+
+```
+cap production deploy
+```
+
+You should now see that change at your remote server's ip address
 
 ## Ansible Documentation
 

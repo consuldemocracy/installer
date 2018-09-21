@@ -21,4 +21,5 @@
     - nginx
     - memcached
     - timezone
+    # - capistrano
     
