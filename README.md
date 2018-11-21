@@ -33,6 +33,11 @@ Root ssh access to the remote server with a public ssh key
 ssh root@remote-server-ip-address
 ```
 
+Updated system package versions
+```
+sudo apt-get update
+```
+
 Python 2 installed in the remote server
 
 ```
