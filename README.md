@@ -97,55 +97,6 @@ admin@consul.dev
 12345678
 ```
 
-## Email configuration
-
-Update the following local [configuration variables](https://github.com/consul/installer/blob/master/group_vars/all) and rerun the ansible playbook
-```
-server_hostname: remote_server_ip_address_or_domain_name
-
-smtp_address:        "smtp.example.com"
-smtp_port:           25
-smtp_domain:         "your_domain.com"
-smtp_user_name:      "username"
-smtp_password:       "password"
-smtp_authentication: "plain"
-```
-
-## Configuration Variables
-
-These are the main configuration variables:
-
-```
-# Server Timzone + Locale
-timezone: Europe/Madrid
-locale: en_US.UTF-8
-
-# Authorized Hosts
-ssh_public_key_path: "change_me/.ssh/id_rsa.pub"
-
-# Ruby
-ruby_version: 2.3.2
-
-#Postgresql
-postgresql_version: 9.6
-database_name: "consul_production"
-database_user: "deploy"
-database_password: "change_me"
-database_hostname: "localhost"
-database_port: 5432
-
-#SMTP
-smtp_address:        "smtp.example.com"
-smtp_port:           25
-smtp_domain:         "your_domain.com"
-smtp_user_name:      "username"
-smtp_password:       "password"
-smtp_authentication: "plain"
-```
-
-There are many more variables available check them out [here]((https://github.com/consul/installer/blob/master/group_vars/all))
-For further configuration and customization options check out the CONSUL [docs](https://consul_docs.gitbooks.io/docs/content/en/customization/introduction.html)
-
 ## Deploys with Capistrano
 
 ## Screencast
@@ -211,6 +162,74 @@ cap production deploy
 ```
 
 You should now see that change at your remote server's ip address
+
+## Email configuration
+
+## Screencast
+[How to setup email deliveries](https://public.3.basecamp.com/p/yAGcyJeSVHaW43M7aoHCxu6L)
+
+Update the following file in your production server:
+`/home/deploy/consul/shared/config/environments/production.rb`
+
+You want to change this block of code and use your own SMTP credentials:
+```
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address:              "smtp.example.com",
+    port:                 "25",
+    domain:               "your_domain.com or ip address",
+    user_name:            "username",
+    password:             "password",
+    authentication:       "plain",
+    enable_starttls_auto: true }
+```
+
+And restart the server running this command from your local CONSUL installation (see [Deploys with Capistrano](https://github.com/consul/installer#deploys-with-capistrano) for details).
+
+```
+cap production deploy:restart
+```
+
+Once you setup your domain, depending on your SMTP provider, you will have to do two things:
+- Update the `server_name` with your domain in `/home/deploy/consul/shared/config/secrets.yml`.
+- Update the `sender_email_address` from the admin section (`remote-server-ip-address/admin/settings`)
+
+If your SMTP provider uses an authentication other than `plain`, check out the [Rails docs on email configuration](https://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration) for the different authentation options.
+
+## Configuration Variables
+
+These are the main configuration variables:
+
+```
+# Server Timzone + Locale
+timezone: Europe/Madrid
+locale: en_US.UTF-8
+
+# Authorized Hosts
+ssh_public_key_path: "change_me/.ssh/id_rsa.pub"
+
+# Ruby
+ruby_version: 2.3.2
+
+#Postgresql
+postgresql_version: 9.6
+database_name: "consul_production"
+database_user: "deploy"
+database_password: "change_me"
+database_hostname: "localhost"
+database_port: 5432
+
+#SMTP
+smtp_address:        "smtp.example.com"
+smtp_port:           25
+smtp_domain:         "your_domain.com"
+smtp_user_name:      "username"
+smtp_password:       "password"
+smtp_authentication: "plain"
+```
+
+There are many more variables available check them out [here]((https://github.com/consul/installer/blob/master/group_vars/all))
+For further configuration and customization options check out the CONSUL [docs](https://consul_docs.gitbooks.io/docs/content/en/customization/introduction.html)
 
 ## Ansible Documentation
 
