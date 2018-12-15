@@ -51,12 +51,29 @@ The following commands are to be executed in your local machine
 
 Ansible >= 2.4
 
+###### Linux
+```
+sudo apt-get update
+sudo apt-get install software-properties-common
+sudo apt-add-repository ppa:ansible/ansible
+sudo apt-get update
+sudo apt-get install ansible
+```
+
+###### Mac
 ```
 brew install ansible
 ```
 
 Python
 
+###### Linux
+```
+sudo apt-get install libpq-dev python-simplejson
+```
+
+
+###### Mac
 ```
 easy_install simplejson
 ```
@@ -104,7 +121,7 @@ admin@consul.dev
 
 Create your [fork](https://help.github.com/articles/fork-a-repo/)
 
-Setup locally for your [development environment](https://github.com/consul/consul#configuration-for-development-and-test-environments)
+Setup locally for your [development environment](https://consul_docs.gitbooks.io/docs/content/en/getting_started/local_installation.html))
 
 Uncomment this line in `consul.yml` and rerun the installer
     
