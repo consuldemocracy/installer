@@ -99,7 +99,7 @@ admin@consul.dev
 
 ## Deploys with Capistrano
 
-## Screencast
+### Screencast
 [How to setup Capistrano](https://public.3.basecamp.com/p/SxF1BrYFHBZkRWkqVX4NUxGU)
 
 Create your [fork](https://help.github.com/articles/fork-a-repo/)
@@ -165,7 +165,7 @@ You should now see that change at your remote server's ip address
 
 ## Email configuration
 
-## Screencast
+### Screencast
 [How to setup email deliveries](https://public.3.basecamp.com/p/yAGcyJeSVHaW43M7aoHCxu6L)
 
 Update the following file in your production server:
