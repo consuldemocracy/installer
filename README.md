@@ -47,7 +47,7 @@ sudo apt-get -y install python-simplejson
 
 ## Running the installer
     
-The following commands are to be executed in your local machine
+The following commands must be executed in your local machine
 
 Ansible >= 2.4
 
