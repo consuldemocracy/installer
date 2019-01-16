@@ -49,35 +49,7 @@ sudo apt-get -y install python-simplejson
     
 The following commands must be executed in your local machine
 
-Install Ansible >= 2.4
-
-###### On Linux
-```
-sudo apt-get update
-sudo apt-get install software-properties-common
-sudo apt-add-repository ppa:ansible/ansible
-sudo apt-get update
-sudo apt-get install ansible
-```
-
-###### On Mac
-```
-brew install ansible
-```
-
-Install Python
-
-###### On Linux
-```
-sudo apt-get install libpq-dev python-simplejson
-```
-
-
-###### On Mac
-```
-easy_install simplejson
-```
-
+[Install Ansible >= 2.4](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 Get the Ansible Playbook
 
 ```
