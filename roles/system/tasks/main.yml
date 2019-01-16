@@ -10,6 +10,12 @@
     update_cache: yes
     cache_valid_time: 86400
 
+# https://askubuntu.com/a/211531/501568
+- name: Install HTTPS package for Aptitude
+  become: true
+  apt:
+    name: apt-transport-https
+
 - name: Add Node repository
   become: true
   apt_repository:
