@@ -65,14 +65,13 @@ cp hosts.example hosts
 Update your local `hosts` file with the remote server's ip address
     
 ```
-[servers]
 remote-server-ip-address (maintain other default options)
 ```
 
 Run the ansible playbook
     
 ```
-sudo ansible-playbook -v consul.yml -i hosts --extra-vars "target=servers"
+sudo ansible-playbook -v consul.yml -i hosts
 ```
 
 Visit remote-server-ip-address
@@ -104,7 +103,7 @@ Uncomment this line in `consul.yml` and rerun the installer
 Run the ansible playbook
     
 ```
-sudo ansible-playbook -v consul.yml -i hosts --extra-vars "target=servers"
+sudo ansible-playbook -v consul.yml -i hosts
 ```
 
 Download changes from the `capistrano` branch to your fork

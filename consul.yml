@@ -1,12 +1,12 @@
 ---
 - name: Create deploy user
-  hosts: "{{ target }}"
+  hosts: all
   become: yes
   roles:
     - user
 
 - name: Setup CONSUL
-  hosts: "{{ target }}"
+  hosts: all
   remote_user: deploy
   gather_facts: yes
   roles:
@@ -22,4 +22,3 @@
     - memcached
     - timezone
     # - capistrano
-    
