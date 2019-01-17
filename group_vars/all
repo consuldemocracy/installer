@@ -35,7 +35,6 @@ rvm1_rvm_version: '1.29.4'
 rvm1_rvm_check_for_updates: false
 
 #Postgresql
-postgresql_version: 9.6
 database_name: "consul_production"
 database_user: "deploy"
 database_password: "deploy"
@@ -49,23 +48,3 @@ smtp_domain:         "your_domain.com"
 smtp_user_name:      "username"
 smtp_password:       "password"
 smtp_authentication: "plain"
-
-postgresql_users:
-  - name: deploy
-    pass: deploy
-    encrypted: no
-
-postgresql_databases:
-  - name: "{{database_name}}"
-
-postgresql_user_privileges:
-  - name: "{{database_user}}"
-    db: "{{database_name}}"
-    priv: "ALL"
-
-postgresql_database_extensions:
-  - db: "{{database_name}}"
-    extensions:
-      - plpgsql
-      - unaccent
-      - pg_trgm

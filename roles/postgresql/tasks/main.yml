@@ -1,9 +1,31 @@
 ---
-# https://github.com/ANXS/postgresql/issues/234#issuecomment-352731520
-- name: Install package required for PostgreSQL role
+- name: Install PostgreSQL
   become: true
   apt:
-    name: acl
+    name:
+      - postgresql
+      - python-psycopg2
 
-- include_role:
-    name: galaxy/ANXS.postgresql
+- become: true
+  become_user: postgres
+  block:
+    - name: Create PostgreSQL database
+      postgresql_db:
+        name: "{{ database_name }}"
+
+    - name: Create PostgreSQL users
+      postgresql_user:
+        name: "{{ database_user }}"
+        password: "{{ database_password }}"
+        encrypted: false
+        db: "{{ database_name }}"
+        priv: ALL
+
+    - name: Add PostgreSQL extensions
+      postgresql_ext:
+        name: "{{ item }}"
+        db: "{{database_name}}"
+      with_items:
+        - plpgsql
+        - unaccent
+        - pg_trgm
