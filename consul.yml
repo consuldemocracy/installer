@@ -9,7 +9,6 @@
   hosts: all
   roles:
     - system
-    - postgresql
 
 - name: Set up CONSUL
   hosts: all

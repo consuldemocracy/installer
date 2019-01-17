@@ -68,7 +68,13 @@ Update your local `hosts` file with the remote server's ip address
 remote-server-ip-address (maintain other default options)
 ```
 
-Run the ansible playbook
+If you are using a cloud host that offers managed databases (such as [AWS RDS](https://aws.amazon.com/rds/), [Azure Databases](https://azure.microsoft.com/en-us/product-categories/databases/), or [Google Cloud SQL](https://cloud.google.com/sql/)), we recommend using that. If you want the database to live on the same server as the Consul app, run the database playbook:
+
+```sh
+sudo ansible-playbook -v db.yml -i hosts
+```
+
+Next, run the ansible playbook to set up Consul:
     
 ```
 sudo ansible-playbook -v consul.yml -i hosts
