@@ -1,3 +1,9 @@
 ---
+# https://github.com/ANXS/postgresql/issues/234#issuecomment-352731520
+- name: Install package required for PostgreSQL role
+  become: true
+  apt:
+    name: acl
+
 - include_role:
     name: galaxy/ANXS.postgresql
