@@ -17,7 +17,6 @@
       postgresql_user:
         name: "{{ database_user }}"
         password: "{{ database_password }}"
-        encrypted: false
         db: "{{ database_name }}"
         priv: ALL
 
