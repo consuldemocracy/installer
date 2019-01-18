@@ -14,8 +14,8 @@
     group: wheel
     mode: 0775
   with_items:
-    - "pids" 
-    - "sockets" 
+    - "pids"
+    - "sockets"
     - "log"
 
 - name: Check that Unicorn is running
@@ -34,7 +34,6 @@
   when: unicorn_process.stat.exists == True
 
 - name: Start Unicorn
-  shell: "/home/deploy/.rvm/gems/ruby-2.3.2/wrappers/unicorn -c config/unicorn.rb -E production -D"
+  shell: "bin/bundle exec unicorn -c config/unicorn.rb -E production -D"
   args:
     chdir: /home/{{ deploy_user }}/consul
-    

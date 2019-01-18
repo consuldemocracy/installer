@@ -24,16 +24,6 @@ shared_dirs:
 
 ssh_public_key_path: "~/.ssh/id_rsa.pub"
 
-# Ruby
-ruby_version: 2.3.2
-
-#Ruby
-rvm1_user: "{{ deploy_user }}"
-rvm1_rubies: ['ruby-2.3.2']
-rvm1_install_path: "/home/{{ deploy_user }}/.rvm"
-rvm1_rvm_version: '1.29.4'
-rvm1_rvm_check_for_updates: false
-
 #Postgresql
 postgresql_version: 9.6
 database_name: "consul_production"

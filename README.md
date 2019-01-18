@@ -226,7 +226,7 @@ http://docs.ansible.com/
 ## Roadmap
 Cross platform compatibility (Ubuntu, CentOS)
 
-Greater diversity of interchangeable roles (nginx/apache, unicorn/puma/passenger, rvm/rbenv)
+Greater diversity of interchangeable roles (nginx/apache, unicorn/puma/passenger)
 
 ## How to contribute
 - Open an issue

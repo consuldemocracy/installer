@@ -1,3 +1,12 @@
 ---
-- include_role: 
-    name: galaxy/rvm_io.ruby
+- name: Install Ruby
+  become: true
+  apt:
+    name:
+      - ruby2.3
+      - ruby2.3-dev
+
+- name: Install Bundler
+  gem:
+    name: bundler
+    state: latest
