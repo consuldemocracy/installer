@@ -5,13 +5,17 @@
   roles:
     - user
 
-- name: Setup CONSUL
+- name: Set up system
   hosts: all
-  remote_user: deploy
-  gather_facts: yes
   roles:
     - system
     - postgresql
+
+- name: Set up CONSUL
+  hosts: all
+  become: true
+  become_user: "{{ deploy_user }}"
+  roles:
     - ruby
     - rails
     - ssl

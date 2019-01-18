@@ -5,12 +5,11 @@
   register: consul_repo
 
 - name: Git clone CONSUL
-  become_user: deploy
   git:
     repo: https://github.com/consul/consul.git
     dest: /home/{{ deploy_user }}/consul
     clone: yes
-  when: consul_repo.stat.exists == False 
+  when: consul_repo.stat.exists == False
 
 - name: Deploy user permissions
   file:
@@ -27,7 +26,6 @@
     executable: /bin/bash
 
 - name: Copy secrets configuration
-  become_user: deploy
   copy:
     src: /home/{{ deploy_user }}/consul/config/secrets.yml.example
     dest: /home/{{ deploy_user }}/consul/config/secrets.yml
@@ -46,7 +44,6 @@
     line: '  server_name: "{{ server_hostname }}"'
 
 - name: Copy database configuration
-  become_user: deploy
   template:
     src: "{{ playbook_dir }}/roles/rails/templates/database.yml"
     dest: /home/deploy/consul/config/database.yml
@@ -54,7 +51,6 @@
     group: wheel
 
 - name: Create Database
-  become_user: deploy
   shell: "source /home/deploy/.rvm/scripts/rvm && /home/deploy/.rvm/gems/ruby-2.3.2/bin/rake db:migrate RAILS_ENV=production"
   args:
     chdir: /home/{{ deploy_user }}/consul
@@ -63,14 +59,12 @@
     RAILS_ENV: 'development'
 
 - name: Load configuration seeds
-  become_user: deploy
   shell: source /home/deploy/.rvm/scripts/rvm && bin/rake db:seed RAILS_ENV=production
   args:
     chdir: /home/{{ deploy_user }}/consul
     executable: /bin/bash
 
 - name: Precompile assets
-  become_user: deploy
   shell: source /home/deploy/.rvm/scripts/rvm && bin/rake assets:precompile RAILS_ENV=production
   args:
     chdir: /home/{{ deploy_user }}/consul

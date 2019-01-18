@@ -3,8 +3,6 @@
     name: galaxy/geerlingguy.nginx
 
 - name: Change default template
-  become: true
-  become_method: sudo
   template:
     src: "{{ playbook_dir }}/roles/nginx/templates/consul_vhost.conf"
     dest: /etc/nginx/sites-enabled/default
@@ -13,5 +11,4 @@
   notify: restart nginx
 
 - name: Restart nginx
-  become: true
   service: name=nginx state=restarted
