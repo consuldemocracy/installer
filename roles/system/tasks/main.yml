@@ -13,6 +13,8 @@
     upgrade: yes
     update_cache: yes
     cache_valid_time: 86400
+  # since it's not production, ok if the packages are a bit out-of-date when running tests in exchange for faster builds
+  when: not lookup('env', 'CI')
 
 # https://askubuntu.com/a/211531/501568
 - name: Install HTTPS package for Aptitude
