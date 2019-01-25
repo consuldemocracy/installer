@@ -85,7 +85,9 @@ admin@consul.dev
 12345678
 ```
 
-## Split database from application code
+## Other deployment options
+
+### Split database from application code
 
 The [`consul` playbook](consul.yml) creates the database on the same server as the application code. If you are using a cloud host that offers managed databases (such as [AWS RDS](https://aws.amazon.com/rds/), [Azure Databases](https://azure.microsoft.com/en-us/product-categories/databases/), or [Google Cloud SQL](https://cloud.google.com/sql/)), we recommend using that instead.
 
@@ -98,6 +100,10 @@ To set up the application by itself:
     ```sh
     sudo ansible-playbook -v app.yml -i hosts
     ```
+
+### Platform-as-a-Service (PaaS)
+
+Aside from just using managed databases, you might also look into platform-as-a-service options (like [Azure App Service](https://azure.microsoft.com/en-us/services/app-service/) or [Google App Engine](https://azure.microsoft.com/en-us/services/app-service/)) to not have to manage a server at all.
 
 ## Deploys with Capistrano
 
