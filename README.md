@@ -4,7 +4,7 @@
 
 Using [Ansible](http://docs.ansible.com/), it will install and configure the following:
  - Ruby
- - Rails 
+ - Rails
  - Postgres
  - Nginx
  - Unicorn
@@ -46,7 +46,7 @@ sudo apt-get -y install python-simplejson
 
 
 ## Running the installer
-    
+
 The following commands must be executed in your local machine
 
 [Install Ansible >= 2.4](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
@@ -63,19 +63,13 @@ cp hosts.example hosts
 ```
 
 Update your local `hosts` file with the remote server's ip address
-    
+
 ```
 remote-server-ip-address (maintain other default options)
 ```
 
-If you are using a cloud host that offers managed databases (such as [AWS RDS](https://aws.amazon.com/rds/), [Azure Databases](https://azure.microsoft.com/en-us/product-categories/databases/), or [Google Cloud SQL](https://cloud.google.com/sql/)), we recommend using that. If you want the database to live on the same server as the Consul app, run the database playbook:
+Run the ansible playbook
 
-```sh
-sudo ansible-playbook -v db.yml -i hosts
-```
-
-Next, run the ansible playbook to set up Consul:
-    
 ```
 sudo ansible-playbook -v consul.yml -i hosts
 ```
@@ -91,6 +85,20 @@ admin@consul.dev
 12345678
 ```
 
+## Split database from application code
+
+The [`consul` playbook](consul.yml) creates the database on the same server as the application code. If you are using a cloud host that offers managed databases (such as [AWS RDS](https://aws.amazon.com/rds/), [Azure Databases](https://azure.microsoft.com/en-us/product-categories/databases/), or [Google Cloud SQL](https://cloud.google.com/sql/)), we recommend using that instead.
+
+To set up the application by itself:
+
+1. Fork this repository.
+1. Specify your database credentials (see the `database_*` [group variables](group_vars/all)) in a [vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html).
+1. Run the [`app` playbook](app.yml) instead of the [`consul`](consul.yml) one against a clean server.
+
+    ```sh
+    sudo ansible-playbook -v app.yml -i hosts
+    ```
+
 ## Deploys with Capistrano
 
 ### Screencast
@@ -101,13 +109,13 @@ Create your [fork](https://help.github.com/articles/fork-a-repo/)
 Setup locally for your [development environment](https://consul_docs.gitbooks.io/docs/content/en/getting_started/local_installation.html))
 
 Uncomment this line in `consul.yml` and rerun the installer
-    
+
 ```
 # - capistrano
 ```
 
 Run the ansible playbook
-    
+
 ```
 sudo ansible-playbook -v consul.yml -i hosts
 ```
@@ -138,7 +146,7 @@ server_name: "your_remote_ip_address"
 
 Update your `repo_url` in `deploy.rb`
 ```
-set :repo_url, 'https://github.com/your_github_username/consul.git' 
+set :repo_url, 'https://github.com/your_github_username/consul.git'
 ```
 
 Make a change in a view and push it your fork in Github
