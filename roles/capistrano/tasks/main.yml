@@ -3,33 +3,33 @@
     name: galaxy/geerlingguy.nginx
 
 - name: Creates shared folder
-  file: 
+  file:
     path: /home/{{ deploy_user }}/consul/shared
-    state: directory    
+    state: directory
     owner: deploy
     group: wheel
     mode: 0755
 
 - name: Creates shared config folder
-  file: 
+  file:
     path: /home/{{ deploy_user }}/consul/shared/config
-    state: directory    
+    state: directory
     owner: deploy
     group: wheel
     mode: 0755
 
 - name: Creates shared environment folder
-  file: 
+  file:
     path: /home/{{ deploy_user }}/consul/shared/config/environments
-    state: directory    
+    state: directory
     owner: deploy
     group: wheel
     mode: 0755
 
 - name: Creates shared initializers folder
-  file: 
+  file:
     path: /home/{{ deploy_user }}/consul/shared/config/initializers
-    state: directory    
+    state: directory
     owner: deploy
     group: wheel
     mode: 0755
@@ -47,7 +47,6 @@
   command: cp /home/{{ deploy_user }}/consul/config/initializers/delayed_job_config.rb /home/{{ deploy_user }}/consul/shared/config/initializers/delayed_job_config.rb
 
 - name: Copy unicorn.rb template for capistrano to shared folder
-  become_user: deploy
   template:
     src: "{{ playbook_dir }}/roles/capistrano/templates/unicorn.rb"
     dest: /home/deploy/consul/shared/config/unicorn.rb
@@ -62,8 +61,8 @@
     group: wheel
     mode: 0775
   with_items:
-    - "pids" 
-    - "sockets" 
+    - "pids"
+    - "sockets"
     - "log"
 
 - name: Update Nginx template for capistrano

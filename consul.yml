@@ -5,13 +5,18 @@
   roles:
     - user
 
-- name: Setup CONSUL
+- name: Set up system
   hosts: all
-  remote_user: deploy
-  gather_facts: yes
   roles:
     - system
     - postgresql
+
+- name: Set up CONSUL
+  hosts: all
+  vars:
+    # https://github.com/ansible/proposals/issues/89
+    ansible_user: "{{ deploy_user }}"
+  roles:
     - ruby
     - rails
     - ssl
