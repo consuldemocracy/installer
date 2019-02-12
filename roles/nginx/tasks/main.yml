@@ -9,6 +9,3 @@
     owner: deploy
     group: wheel
   notify: restart nginx
-
-- name: Restart nginx
-  service: name=nginx state=restarted
