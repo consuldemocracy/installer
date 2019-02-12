@@ -18,7 +18,8 @@
     - email
     - queue
     - unicorn
-    - nginx
+    - role: nginx
+      become: true
     - memcached
     - timezone
     # - capistrano
