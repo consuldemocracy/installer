@@ -30,7 +30,6 @@ ruby_version: 2.3.2
 #Ruby
 rvm1_user: "{{ deploy_user }}"
 rvm1_rubies: ["ruby-{{ ruby_version }}"]
-rvm1_install_path: "/home/{{ deploy_user }}/.rvm"
 
 #Postgresql
 database_name: "consul_production"
