@@ -1,0 +1,29 @@
+---
+- name: Create deploy user
+  hosts: all
+  become: yes
+  roles:
+    - user
+
+- name: Set up system
+  hosts: all
+  roles:
+    - system
+
+- name: Set up CONSUL
+  hosts: all
+  vars:
+    # https://github.com/ansible/proposals/issues/89
+    ansible_user: "{{ deploy_user }}"
+  roles:
+    - ruby
+    - rails
+    - ssl
+    - email
+    - queue
+    - unicorn
+    - role: nginx
+      become: true
+    - memcached
+    - timezone
+    # - capistrano
