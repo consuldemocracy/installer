@@ -103,7 +103,7 @@ To set up the application by itself:
 
 ### Platform-as-a-Service (PaaS)
 
-Aside from just using managed databases, you might also look into platform-as-a-service options (like [Azure App Service](https://azure.microsoft.com/en-us/services/app-service/) or [Google App Engine](https://azure.microsoft.com/en-us/services/app-service/)) to not have to manage a server at all.
+Aside from just using managed databases, you might also look into platform-as-a-service options (like [Azure App Service](https://azure.microsoft.com/en-us/services/app-service/) or [Google App Engine](https://cloud.google.com/appengine/)) to not have to manage a server at all.
 
 ## Deploys with Capistrano
 
