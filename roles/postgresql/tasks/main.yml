@@ -18,6 +18,7 @@
         name: "{{ database_user }}"
         password: "{{ database_password }}"
         db: "{{ database_name }}"
+        encrypted: yes
         priv: ALL
 
     - name: Add PostgreSQL extensions
