@@ -18,7 +18,7 @@
       - libxslt1-dev
       - libffi-dev
       - curl
-      - libcurl3
+      - libcurl4
       - libcurl3-gnutls
       - libcurl4-openssl-dev
       - nodejs
