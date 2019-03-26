@@ -2,15 +2,15 @@
 - name: Add unicorn.rb
   template:
     src: ../templates/unicorn.rb
-    dest: /home/deploy/consul/config
-    owner: deploy
+    dest: "/home/{{ deploy_user }}/consul/config"
+    owner: "{{ deploy_user }}"
     group: wheel
 
 - name: Add unicorn files and folders
   file:
-    path: "/home/deploy/consul/{{ item }}"
+    path: "/home/{{ deploy_user}}/consul/{{ item }}"
     state: directory
-    owner: deploy
+    owner: "{{ deploy_user }}"
     group: wheel
     mode: 0775
   with_items:
@@ -20,11 +20,11 @@
 
 - name: Check that Unicorn is running
   stat:
-    path: /home/deploy/consul/pids/unicorn.pid
+    path: "/home/{{ deploy_user }}/consul/pids/unicorn.pid"
   register: unicorn_process
 
 - name: Get running unicorn process
-  shell: "cat /home/deploy/consul/pids/unicorn.pid"
+  shell: "cat /home/{{ deploy_user }}/consul/pids/unicorn.pid"
   register: running_process
   when: unicorn_process.stat.exists == True
 
@@ -34,7 +34,7 @@
   when: unicorn_process.stat.exists == True
 
 - name: Start Unicorn
-  shell: "/home/deploy/.rvm/gems/ruby-2.3.2/wrappers/unicorn -c config/unicorn.rb -E production -D"
+  shell: "/home/{{ deploy_user}}/.rvm/gems/ruby-2.3.2/wrappers/unicorn -c config/unicorn.rb -E production -D"
   args:
     chdir: /home/{{ deploy_user }}/consul
     

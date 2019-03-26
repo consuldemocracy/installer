@@ -13,13 +13,13 @@
 
 - name: Create the deploy user
   user:
-    name: deploy
+    name: "{{ deploy_user }}"
     group: wheel
     state: present
     shell: /bin/bash
 
 - name: Install SSH key
   authorized_key:
-    user: deploy
+    user: "{{ deploy_user }}"
     key: "{{ lookup('file', '{{ ssh_public_key_path }}') }}"
   notify: Restart ssh

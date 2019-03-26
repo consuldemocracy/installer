@@ -6,6 +6,6 @@
   template:
     src: "{{ playbook_dir }}/roles/nginx/templates/consul_vhost.conf"
     dest: /etc/nginx/sites-enabled/default
-    owner: deploy
+    owner: "{{ deploy_user }}"
     group: wheel
   notify: restart nginx

@@ -3,8 +3,8 @@ default: &default
   encoding: unicode
   host: localhost
   pool: 5
-  username: deploy
-  password: deploy
+  username: {{ deploy_user}}
+  password: {{ deploy_user }}
 
 production:
   <<: *default

@@ -1,5 +1,5 @@
 # set path to the application
-app_dir = "/home/deploy/consul"
+app_dir = "/home/{{ deploy_user}}/consul"
 working_directory app_dir
 
 # Set unicorn options

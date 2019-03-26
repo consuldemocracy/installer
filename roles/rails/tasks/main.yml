@@ -14,13 +14,13 @@
 - name: Deploy user permissions
   file:
     path: /home/{{ deploy_user }}/consul
-    owner: deploy
+    owner: "{{ deploy_user }}"
     group: wheel
     recurse: true
     mode: 0755
 
 - name: Install gems (this may take a few minutes)
-  shell: source /home/deploy/.rvm/scripts/rvm && bundle install
+  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle install"
   args:
     chdir: /home/{{ deploy_user }}/consul
     executable: /bin/bash
@@ -46,12 +46,12 @@
 - name: Copy database configuration
   template:
     src: "{{ playbook_dir }}/roles/rails/templates/database.yml"
-    dest: /home/deploy/consul/config/database.yml
-    owner: deploy
+    dest: "/home/{{ deploy_user}}/consul/config/database.yml"
+    owner: "{{ deploy_user }}"
     group: wheel
 
 - name: Create Database
-  shell: "source /home/deploy/.rvm/scripts/rvm && /home/deploy/.rvm/gems/ruby-2.3.2/bin/rake db:migrate RAILS_ENV=production"
+  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && /home/{{ deploy_user}}/.rvm/gems/ruby-2.3.2/bin/rake db:migrate RAILS_ENV=production"
   args:
     chdir: /home/{{ deploy_user }}/consul
     executable: /bin/bash
@@ -59,13 +59,13 @@
     RAILS_ENV: 'development'
 
 - name: Load configuration seeds
-  shell: source /home/deploy/.rvm/scripts/rvm && bin/rake db:seed RAILS_ENV=production
+  shell: "source /home/{{ deploy_user}}/.rvm/scripts/rvm && bin/rake db:seed RAILS_ENV=production"
   args:
     chdir: /home/{{ deploy_user }}/consul
     executable: /bin/bash
 
 - name: Precompile assets
-  shell: source /home/deploy/.rvm/scripts/rvm && bin/rake assets:precompile RAILS_ENV=production
+  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bin/rake assets:precompile RAILS_ENV=production"
   args:
     chdir: /home/{{ deploy_user }}/consul
     executable: /bin/bash
