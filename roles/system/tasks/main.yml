@@ -2,10 +2,6 @@
 - name: gather facts
   setup:
 
-# https://github.com/ansible/ansible/issues/16593#issuecomment-253026793
-- name: Wait for automatic system updates
-  shell: while sudo fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 1; done;
-
 - name: Update and upgrade apt packages (this may take a few minutes)
   become: true
   become_method: sudo
