@@ -15,13 +15,13 @@ deploy_password: test
 deploy_app_name: test
 deploy_server_hostname: 127.0.0.1
 shared_dirs:
-	- releases
-	- repo
-	- shared
-	- shared/config
-	- shared/log
-	- shared/public
-	- shared/tmp
+  - releases
+  - repo
+  - shared
+  - shared/config
+  - shared/log
+  - shared/public
+  - shared/tmp
 
 ssh_public_key_path: "~/.ssh/id_rsa.pub"
 
