@@ -1,17 +1,4 @@
 ---
-- name: Create deploy user
-  hosts: all
-  become: yes
-  roles:
-    - user
-
-- name: Set up system
-  hosts: all
-  vars:
-    ansible_user: "{{ deploy_user }}"
-  roles:
-    - system
-
 - name: Set up CONSUL
   hosts: all
   vars:
