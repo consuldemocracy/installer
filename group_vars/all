@@ -8,6 +8,7 @@ timezone: Europe/Madrid
 locale: en_US.UTF-8
 
 # General settings
+root_access: true
 deploy_user: deploy
 deploy_dir: "/home/{{ deploy_user }}/"
 deploy_password: test

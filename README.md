@@ -27,7 +27,8 @@ A remote server with the supported distribution
 Ubuntu 16.04 x64
 ```
 
-Root ssh access to the remote server with a public ssh key
+Access to a remote server via public ssh key without password.
+The default user is `deploy` but you can [use any user](#using-a-different-user-than-deploy) with sudo privileges.
 
 ```
 ssh root@remote-server-ip-address
@@ -45,11 +46,24 @@ sudo apt-get -y install python-simplejson
 ```
 
 
+## No root access
+
+By default the installer assumes you can log in as `root`. The `root` user will only be used once to login and create a `deploy` user. The `deploy` user is the one that will actually install all libraries and is the user that must be used to login to the server to do maintenance tasks.
+
+If you do not have `root` access, you will need your system administrator to grant you: sudo privileges for a `deploy` user in the `wheel` group without password. 
+
+Also you will need to change the variable [root access](https://github.com/consul/installer/compare/no_root_user?expand=1#diff-fc7cb0a7b647c6ff35b553a10d616c4bR11) to `false`.
+
+## Using a different user than deploy
+
+Change the variable [deploy_user](https://github.com/consul/installer/blob/master/group_vars/all#L12) to the username you would like to use.
+
 ## Running the installer
 
 The following commands must be executed in your local machine
 
 [Install Ansible >= 2.4](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+
 Get the Ansible Playbook
 
 ```
