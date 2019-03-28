@@ -6,7 +6,7 @@
   file:
     path: /home/{{ deploy_user }}/consul/shared
     state: directory
-    owner: deploy
+    owner: "{{ deploy_user }}"
     group: wheel
     mode: 0755
 
@@ -14,7 +14,7 @@
   file:
     path: /home/{{ deploy_user }}/consul/shared/config
     state: directory
-    owner: deploy
+    owner: "{{ deploy_user }}"
     group: wheel
     mode: 0755
 
@@ -22,7 +22,7 @@
   file:
     path: /home/{{ deploy_user }}/consul/shared/config/environments
     state: directory
-    owner: deploy
+    owner: "{{ deploy_user }}"
     group: wheel
     mode: 0755
 
@@ -30,7 +30,7 @@
   file:
     path: /home/{{ deploy_user }}/consul/shared/config/initializers
     state: directory
-    owner: deploy
+    owner: "{{ deploy_user }}"
     group: wheel
     mode: 0755
 
@@ -49,15 +49,15 @@
 - name: Copy unicorn.rb template for capistrano to shared folder
   template:
     src: "{{ playbook_dir }}/roles/capistrano/templates/unicorn.rb"
-    dest: /home/deploy/consul/shared/config/unicorn.rb
-    owner: deploy
+    dest: "/home/{{ deploy_user }}/consul/shared/config/unicorn.rb"
+    owner: "{{ deploy_user }}"
     group: wheel
 
 - name: Create Unicorn folders
   file:
-    path: "/home/deploy/consul/shared/{{ item }}"
+    path: "/home/{{ deploy_user }}/consul/shared/{{ item }}"
     state: directory
-    owner: deploy
+    owner: "{{ deploy_user }}"
     group: wheel
     mode: 0775
   with_items:
@@ -71,7 +71,7 @@
   template:
     src: "{{ playbook_dir }}/roles/capistrano/templates/consul_vhost.conf"
     dest: /etc/nginx/sites-enabled/default
-    owner: deploy
+    owner: "{{ deploy_user }}"
     group: wheel
   notify: restart nginx
 

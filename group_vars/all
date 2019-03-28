@@ -8,8 +8,8 @@ timezone: Europe/Madrid
 locale: en_US.UTF-8
 
 # General settings
-deploy_dir: /home/deploy/
 deploy_user: deploy
+deploy_dir: "/home/{{ deploy_user }}/"
 deploy_password: test
 deploy_app_name: test
 deploy_server_hostname: 127.0.0.1
@@ -33,8 +33,8 @@ rvm1_rubies: ["ruby-{{ ruby_version }}"]
 
 #Postgresql
 database_name: "consul_production"
-database_user: "deploy"
-database_password: "deploy"
+database_user: "{{ deploy_user }}"
+database_password: "{{ deploy_user }}"
 database_hostname: "localhost"
 database_port: 5432
 

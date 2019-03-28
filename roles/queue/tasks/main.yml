@@ -1,6 +1,6 @@
 - name: Disable queue with DelayedJobs (for now )
   template:
     src: "{{ playbook_dir }}/roles/queue/templates/delayed_job_config.rb"
-    dest: /home/deploy/consul/config/initializers/delayed_job_config.rb
-    owner: deploy
+    dest: "/home/{{ deploy_user}}/consul/config/initializers/delayed_job_config.rb"
+    owner: "{{ deploy_user }}"
     group: wheel
