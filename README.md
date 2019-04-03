@@ -128,7 +128,7 @@ Create your [fork](https://help.github.com/articles/fork-a-repo/)
 
 Setup locally for your [development environment](https://consul_docs.gitbooks.io/docs/content/en/getting_started/local_installation.html))
 
-Uncomment this line in `consul.yml` and rerun the installer
+Uncomment this line in `app.yml` and rerun the installer
 
 ```
 # - capistrano
