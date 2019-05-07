@@ -7,7 +7,7 @@
     - { regexp: 'delivery_method',       line: '  config.action_mailer.delivery_method = :smtp' }
     - { regexp: 'smtp_settings',         line: '  config.action_mailer.smtp_settings = {' }
     - { regexp: 'address:',              line: '    address:              "{{ smtp_address }}",' }
-    - { regexp: 'port:',                 line: '    port:                 "{{ smtp_port }}",' }
+    - { regexp: 'port: ',                line: '    port:                 "{{ smtp_port }}",' }
     - { regexp: 'domain:',               line: '    domain:               "{{ smtp_domain }}",' }
     - { regexp: 'user_name:',            line: '    user_name:            "{{ smtp_user_name }}",' }
     - { regexp: 'password:',             line: '    password:             "{{ smtp_password }}",' }
