@@ -8,6 +8,7 @@ timezone: Europe/Madrid
 locale: en_US.UTF-8
 
 # General settings
+env: production
 root_access: true
 deploy_user: deploy
 deploy_dir: "/home/{{ deploy_user }}/"
@@ -33,7 +34,7 @@ rvm1_user: "{{ deploy_user }}"
 rvm1_rubies: ["ruby-{{ ruby_version }}"]
 
 #Postgresql
-database_name: "consul_production"
+database_name: "consul_{{ env }}"
 database_user: "{{ deploy_user }}"
 database_password: "{{ deploy_user }}"
 database_hostname: "localhost"

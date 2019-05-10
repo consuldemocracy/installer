@@ -1,6 +1,6 @@
 - name: Use demo SMTP credentials
   lineinfile: 
-    path: /home/{{ deploy_user }}/consul/config/environments/production.rb
+    path: /home/{{ deploy_user }}/consul/config/environments/{{ env }}.rb
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
   with_items:

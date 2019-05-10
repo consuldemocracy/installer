@@ -34,7 +34,7 @@
   when: unicorn_process.stat.exists == True
 
 - name: Start Unicorn
-  shell: "/home/{{ deploy_user}}/.rvm/gems/ruby-2.3.2/wrappers/unicorn -c config/unicorn.rb -E production -D"
+  shell: "/home/{{ deploy_user}}/.rvm/gems/ruby-2.3.2/wrappers/unicorn -c config/unicorn.rb -E {{ env }} -D"
   args:
     chdir: /home/{{ deploy_user }}/consul
     
