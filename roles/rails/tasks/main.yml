@@ -55,8 +55,6 @@
   args:
     chdir: /home/{{ deploy_user }}/consul
     executable: /bin/bash
-  environment:
-    RAILS_ENV: 'development'
 
 - name: Load configuration seeds
   shell: "source /home/{{ deploy_user}}/.rvm/scripts/rvm && bin/rake db:seed RAILS_ENV={{ env }}"
