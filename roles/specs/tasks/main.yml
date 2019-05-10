@@ -1,0 +1,11 @@
+---
+- name: Set test hostname
+  set_fact:
+    test_hostname: "{{ 'travis.dev' if lookup('env', 'CI') else server_hostname }}"
+
+- action: uri url=http://{{ test_hostname }} return_content=yes
+  register: webpage
+
+- fail:
+    msg: "service is not happy {{ webpage.content }}"
+  when: "'CONSUL' not in webpage.content"

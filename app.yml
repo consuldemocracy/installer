@@ -17,3 +17,11 @@
     - memcached
     - timezone
     # - capistrano
+
+- name: Check system
+  hosts: all
+  become: true
+  vars:
+    ansible_user: "{{ deploy_user }}"
+  roles:
+    - specs
