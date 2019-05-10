@@ -40,8 +40,8 @@
 - name: Copy database configuration to shared folder
   command: cp /home/{{ deploy_user }}/consul/config/database.yml /home/{{ deploy_user }}/consul/shared/config/database.yml
 
-- name: Copy production environment configuration to shared folder
-  command: cp /home/{{ deploy_user }}/consul/config/environments/production.rb /home/{{ deploy_user }}/consul/shared/config/environments/production.rb
+- name: Copy environment configuration to shared folder
+  command: cp /home/{{ deploy_user }}/consul/config/environments/{{ env }}.rb /home/{{ deploy_user }}/consul/shared/config/environments/{{ env }}.rb
 
 - name: Copy delayed jobs configuration to shared folder
   command: cp /home/{{ deploy_user }}/consul/config/initializers/delayed_job_config.rb /home/{{ deploy_user }}/consul/shared/config/initializers/delayed_job_config.rb
