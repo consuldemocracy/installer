@@ -4,6 +4,8 @@ python:
   - "2.7"
 services:
   - postgresql
+before_install:
+  - "__rvm_unload ; rm -rf ~/.rvm"
 install:
   - sudo apt-get update -y
   - sudo apt-get install -y openssh-server
