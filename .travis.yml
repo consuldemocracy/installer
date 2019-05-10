@@ -13,4 +13,4 @@ before_script:
   - echo "localhost ansible_connection=local" > hosts
   # Generate dummy SSH key
   - ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
-script: ansible-playbook app.yml -i hosts
+script: ansible-playbook consul.yml -i hosts
