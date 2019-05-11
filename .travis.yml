@@ -14,6 +14,8 @@ before_script:
   # Generate dummy SSH key
   - ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
 script: ansible-playbook consul.yml -i hosts
+env:
+  RAILS_ENV: production
 addons:
   hosts:
     - travis.dev
