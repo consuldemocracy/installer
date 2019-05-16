@@ -6,6 +6,10 @@
       - postgresql
       - python-psycopg2
 
+- name: Start Postgres
+  become: true
+  command: systemctl start postgresql
+
 - become: true
   become_user: postgres
   block:
