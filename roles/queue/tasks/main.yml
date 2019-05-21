@@ -1,5 +1,5 @@
-- name: Disable queue with DelayedJobs (for now )
-  replace:
-    path: "{{ shared_dir }}/config/secrets.yml"
-    regexp: "  delay_jobs: true"
-    replace: "  delay_jobs: false"
+- name: Start DelayedJobs queue
+  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && RAILS_ENV={{ env }} bin/delayed_job -n 2 restart"
+  args:
+    executable: /bin/bash
+    chdir: "{{ release_dir }}"
