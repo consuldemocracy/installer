@@ -251,7 +251,6 @@ smtp_authentication: "plain"
 ```
 
 There are many more variables available check them out [here]((https://github.com/consul/installer/blob/master/group_vars/all))
-For further configuration and customization options check out the CONSUL [docs](https://consul_docs.gitbooks.io/docs/content/en/customization/introduction.html)
 
 ## Ansible Documentation
 
