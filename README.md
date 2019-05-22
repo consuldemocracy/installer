@@ -88,7 +88,7 @@ Run the ansible playbook
 sudo ansible-playbook -v consul.yml -i hosts
 ```
 
-Visit remote-server-ip-address
+Visit remote-server-ip-address in your browser and you should see CONSUL running!
 
 ## Admin user
 
@@ -120,6 +120,8 @@ To set up the application by itself:
 Aside from just using managed databases, you might also look into platform-as-a-service options (like [Azure App Service](https://azure.microsoft.com/en-us/services/app-service/) or [Google App Engine](https://cloud.google.com/appengine/)) to not have to manage a server at all.
 
 ## Deploys with Capistrano
+
+To restart the server and deploy new code to the server we have to configure Capistrano.
 
 ### Screencast
 [How to setup Capistrano](https://public.3.basecamp.com/p/SxF1BrYFHBZkRWkqVX4NUxGU)
