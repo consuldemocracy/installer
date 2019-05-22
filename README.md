@@ -264,8 +264,8 @@ Cross platform compatibility (Ubuntu, CentOS)
 Greater diversity of interchangeable roles (nginx/apache, unicorn/puma/passenger, rvm/rbenv)
 
 ## How to contribute
-- Open an issue
-- Send us a Pull Request
+- [Open an issue](https://help.github.com/en/articles/creating-an-issue)
+- [Send us a Pull Request](https://help.github.com/en/articles/creating-a-pull-request)
 
 ## Support
 
