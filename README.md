@@ -126,7 +126,7 @@ Aside from just using managed databases, you might also look into platform-as-a-
 
 Create your [fork](https://help.github.com/articles/fork-a-repo/)
 
-Setup locally for your [development environment](https://consul_docs.gitbooks.io/docs/content/en/getting_started/local_installation.html))
+Setup locally for your [development environment](https://docs.consulproject.org/docs/english-documentation/introduction/local_installation))
 
 Uncomment this line in `app.yml` and rerun the installer
 
