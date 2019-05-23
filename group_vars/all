@@ -1,6 +1,8 @@
 ---
 app_name: consul
-server_hostname: "{{ ansible_default_ipv4.address }}"
+#domain: your_domain.com
+
+server_hostname: "{{ domain | default(ansible_default_ipv4.address) }}"
 secret_key_base: "change_me"
 
 # Server Timzone + Locale
@@ -47,3 +49,6 @@ smtp_domain:         "your_domain.com"
 smtp_user_name:      "username"
 smtp_password:       "password"
 smtp_authentication: "plain"
+
+#LetsEncrypt
+#letsencrypt_email: "your_email@example.com"
