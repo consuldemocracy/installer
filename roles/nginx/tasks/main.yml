@@ -1,6 +1,8 @@
 ---
-- include_role:
-    name: galaxy/geerlingguy.nginx
+- name: Install Nginx
+  apt: 
+    name: nginx 
+    state: latest
 
 - name: Add default virtual host
   template:
@@ -8,4 +10,9 @@
     dest: /etc/nginx/sites-enabled/default
     owner: "{{ deploy_user }}"
     group: wheel
-  notify: restart nginx
+
+- name: Restart Nginx
+  service:
+    name: nginx
+    state: restarted
+    enabled: true

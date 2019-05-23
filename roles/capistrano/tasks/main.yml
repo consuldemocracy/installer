@@ -1,7 +1,4 @@
 ---
-- include_role:
-    name: galaxy/geerlingguy.nginx
-
 - name: Creates shared folder
   file:
     path: /home/{{ deploy_user }}/consul/shared
@@ -73,7 +70,6 @@
     dest: /etc/nginx/sites-enabled/default
     owner: "{{ deploy_user }}"
     group: wheel
-  notify: restart nginx
 
 - name: Restart nginx
   become: true
