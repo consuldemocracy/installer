@@ -46,18 +46,6 @@ sudo apt-get -y install python-simplejson
 ```
 
 
-## No root access
-
-By default the installer assumes you can log in as `root`. The `root` user will only be used once to login and create a `deploy` user. The `deploy` user is the one that will actually install all libraries and is the user that must be used to login to the server to do maintenance tasks.
-
-If you do not have `root` access, you will need your system administrator to grant you: sudo privileges for a `deploy` user in the `wheel` group without password. 
-
-Also you will need to change the variable [root access](https://github.com/consul/installer/compare/no_root_user?expand=1#diff-fc7cb0a7b647c6ff35b553a10d616c4bR11) to `false`.
-
-## Using a different user than deploy
-
-Change the variable [deploy_user](https://github.com/consul/installer/blob/master/group_vars/all#L12) to the username you would like to use.
-
 ## Running the installer
 
 The following commands must be executed in your local machine
@@ -88,7 +76,7 @@ Run the ansible playbook
 sudo ansible-playbook -v consul.yml -i hosts
 ```
 
-Visit remote-server-ip-address
+Visit remote-server-ip-address in your browser and you should see CONSUL running!
 
 ## Admin user
 
@@ -99,34 +87,16 @@ admin@consul.dev
 12345678
 ```
 
-## Other deployment options
-
-### Split database from application code
-
-The [`consul` playbook](consul.yml) creates the database on the same server as the application code. If you are using a cloud host that offers managed databases (such as [AWS RDS](https://aws.amazon.com/rds/), [Azure Databases](https://azure.microsoft.com/en-us/product-categories/databases/), or [Google Cloud SQL](https://cloud.google.com/sql/)), we recommend using that instead.
-
-To set up the application by itself:
-
-1. Fork this repository.
-1. Specify your database credentials (see the `database_*` [group variables](group_vars/all)) in a [vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html).
-1. Run the [`app` playbook](app.yml) instead of the [`consul`](consul.yml) one against a clean server.
-
-    ```sh
-    sudo ansible-playbook -v app.yml -i hosts
-    ```
-
-### Platform-as-a-Service (PaaS)
-
-Aside from just using managed databases, you might also look into platform-as-a-service options (like [Azure App Service](https://azure.microsoft.com/en-us/services/app-service/) or [Google App Engine](https://cloud.google.com/appengine/)) to not have to manage a server at all.
-
 ## Deploys with Capistrano
+
+To restart the server and deploy new code to the server we have to configure Capistrano.
 
 ### Screencast
 [How to setup Capistrano](https://public.3.basecamp.com/p/SxF1BrYFHBZkRWkqVX4NUxGU)
 
 Create your [fork](https://help.github.com/articles/fork-a-repo/)
 
-Setup locally for your [development environment](https://consul_docs.gitbooks.io/docs/content/en/getting_started/local_installation.html))
+Setup locally for your [development environment](https://docs.consulproject.org/docs/english-documentation/introduction/local_installation))
 
 Uncomment this line in `app.yml` and rerun the installer
 
@@ -251,7 +221,38 @@ smtp_authentication: "plain"
 ```
 
 There are many more variables available check them out [here]((https://github.com/consul/installer/blob/master/group_vars/all))
-For further configuration and customization options check out the CONSUL [docs](https://consul_docs.gitbooks.io/docs/content/en/customization/introduction.html)
+
+## Other deployment options
+
+### Split database from application code
+
+The [`consul` playbook](consul.yml) creates the database on the same server as the application code. If you are using a cloud host that offers managed databases (such as [AWS RDS](https://aws.amazon.com/rds/), [Azure Databases](https://azure.microsoft.com/en-us/product-categories/databases/), or [Google Cloud SQL](https://cloud.google.com/sql/)), we recommend using that instead.
+
+To set up the application by itself:
+
+1. Fork this repository.
+1. Specify your database credentials (see the `database_*` [group variables](group_vars/all)) in a [vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html).
+1. Run the [`app` playbook](app.yml) instead of the [`consul`](consul.yml) one against a clean server.
+
+    ```sh
+    sudo ansible-playbook -v app.yml -i hosts
+    ```
+
+### Platform-as-a-Service (PaaS)
+
+Aside from just using managed databases, you might also look into platform-as-a-service options (like [Azure App Service](https://azure.microsoft.com/en-us/services/app-service/) or [Google App Engine](https://cloud.google.com/appengine/)) to not have to manage a server at all.
+
+## No root access
+
+By default the installer assumes you can log in as `root`. The `root` user will only be used once to login and create a `deploy` user. The `deploy` user is the one that will actually install all libraries and is the user that must be used to login to the server to do maintenance tasks.
+
+If you do not have `root` access, you will need your system administrator to grant you: sudo privileges for a `deploy` user in the `wheel` group without password. 
+
+Also you will need to change the variable [root access](https://github.com/consul/installer/compare/no_root_user?expand=1#diff-fc7cb0a7b647c6ff35b553a10d616c4bR11) to `false`.
+
+## Using a different user than deploy
+
+Change the variable [deploy_user](https://github.com/consul/installer/blob/master/group_vars/all#L12) to the username you would like to use.
 
 ## Ansible Documentation
 
@@ -263,8 +264,8 @@ Cross platform compatibility (Ubuntu, CentOS)
 Greater diversity of interchangeable roles (nginx/apache, unicorn/puma/passenger, rvm/rbenv)
 
 ## How to contribute
-- Open an issue
-- Send us a Pull Request
+- [Open an issue](https://help.github.com/en/articles/creating-an-issue)
+- [Send us a Pull Request](https://help.github.com/en/articles/creating-a-pull-request)
 
 ## Support
 
