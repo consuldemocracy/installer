@@ -16,6 +16,4 @@ before_script:
 script: ansible-playbook consul.yml -i hosts
 env:
   RAILS_ENV: production
-addons:
-  hosts:
-    - travis.dev
+

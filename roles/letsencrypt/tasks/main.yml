@@ -1,0 +1,83 @@
+---
+- when: domain is defined
+  block:
+    - name: Install software-properties-common
+      apt: 
+        name: software-properties-common
+
+    - name: Add Certbot repository
+      apt_repository:
+        repo: "ppa:certbot/certbot"
+
+    - name: Update system
+      apt:
+        update_cache: yes
+
+    - name: Install python-certbot-nginx 
+      apt:
+        name: "python-certbot-nginx"
+
+    - name: Grab Certbot certificate
+      command: "sudo certbot --nginx --noninteractive --agree-tos --email {{ letsencrypt_email }} -d {{ domain }}"
+
+    - name: Force https connection
+      lineinfile:
+        path: /home/{{ deploy_user }}/consul/config/environments/production.rb
+        regexp: 'force_ssl'
+        line: '  config.force_ssl = true'
+
+
+- when: domain is not defined
+  block:
+    - name: Do not force https connection
+      lineinfile:
+        path: /home/{{ deploy_user }}/consul/config/environments/production.rb
+        regexp: 'force_ssl'
+        line: '  config.force_ssl = false'
+
+- when: lookup('env', 'CI')
+  block:
+    - name: Ensure python OpenSSL dependencies are installed
+      apt:
+        name: 
+          - python-setuptools
+          - python-pip
+        state: present
+
+    - name: Ensure python OpenSSL dependencies are installed
+      pip:
+        name: 
+          - pyOpenSSL
+        state: present
+
+    - name: Ensure directory exists for local self-signed TLS certs.
+      file:
+        path: /etc/letsencrypt/live/{{ server_hostname }}
+        state: directory
+
+    - name: Generate an OpenSSL private key.
+      openssl_privatekey:
+        path: /etc/letsencrypt/live/{{ server_hostname }}/privkey.pem
+
+    - name: Generate an OpenSSL CSR
+      openssl_csr:
+        path: /etc/ssl/private/{{ server_hostname }}.csr
+        privatekey_path: /etc/letsencrypt/live/{{ server_hostname }}/privkey.pem
+        common_name: "{{ server_hostname }}"
+
+    - name: Generate a Self Signed OpenSSL certificate
+      openssl_certificate:
+        path: /etc/letsencrypt/live/{{ server_hostname }}/fullchain.pem
+        privatekey_path: /etc/letsencrypt/live/{{ server_hostname }}/privkey.pem
+        csr_path: /etc/ssl/private/{{ server_hostname }}.csr
+        provider: selfsigned
+
+    - name: Create options-ssl-nginx.conf
+      template:
+        src: "{{ playbook_dir }}/roles/letsencrypt/templates/options-ssl-nginx.conf"
+        dest: /etc/letsencrypt/options-ssl-nginx.conf
+        owner: "{{ deploy_user }}"
+        group: wheel
+
+    - name: Generate /etc/ssl/certs/dhparam.pem (this may take a few minutes)
+      command: openssl dhparam -out /etc/letsencrypt/ssl-dhparams.pem 2048

@@ -1,7 +1,4 @@
 ---
-- include_role:
-    name: galaxy/geerlingguy.nginx
-
 - name: Creates shared folder
   file:
     path: /home/{{ deploy_user }}/consul/shared
@@ -69,11 +66,10 @@
   become: true
   become_method: sudo
   template:
-    src: "{{ playbook_dir }}/roles/capistrano/templates/consul_vhost.conf"
+    src: "{{ playbook_dir }}/roles/capistrano/templates/consul_vhost.j2"
     dest: /etc/nginx/sites-enabled/default
     owner: "{{ deploy_user }}"
     group: wheel
-  notify: restart nginx
 
 - name: Restart nginx
   become: true

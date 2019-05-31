@@ -8,12 +8,11 @@
   roles:
     - ruby
     - rails
-    - ssl
+    - letsencrypt
     - email
     - queue
     - unicorn
-    - role: nginx
-      become: true
+    - nginx
     - memcached
     - timezone
     # - capistrano
