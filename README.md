@@ -218,6 +218,31 @@ Once you setup your domain, depending on your SMTP provider, you will have to do
 
 If your SMTP provider uses an authentication other than `plain`, check out the [Rails docs on email configuration](https://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration) for the different authentation options.
 
+## SSL with LetsEncrypt
+
+Using https instead of http is an important security configuration. Before you begin, you will need to either buy a domain or get access to the configuration of an existing domain. Next, you need to make sure you have an A Record in the DNS configuration of your domain, pointing to the correponding IP address of your server. You can check if your domain is correctly configured at this url https://dnschecker.org/, where you should see your IP address when searching for your domain name.
+
+Once you have that setup we need to configure the Installer to use your domain in the application.
+
+First, uncomment the `domain` variable in the [configuration file](https://github.com/consul/installer/blob/master/group_vars/all) and update it with your domain name:
+
+```
+#domain: "your_domain.com"
+```
+
+Next, uncomment the `letsencrypt_email` variable in the [configuration file](https://github.com/consul/installer/blob/master/group_vars/all) and update it with a valid email address:
+
+```
+#letsencrypt_email: "your_email@example.com"
+```
+
+Re-run the installer:
+```
+sudo ansible-playbook -v consul.yml -i hosts
+```
+
+You should now be able to see the application running at https://your_domain.com in your browser.
+
 ## Configuration Variables
 
 These are the main configuration variables:
