@@ -10,7 +10,7 @@ server {
 
   server_name {{ server_hostname }};
 
-  {% if domain is defined %}
+  {% if domain is defined or lookup('env', 'CI') %}
 
     listen [::]:443 ssl ipv6only=on;
     listen 443 ssl;
