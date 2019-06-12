@@ -4,6 +4,7 @@
   apt:
     name:
       - postgresql
+      - postgresql-contrib
       - python-psycopg2
 
 - name: Start Postgres
