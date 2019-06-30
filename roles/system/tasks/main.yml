@@ -30,5 +30,11 @@
     url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
     state: present
 
+- name: Remove apache server
+  become: true
+  apt:
+    name: apache2
+    state: absent
+
 #- include: hostname.yml
 - include: tools.yml
