@@ -9,7 +9,6 @@
     - ruby
     - rails
     - letsencrypt
-    - email
     - queue
     - unicorn
     - nginx
