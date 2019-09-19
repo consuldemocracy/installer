@@ -156,31 +156,7 @@ cap production deploy
 You should now see that change at your remote server's ip address
 
 ## Email configuration
-
-### Screencast
-[How to setup email deliveries](https://public.3.basecamp.com/p/yAGcyJeSVHaW43M7aoHCxu6L)
-
-Update the following file in your production server:
-`/home/deploy/consul/shared/config/environments/production.rb`
-
-You want to change this block of code and use your own SMTP credentials:
-```
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address:              "smtp.example.com",
-    port:                 "25",
-    domain:               "your_domain.com or ip address",
-    user_name:            "username",
-    password:             "password",
-    authentication:       "plain",
-    enable_starttls_auto: true }
-```
-
-And restart the server running this command from your local CONSUL installation (see [Deploys with Capistrano](https://github.com/consul/installer#deploys-with-capistrano) for details).
-
-```
-cap production deploy:restart
-```
+You can configure your smtp settings from the admin section (`remote-server-ip-address/admin/settings/smtp`)
 
 Once you setup your domain, depending on your SMTP provider, you will have to do two things:
 - Update the `server_name` with your domain in `/home/deploy/consul/shared/config/secrets.yml`.
@@ -271,7 +247,7 @@ Aside from just using managed databases, you might also look into platform-as-a-
 
 By default the installer assumes you can log in as `root`. The `root` user will only be used once to login and create a `deploy` user. The `deploy` user is the one that will actually install all libraries and is the user that must be used to login to the server to do maintenance tasks.
 
-If you do not have `root` access, you will need your system administrator to grant you: sudo privileges for a `deploy` user in the `wheel` group without password. 
+If you do not have `root` access, you will need your system administrator to grant you: sudo privileges for a `deploy` user in the `wheel` group without password.
 
 Also you will need to change the variable [root access](https://github.com/consul/installer/compare/no_root_user?expand=1#diff-fc7cb0a7b647c6ff35b553a10d616c4bR11) to `false`.
 
