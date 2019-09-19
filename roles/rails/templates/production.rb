@@ -67,15 +67,7 @@ Rails.application.configure do
   config.action_mailer.asset_host = "https://#{Rails.application.secrets.server_name}"
 
   # SMTP configuration to deliver emails
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address:              '{{ smtp_address }}',
-    port:                 {{ smtp_port }},
-    domain:               '{{ smtp_domain }}',
-    user_name:            '{{ smtp_user_name }}',
-    password:             '{{ smtp_password }}',
-    authentication:       '{{ smtp_authentication }}',
-    enable_starttls_auto: true }
+  # You can update SMTP credentials on admin settings section "SMTP configuration"
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
