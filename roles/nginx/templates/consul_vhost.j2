@@ -10,6 +10,8 @@ server {
 
   server_name {{ server_hostname }};
 
+  client_max_body_size 32M;
+
   {% if domain is defined or lookup('env', 'CI') %}
 
     listen [::]:443 ssl ipv6only=on;
