@@ -52,6 +52,8 @@
   when: puma_process.stat.exists == True
 
 - name: Start puma
+  become: true
+  become_user: "{{ deploy_user }}"
   shell: "source {{ home_dir }}/.rvm/scripts/rvm && bundle exec puma -C {{ shared_dir }}/puma.rb -e {{ env }} -d"
   args:
     chdir: "{{ consul_dir }}"
