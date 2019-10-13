@@ -98,16 +98,10 @@ Create your [fork](https://help.github.com/articles/fork-a-repo/)
 
 Setup locally for your [development environment](https://docs.consulproject.org/docs/english-documentation/introduction/local_installation))
 
-Uncomment this line in `app.yml` and rerun the installer
+Run the capistrano playbook:
 
 ```
-# - capistrano
-```
-
-Run the ansible playbook
-
-```
-sudo ansible-playbook -v consul.yml -i hosts
+sudo ansible-playbook -v capistrano.yml -i hosts
 ```
 
 Download changes from the `capistrano` branch to your fork

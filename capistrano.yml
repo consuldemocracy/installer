@@ -1,0 +1,8 @@
+---
+- name: Set up capistrano
+  hosts: all
+  become: true
+  vars:
+    ansible_user: "{{ deploy_user }}"
+  roles:
+    - capistrano
