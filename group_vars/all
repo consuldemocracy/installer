@@ -27,6 +27,10 @@ shared_dirs:
   - shared/log
   - shared/public
   - shared/tmp
+shared_public_dirs:
+  - "assets"
+  - "system"
+  - "ckeditor_assets"
 
 ssh_public_key_path: "~/.ssh/id_rsa.pub"
 

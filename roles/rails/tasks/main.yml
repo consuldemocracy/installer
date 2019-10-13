@@ -27,6 +27,32 @@
     group: wheel
     mode: 0755
 
+- name: Create shared public folder
+  file:
+    path: "{{ shared_dir }}/public"
+    state: directory
+    owner: "{{ deploy_user }}"
+    group: wheel
+    mode: 0755
+
+- name: Create shared public folders
+  file:
+    path: "{{ shared_dir }}/public/{{ item }}"
+    state: directory
+    owner: "{{ deploy_user }}"
+    group: wheel
+    mode: 0755
+  with_items: "{{ shared_public_dirs }}"
+
+- name: Link shared public folders
+  file:
+    state: "link"
+    src: "{{ shared_dir }}/public/{{ item }}"
+    dest: "{{ consul_dir }}/public/{{ item }}"
+    owner: "{{ deploy_user }}"
+    group: wheel
+  with_items: "{{ shared_public_dirs }}"
+
 - name: Install gems (this may take a few minutes)
   shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle install --path {{ shared_dir }}/bundle --without development test"
   args:
