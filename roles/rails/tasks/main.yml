@@ -5,11 +5,34 @@
     chdir: "{{ release_dir }}"
     executable: /bin/bash
 
-- name: Copy secrets configuration
+- name: Copy secrets configuration to shared folder
   copy:
     src: "{{ release_dir }}/config/secrets.yml.example"
-    dest: "{{ release_dir }}/config/secrets.yml"
+    dest: "{{ shared_dir }}/config/secrets.yml"
+    owner: "{{ deploy_user }}"
+    group: wheel
+    mode: 0755
     remote_src: yes
+    force: no
+
+- name: Copy database configuration to shared folder
+  template:
+    src: "{{ playbook_dir }}/roles/rails/templates/database.yml"
+    dest: "{{ shared_dir }}/config/database.yml"
+    owner: "{{ deploy_user }}"
+    group: wheel
+    force: no
+
+- name: Add symbolic links for secrets and database configuration
+  file:
+    state: "link"
+    src: "{{ shared_dir }}/config/{{ item }}"
+    dest: "{{ release_dir }}/config/{{ item }}"
+    owner: "{{ deploy_user }}"
+    group: wheel
+  with_items:
+    - "secrets.yml"
+    - "database.yml"
 
 - name: Update secret_key_base configuration in secrets.yml
   lineinfile:
@@ -22,13 +45,6 @@
     path: "{{ release_dir }}/config/secrets.yml"
     regexp: 'server_name'
     line: '  server_name: "{{ server_hostname }}"'
-
-- name: Copy database configuration
-  template:
-    src: "{{ playbook_dir }}/roles/rails/templates/database.yml"
-    dest: "{{ release_dir }}/config/database.yml"
-    owner: "{{ deploy_user }}"
-    group: wheel
 
 - name: Create Database
   shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bin/rake db:migrate RAILS_ENV={{ env }}"

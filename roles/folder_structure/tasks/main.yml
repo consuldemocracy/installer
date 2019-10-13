@@ -60,6 +60,14 @@
     group: wheel
   with_items: "{{ shared_dirs }}"
 
+- name: Create shared config folder
+  file:
+    path: "{{ shared_dir }}/config"
+    state: directory
+    owner: "{{ deploy_user }}"
+    group: wheel
+    mode: 0755
+
 - name: Create shared public folder
   file:
     path: "{{ shared_dir }}/public"

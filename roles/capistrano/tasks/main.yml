@@ -1,12 +1,4 @@
 ---
-- name: Creates shared config folder
-  file:
-    path: "{{ shared_dir }}/config"
-    state: directory
-    owner: "{{ deploy_user }}"
-    group: wheel
-    mode: 0755
-
 - name: Creates shared environment folder
   file:
     path: "{{ shared_dir }}/config/environments"
@@ -22,12 +14,6 @@
     owner: "{{ deploy_user }}"
     group: wheel
     mode: 0755
-
-- name: Copy secrets configuration to shared folder
-  command: "cp {{ release_dir }}/config/secrets.yml {{ shared_dir }}/config/secrets.yml"
-
-- name: Copy database configuration to shared folder
-  command: "cp {{ release_dir }}/config/database.yml {{ shared_dir }}/config/database.yml"
 
 - name: Copy environment configuration to shared folder
   command: "cp {{ release_dir }}/config/environments/{{ env }}.rb {{ shared_dir }}/config/environments/{{ env }}.rb"
