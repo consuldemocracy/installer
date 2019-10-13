@@ -5,19 +5,13 @@
   register: consul_repo
 
 - name: Git clone CONSUL
+  become: true
+  become_user: "{{ deploy_user }}"
   git:
     repo: https://github.com/consul/consul.git
     dest: "{{ consul_dir }}/releases/0-installer"
     clone: yes
   when: consul_repo.stat.exists == False
-
-- name: Deploy user permissions
-  file:
-    path: "{{ consul_dir }}"
-    owner: "{{ deploy_user }}"
-    group: wheel
-    recurse: true
-    mode: 0755
 
 - name: Add symbolic link for current release folder
   file:
