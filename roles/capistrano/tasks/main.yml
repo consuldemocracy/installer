@@ -43,25 +43,6 @@
 - name: Copy delayed jobs configuration to shared folder
   command: cp /home/{{ deploy_user }}/consul/config/initializers/delayed_job_config.rb /home/{{ deploy_user }}/consul/shared/config/initializers/delayed_job_config.rb
 
-- name: Copy unicorn.rb template for capistrano to shared folder
-  template:
-    src: "{{ playbook_dir }}/roles/capistrano/templates/unicorn.rb"
-    dest: "/home/{{ deploy_user }}/consul/shared/config/unicorn.rb"
-    owner: "{{ deploy_user }}"
-    group: wheel
-
-- name: Create Unicorn folders
-  file:
-    path: "/home/{{ deploy_user }}/consul/shared/{{ item }}"
-    state: directory
-    owner: "{{ deploy_user }}"
-    group: wheel
-    mode: 0775
-  with_items:
-    - "pids"
-    - "sockets"
-    - "log"
-
 - name: Update nginx link for capistrano
   become: true
   become_method: sudo

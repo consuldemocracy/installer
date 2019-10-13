@@ -18,6 +18,7 @@ deploy_password: test
 deploy_app_name: test
 deploy_server_hostname: 127.0.0.1
 consul_dir: "{{ home_dir }}/consul"
+shared_dir: "{{ consul_dir }}/shared"
 shared_dirs:
   - releases
   - repo
