@@ -11,14 +11,6 @@
     owner: "{{ deploy_user }}"
     group: wheel
 
-- name: Add symbolic link from /var/www
-  file:
-    state: "link"
-    src: "{{ consul_dir }}"
-    dest: "/var/www/consul"
-    owner: "{{ deploy_user }}"
-    group: wheel
-
 - name: Restart Nginx
   service:
     name: nginx

@@ -6,7 +6,7 @@ server {
   listen 80 default_server;
   listen [::]:80 default_server;
 
-  root /var/www/consul/public;
+  root {{ release_dir }}/public;
 
   server_name {{ server_hostname }};
 

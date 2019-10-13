@@ -1,6 +1,6 @@
 #!/usr/bin/env puma
 
-app_dir = "/var/www/consul/"
+app_dir = "{{ release_dir }}"
 shared_dir = "{{ shared_dir }}"
 
 directory app_dir

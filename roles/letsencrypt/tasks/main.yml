@@ -2,7 +2,7 @@
 - when: domain is defined
   block:
     - name: Install software-properties-common
-      apt: 
+      apt:
         name: software-properties-common
 
     - name: Add Certbot repository
@@ -13,7 +13,7 @@
       apt:
         update_cache: yes
 
-    - name: Install python-certbot-nginx 
+    - name: Install python-certbot-nginx
       apt:
         name: "python-certbot-nginx"
 
@@ -22,7 +22,7 @@
 
     - name: Force https connection
       lineinfile:
-        path: /home/{{ deploy_user }}/consul/config/environments/production.rb
+        path: "{{ release_dir }}/config/environments/production.rb"
         regexp: 'force_ssl'
         line: '  config.force_ssl = true'
 
@@ -31,7 +31,7 @@
   block:
     - name: Do not force https connection
       lineinfile:
-        path: /home/{{ deploy_user }}/consul/config/environments/production.rb
+        path: "{{ release_dir }}/config/environments/production.rb"
         regexp: 'force_ssl'
         line: '  config.force_ssl = false'
 

@@ -1,23 +1,32 @@
 ---
 - name: Check that CONSUL exists
   stat:
-    path: /home/{{ deploy_user }}/consul
+    path: "{{ consul_dir }}"
   register: consul_repo
 
 - name: Git clone CONSUL
   git:
     repo: https://github.com/consul/consul.git
-    dest: /home/{{ deploy_user }}/consul
+    dest: "{{ consul_dir }}/releases/0-installer"
     clone: yes
   when: consul_repo.stat.exists == False
 
 - name: Deploy user permissions
   file:
-    path: /home/{{ deploy_user }}/consul
+    path: "{{ consul_dir }}"
     owner: "{{ deploy_user }}"
     group: wheel
     recurse: true
     mode: 0755
+
+- name: Add symbolic link for current release folder
+  file:
+    state: "link"
+    src: "{{ consul_dir }}/releases/0-installer"
+    dest: "{{ release_dir }}"
+    owner: "{{ deploy_user }}"
+    group: wheel
+  when: consul_repo.stat.exists == False
 
 - name: Create shared folder
   file:
@@ -26,6 +35,30 @@
     owner: "{{ deploy_user }}"
     group: wheel
     mode: 0755
+
+- name: Create shared folders
+  file:
+    path: "{{ shared_dir }}/{{ item }}"
+    state: directory
+    owner: "{{ deploy_user }}"
+    group: wheel
+    mode: 0755
+  with_items: "{{ shared_dirs }}"
+
+- name: Remove log/.keep
+  shell: "rm {{ release_dir }}/log/.keep"
+
+- name: Remove log folder
+  shell: "rmdir {{ release_dir }}/log"
+
+- name: Link shared folders
+  file:
+    state: "link"
+    src: "{{ shared_dir }}/{{ item }}"
+    dest: "{{ release_dir }}/{{ item }}"
+    owner: "{{ deploy_user }}"
+    group: wheel
+  with_items: "{{ shared_dirs }}"
 
 - name: Create shared public folder
   file:
@@ -48,7 +81,7 @@
   file:
     state: "link"
     src: "{{ shared_dir }}/public/{{ item }}"
-    dest: "{{ consul_dir }}/public/{{ item }}"
+    dest: "{{ release_dir }}/public/{{ item }}"
     owner: "{{ deploy_user }}"
     group: wheel
   with_items: "{{ shared_public_dirs }}"
@@ -56,48 +89,48 @@
 - name: Install gems (this may take a few minutes)
   shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle install --path {{ shared_dir }}/bundle --without development test"
   args:
-    chdir: /home/{{ deploy_user }}/consul
+    chdir: "{{ release_dir }}"
     executable: /bin/bash
 
 - name: Copy secrets configuration
   copy:
-    src: /home/{{ deploy_user }}/consul/config/secrets.yml.example
-    dest: /home/{{ deploy_user }}/consul/config/secrets.yml
+    src: "{{ release_dir }}/config/secrets.yml.example"
+    dest: "{{ release_dir }}/config/secrets.yml"
     remote_src: yes
 
 - name: Update secret_key_base configuration in secrets.yml
   lineinfile:
-    path: /home/{{ deploy_user }}/consul/config/secrets.yml
+    path: "{{ release_dir }}/config/secrets.yml"
     regexp: 'secret_key_base'
     line: '  secret_key_base: "{{ secret_key_base }}"'
 
 - name: Update host configuration in secrets.yml
   lineinfile:
-    path: /home/{{ deploy_user }}/consul/config/secrets.yml
+    path: "{{ release_dir }}/config/secrets.yml"
     regexp: 'server_name'
     line: '  server_name: "{{ server_hostname }}"'
 
 - name: Copy database configuration
   template:
     src: "{{ playbook_dir }}/roles/rails/templates/database.yml"
-    dest: "/home/{{ deploy_user}}/consul/config/database.yml"
+    dest: "{{ release_dir }}/config/database.yml"
     owner: "{{ deploy_user }}"
     group: wheel
 
 - name: Create Database
   shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bin/rake db:migrate RAILS_ENV={{ env }}"
   args:
-    chdir: /home/{{ deploy_user }}/consul
+    chdir: "{{ release_dir }}"
     executable: /bin/bash
 
 - name: Load configuration seeds
   shell: "source /home/{{ deploy_user}}/.rvm/scripts/rvm && bin/rake db:seed RAILS_ENV={{ env }}"
   args:
-    chdir: /home/{{ deploy_user }}/consul
+    chdir: "{{ release_dir }}"
     executable: /bin/bash
 
 - name: Precompile assets
   shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bin/rake assets:precompile RAILS_ENV={{ env }}"
   args:
-    chdir: /home/{{ deploy_user }}/consul
+    chdir: "{{ release_dir }}"
     executable: /bin/bash

@@ -24,27 +24,16 @@
     mode: 0755
 
 - name: Copy secrets configuration to shared folder
-  command: cp /home/{{ deploy_user }}/consul/config/secrets.yml /home/{{ deploy_user }}/consul/shared/config/secrets.yml
+  command: "cp {{ release_dir }}/config/secrets.yml {{ shared_dir }}/config/secrets.yml"
 
 - name: Copy database configuration to shared folder
-  command: cp /home/{{ deploy_user }}/consul/config/database.yml /home/{{ deploy_user }}/consul/shared/config/database.yml
+  command: "cp {{ release_dir }}/config/database.yml {{ shared_dir }}/config/database.yml"
 
 - name: Copy environment configuration to shared folder
-  command: cp /home/{{ deploy_user }}/consul/config/environments/{{ env }}.rb /home/{{ deploy_user }}/consul/shared/config/environments/{{ env }}.rb
+  command: "cp {{ release_dir }}/config/environments/{{ env }}.rb {{ shared_dir }}/config/environments/{{ env }}.rb"
 
 - name: Copy delayed jobs configuration to shared folder
-  command: cp /home/{{ deploy_user }}/consul/config/initializers/delayed_job_config.rb /home/{{ deploy_user }}/consul/shared/config/initializers/delayed_job_config.rb
-
-- name: Update nginx link for capistrano
-  become: true
-  become_method: sudo
-  file:
-    state: "link"
-    src: "{{ consul_dir }}/current/"
-    dest: "/var/www/consul"
-    owner: "{{ deploy_user }}"
-    group: wheel
-    force: yes
+  command: "cp {{ release_dir }}/config/initializers/delayed_job_config.rb {{ shared_dir }}/config/initializers/delayed_job_config.rb"
 
 - name: Restart nginx
   become: true
