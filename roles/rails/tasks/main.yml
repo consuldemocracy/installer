@@ -34,17 +34,24 @@
     - "secrets.yml"
     - "database.yml"
 
-- name: Update secret_key_base configuration in secrets.yml
-  lineinfile:
-    path: "{{ release_dir }}/config/secrets.yml"
-    regexp: 'secret_key_base'
-    line: '  secret_key_base: "{{ secret_key_base }}"'
-
 - name: Update host configuration in secrets.yml
   lineinfile:
     path: "{{ release_dir }}/config/secrets.yml"
     regexp: 'server_name'
     line: '  server_name: "{{ server_hostname }}"'
+
+- name: Generate secret key
+  shell: "source {{ home_dir }}/.rvm/scripts/rvm && bin/rake secret"
+  register: secret_key_base
+  args:
+    chdir: "{{ release_dir }}"
+    executable: /bin/bash
+
+- name: Update secret_key_base configuration in secrets.yml
+  replace:
+    path: "{{ shared_dir }}/config/secrets.yml"
+    regexp: '^{{ env }}:\n  secret_key_base: ""'
+    replace: '{{ env }}:\n  secret_key_base: "{{ secret_key_base.stdout }}"'
 
 - name: Create Database
   shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bin/rake db:migrate RAILS_ENV={{ env }}"
