@@ -1,12 +1,4 @@
 ---
-- name: Creates shared folder
-  file:
-    path: /home/{{ deploy_user }}/consul/shared
-    state: directory
-    owner: "{{ deploy_user }}"
-    group: wheel
-    mode: 0755
-
 - name: Creates shared config folder
   file:
     path: /home/{{ deploy_user }}/consul/shared/config

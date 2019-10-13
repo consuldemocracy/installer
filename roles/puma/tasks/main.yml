@@ -1,12 +1,4 @@
 ---
-- name: Create shared folder
-  file:
-    path: "{{ shared_dir }}"
-    state: directory
-    owner: "{{ deploy_user }}"
-    group: wheel
-    mode: 0755
-
 - name: Add puma.rb
   template:
     src: ../templates/puma.rb

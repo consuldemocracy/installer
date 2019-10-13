@@ -19,8 +19,16 @@
     recurse: true
     mode: 0755
 
+- name: Create shared folder
+  file:
+    path: "{{ shared_dir }}"
+    state: directory
+    owner: "{{ deploy_user }}"
+    group: wheel
+    mode: 0755
+
 - name: Install gems (this may take a few minutes)
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle install"
+  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle install --path {{ shared_dir }}/bundle"
   args:
     chdir: /home/{{ deploy_user }}/consul
     executable: /bin/bash
