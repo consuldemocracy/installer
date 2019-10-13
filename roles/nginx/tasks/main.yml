@@ -1,13 +1,21 @@
 ---
 - name: Install Nginx
-  apt: 
-    name: nginx 
+  apt:
+    name: nginx
     state: latest
 
 - name: Add default virtual host
   template:
     src: "{{ playbook_dir }}/roles/nginx/templates/consul_vhost.j2"
     dest: /etc/nginx/sites-enabled/default
+    owner: "{{ deploy_user }}"
+    group: wheel
+
+- name: Add symbolic link from /var/www
+  file:
+    state: "link"
+    src: "{{ consul_dir }}"
+    dest: "/var/www/consul"
     owner: "{{ deploy_user }}"
     group: wheel
 

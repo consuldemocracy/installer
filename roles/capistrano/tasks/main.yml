@@ -62,14 +62,16 @@
     - "sockets"
     - "log"
 
-- name: Update Nginx template for capistrano
+- name: Update nginx link for capistrano
   become: true
   become_method: sudo
-  template:
-    src: "{{ playbook_dir }}/roles/capistrano/templates/consul_vhost.j2"
-    dest: /etc/nginx/sites-enabled/default
+  file:
+    state: "link"
+    src: "{{ consul_dir }}/current/"
+    dest: "/var/www/consul"
     owner: "{{ deploy_user }}"
     group: wheel
+    force: yes
 
 - name: Restart nginx
   become: true
