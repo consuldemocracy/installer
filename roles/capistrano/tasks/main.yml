@@ -1,7 +1,7 @@
 ---
 - name: Creates shared config folder
   file:
-    path: /home/{{ deploy_user }}/consul/shared/config
+    path: "{{ shared_dir }}/config"
     state: directory
     owner: "{{ deploy_user }}"
     group: wheel
@@ -9,7 +9,7 @@
 
 - name: Creates shared environment folder
   file:
-    path: /home/{{ deploy_user }}/consul/shared/config/environments
+    path: "{{ shared_dir }}/config/environments"
     state: directory
     owner: "{{ deploy_user }}"
     group: wheel
@@ -17,7 +17,7 @@
 
 - name: Creates shared initializers folder
   file:
-    path: /home/{{ deploy_user }}/consul/shared/config/initializers
+    path: "{{ shared_dir }}/config/initializers"
     state: directory
     owner: "{{ deploy_user }}"
     group: wheel
