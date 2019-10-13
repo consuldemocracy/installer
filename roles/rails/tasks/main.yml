@@ -28,7 +28,7 @@
     mode: 0755
 
 - name: Install gems (this may take a few minutes)
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle install --path {{ shared_dir }}/bundle"
+  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle install --path {{ shared_dir }}/bundle --without development test"
   args:
     chdir: /home/{{ deploy_user }}/consul
     executable: /bin/bash
