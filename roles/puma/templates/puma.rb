@@ -19,8 +19,6 @@ bind "unix://#{shared_dir}/tmp/sockets/puma.sock"
 
 workers 0
 
-restart_command "bundle exec puma"
-
 prune_bundler
 
 on_restart do
