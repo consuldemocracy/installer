@@ -20,21 +20,6 @@
     - name: Grab Certbot certificate
       command: "sudo certbot --nginx --noninteractive --agree-tos --email {{ letsencrypt_email }} -d {{ domain }}"
 
-    - name: Force https connection
-      lineinfile:
-        path: "{{ release_dir }}/config/environments/production.rb"
-        regexp: 'force_ssl'
-        line: '  config.force_ssl = true'
-
-
-- when: domain is not defined
-  block:
-    - name: Do not force https connection
-      lineinfile:
-        path: "{{ release_dir }}/config/environments/production.rb"
-        regexp: 'force_ssl'
-        line: '  config.force_ssl = false'
-
 - when: lookup('env', 'CI')
   block:
     - name: Ensure python OpenSSL dependencies are installed

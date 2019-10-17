@@ -57,6 +57,20 @@
     regexp: '^{{ env }}:\n  secret_key_base: ""'
     replace: '{{ env }}:\n  secret_key_base: "{{ secret_key_base.stdout }}"'
 
+- name: Force https connection
+  lineinfile:
+    path: "{{ release_dir }}/config/environments/production.rb"
+    regexp: "force_ssl"
+    line: "  config.force_ssl = true"
+  when: domain is defined
+
+- name: Do not force https connection
+  lineinfile:
+    path: "{{ release_dir }}/config/environments/production.rb"
+    regexp: "force_ssl"
+    line: "  config.force_ssl = false"
+  when: domain is not defined
+
 - name: Create Database
   become: true
   become_user: "{{ deploy_user }}"
