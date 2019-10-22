@@ -1,69 +1,49 @@
 ---
-- name: Check that CONSUL exists
-  stat:
-    path: /home/{{ deploy_user }}/consul
-  register: consul_repo
-
-- name: Git clone CONSUL
-  git:
-    repo: https://github.com/consul/consul.git
-    dest: /home/{{ deploy_user }}/consul
-    clone: yes
-  when: consul_repo.stat.exists == False
-
-- name: Deploy user permissions
-  file:
-    path: /home/{{ deploy_user }}/consul
-    owner: "{{ deploy_user }}"
-    group: wheel
-    recurse: true
-    mode: 0755
-
 - name: Install gems (this may take a few minutes)
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle install"
+  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle install --path {{ shared_dir }}/bundle --without development test"
   args:
-    chdir: /home/{{ deploy_user }}/consul
+    chdir: "{{ release_dir }}"
     executable: /bin/bash
 
 - name: Copy secrets configuration
   copy:
-    src: /home/{{ deploy_user }}/consul/config/secrets.yml.example
-    dest: /home/{{ deploy_user }}/consul/config/secrets.yml
+    src: "{{ release_dir }}/config/secrets.yml.example"
+    dest: "{{ release_dir }}/config/secrets.yml"
     remote_src: yes
 
 - name: Update secret_key_base configuration in secrets.yml
   lineinfile:
-    path: /home/{{ deploy_user }}/consul/config/secrets.yml
+    path: "{{ release_dir }}/config/secrets.yml"
     regexp: 'secret_key_base'
     line: '  secret_key_base: "{{ secret_key_base }}"'
 
 - name: Update host configuration in secrets.yml
   lineinfile:
-    path: /home/{{ deploy_user }}/consul/config/secrets.yml
+    path: "{{ release_dir }}/config/secrets.yml"
     regexp: 'server_name'
     line: '  server_name: "{{ server_hostname }}"'
 
 - name: Copy database configuration
   template:
     src: "{{ playbook_dir }}/roles/rails/templates/database.yml"
-    dest: "/home/{{ deploy_user}}/consul/config/database.yml"
+    dest: "{{ release_dir }}/config/database.yml"
     owner: "{{ deploy_user }}"
     group: wheel
 
 - name: Create Database
   shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bin/rake db:migrate RAILS_ENV={{ env }}"
   args:
-    chdir: /home/{{ deploy_user }}/consul
+    chdir: "{{ release_dir }}"
     executable: /bin/bash
 
 - name: Load configuration seeds
   shell: "source /home/{{ deploy_user}}/.rvm/scripts/rvm && bin/rake db:seed RAILS_ENV={{ env }}"
   args:
-    chdir: /home/{{ deploy_user }}/consul
+    chdir: "{{ release_dir }}"
     executable: /bin/bash
 
 - name: Precompile assets
   shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bin/rake assets:precompile RAILS_ENV={{ env }}"
   args:
-    chdir: /home/{{ deploy_user }}/consul
+    chdir: "{{ release_dir }}"
     executable: /bin/bash

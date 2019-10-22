@@ -19,14 +19,14 @@ deploy_app_name: test
 deploy_server_hostname: 127.0.0.1
 consul_dir: "{{ home_dir }}/consul"
 shared_dir: "{{ consul_dir }}/shared"
+release_dir: "{{ consul_dir }}/current"
 shared_dirs:
-  - releases
-  - repo
-  - shared
-  - shared/config
-  - shared/log
-  - shared/public
-  - shared/tmp
+  - "tmp"
+  - "log"
+shared_public_dirs:
+  - "assets"
+  - "system"
+  - "ckeditor_assets"
 
 ssh_public_key_path: "~/.ssh/id_rsa.pub"
 
