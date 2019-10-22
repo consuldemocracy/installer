@@ -2,5 +2,3 @@
   template:
     src: "{{ playbook_dir }}/roles/queue/templates/delayed_job_config.rb"
     dest: "{{ release_dir }}/config/initializers/delayed_job_config.rb"
-    owner: "{{ deploy_user }}"
-    group: wheel

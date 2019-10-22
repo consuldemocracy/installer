@@ -1,7 +1,17 @@
 ---
+- name: Set up web server
+  hosts: all
+  become: true
+  vars:
+    ansible_user: "{{ deploy_user }}"
+  roles:
+    - nginx
+    - letsencrypt
+
 - name: Set up CONSUL
   hosts: all
   become: true
+  become_user: "{{ deploy_user }}"
   vars:
     # https://github.com/ansible/proposals/issues/89
     ansible_user: "{{ deploy_user }}"
@@ -9,11 +19,16 @@
     - ruby
     - folder_structure
     - rails
-    - letsencrypt
     - email
     - queue
-    - nginx
     - puma
+
+- name: Post-installation tasks
+  hosts: all
+  become: true
+  vars:
+    ansible_user: "{{ deploy_user }}"
+  roles:
     - memcached
     - timezone
 

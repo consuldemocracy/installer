@@ -1,7 +1,5 @@
 ---
 - name: Install gems (this may take a few minutes)
-  become: true
-  become_user: "{{ deploy_user }}"
   shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle install --path {{ shared_dir }}/bundle --without development test"
   args:
     chdir: "{{ release_dir }}"
@@ -11,9 +9,6 @@
   copy:
     src: "{{ release_dir }}/config/secrets.yml.example"
     dest: "{{ shared_dir }}/config/secrets.yml"
-    owner: "{{ deploy_user }}"
-    group: wheel
-    mode: 0755
     remote_src: yes
     force: no
 
@@ -21,8 +16,6 @@
   template:
     src: "{{ playbook_dir }}/roles/rails/templates/database.yml"
     dest: "{{ shared_dir }}/config/database.yml"
-    owner: "{{ deploy_user }}"
-    group: wheel
     force: no
 
 - name: Add symbolic links for secrets and database configuration
@@ -30,8 +23,6 @@
     state: "link"
     src: "{{ shared_dir }}/config/{{ item }}"
     dest: "{{ release_dir }}/config/{{ item }}"
-    owner: "{{ deploy_user }}"
-    group: wheel
   with_items:
     - "secrets.yml"
     - "database.yml"
@@ -43,8 +34,6 @@
     line: '  server_name: "{{ server_hostname }}"'
 
 - name: Generate secret key
-  become: true
-  become_user: "{{ deploy_user }}"
   shell: "source {{ home_dir }}/.rvm/scripts/rvm && bin/rake secret"
   register: secret_key_base
   args:
@@ -57,25 +46,33 @@
     regexp: '^{{ env }}:\n  secret_key_base: ""'
     replace: '{{ env }}:\n  secret_key_base: "{{ secret_key_base.stdout }}"'
 
+- name: Force https connection
+  lineinfile:
+    path: "{{ release_dir }}/config/environments/production.rb"
+    regexp: "force_ssl"
+    line: "  config.force_ssl = true"
+  when: domain is defined
+
+- name: Do not force https connection
+  lineinfile:
+    path: "{{ release_dir }}/config/environments/production.rb"
+    regexp: "force_ssl"
+    line: "  config.force_ssl = false"
+  when: domain is not defined
+
 - name: Create Database
-  become: true
-  become_user: "{{ deploy_user }}"
   shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bin/rake db:migrate RAILS_ENV={{ env }}"
   args:
     chdir: "{{ release_dir }}"
     executable: /bin/bash
 
 - name: Load configuration seeds
-  become: true
-  become_user: "{{ deploy_user }}"
   shell: "source /home/{{ deploy_user}}/.rvm/scripts/rvm && bin/rake db:seed RAILS_ENV={{ env }}"
   args:
     chdir: "{{ release_dir }}"
     executable: /bin/bash
 
 - name: Precompile assets
-  become: true
-  become_user: "{{ deploy_user }}"
   shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bin/rake assets:precompile RAILS_ENV={{ env }}"
   args:
     chdir: "{{ release_dir }}"

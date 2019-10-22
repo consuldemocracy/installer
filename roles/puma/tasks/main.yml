@@ -3,16 +3,11 @@
   template:
     src: ../templates/puma.rb
     dest: "{{ shared_dir }}"
-    owner: "{{ deploy_user }}"
-    group: wheel
 
 - name: Create pids and sockets folders
   file:
     path: "{{ shared_dir }}/tmp/{{ item }}"
     state: directory
-    owner: "{{ deploy_user }}"
-    group: wheel
-    mode: 0775
   with_items:
     - "pids"
     - "sockets"
@@ -33,8 +28,6 @@
   when: puma_process.stat.exists == True
 
 - name: Start puma
-  become: true
-  become_user: "{{ deploy_user }}"
   shell: "source {{ home_dir }}/.rvm/scripts/rvm && bundle exec puma -C {{ shared_dir }}/puma.rb -e {{ env }} -d"
   args:
     chdir: "{{ release_dir }}"

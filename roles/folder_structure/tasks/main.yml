@@ -5,8 +5,6 @@
   register: consul_repo
 
 - name: Git clone CONSUL
-  become: true
-  become_user: "{{ deploy_user }}"
   git:
     repo: https://github.com/consul/consul.git
     dest: "{{ consul_dir }}/releases/0-installer"
@@ -18,25 +16,17 @@
     state: "link"
     src: "{{ consul_dir }}/releases/0-installer"
     dest: "{{ release_dir }}"
-    owner: "{{ deploy_user }}"
-    group: wheel
   when: consul_repo.stat.exists == False
 
 - name: Create shared folder
   file:
     path: "{{ shared_dir }}"
     state: directory
-    owner: "{{ deploy_user }}"
-    group: wheel
-    mode: 0755
 
 - name: Create shared folders
   file:
     path: "{{ shared_dir }}/{{ item }}"
     state: directory
-    owner: "{{ deploy_user }}"
-    group: wheel
-    mode: 0755
   with_items: "{{ shared_dirs }}"
 
 - name: Remove log/.keep
@@ -50,33 +40,22 @@
     state: "link"
     src: "{{ shared_dir }}/{{ item }}"
     dest: "{{ release_dir }}/{{ item }}"
-    owner: "{{ deploy_user }}"
-    group: wheel
   with_items: "{{ shared_dirs }}"
 
 - name: Create shared config folder
   file:
     path: "{{ shared_dir }}/config"
     state: directory
-    owner: "{{ deploy_user }}"
-    group: wheel
-    mode: 0755
 
 - name: Create shared public folder
   file:
     path: "{{ shared_dir }}/public"
     state: directory
-    owner: "{{ deploy_user }}"
-    group: wheel
-    mode: 0755
 
 - name: Create shared public folders
   file:
     path: "{{ shared_dir }}/public/{{ item }}"
     state: directory
-    owner: "{{ deploy_user }}"
-    group: wheel
-    mode: 0755
   with_items: "{{ shared_public_dirs }}"
 
 - name: Link shared public folders
@@ -84,6 +63,4 @@
     state: "link"
     src: "{{ shared_dir }}/public/{{ item }}"
     dest: "{{ release_dir }}/public/{{ item }}"
-    owner: "{{ deploy_user }}"
-    group: wheel
   with_items: "{{ shared_public_dirs }}"
