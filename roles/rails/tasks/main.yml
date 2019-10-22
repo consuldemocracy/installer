@@ -51,7 +51,7 @@
     group: wheel
 
 - name: Create Database
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && /home/{{ deploy_user}}/.rvm/gems/ruby-2.3.2/bin/rake db:migrate RAILS_ENV={{ env }}"
+  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bin/rake db:migrate RAILS_ENV={{ env }}"
   args:
     chdir: /home/{{ deploy_user }}/consul
     executable: /bin/bash

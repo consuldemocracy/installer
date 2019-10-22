@@ -31,7 +31,7 @@ shared_dirs:
 ssh_public_key_path: "~/.ssh/id_rsa.pub"
 
 # Ruby
-ruby_version: 2.3.2
+ruby_version: 2.4.9
 
 #Ruby
 rvm1_user: "{{ deploy_user }}"
