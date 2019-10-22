@@ -7,7 +7,7 @@ Using [Ansible](http://docs.ansible.com/), it will install and configure the fol
  - Rails
  - Postgres
  - Nginx
- - Unicorn
+ - Puma
  - SMTP
  - Memcached
  - DelayedJobs

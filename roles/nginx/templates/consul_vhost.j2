@@ -1,12 +1,12 @@
 upstream app {
-  server unix:/home/{{ deploy_user }}/consul/sockets/unicorn.sock;
+  server unix:{{ shared_dir }}/tmp/sockets/puma.sock fail_timeout=0;
 }
 
 server {
   listen 80 default_server;
   listen [::]:80 default_server;
 
-  root /home/{{ deploy_user }}/consul/public;
+  root /var/www/consul/public;
 
   server_name {{ server_hostname }};
 

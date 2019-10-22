@@ -1,0 +1,60 @@
+---
+- name: Create shared folder
+  file:
+    path: "{{ shared_dir }}"
+    state: directory
+    owner: "{{ deploy_user }}"
+    group: wheel
+    mode: 0755
+
+- name: Add puma.rb
+  template:
+    src: ../templates/puma.rb
+    dest: "{{ shared_dir }}"
+    owner: "{{ deploy_user }}"
+    group: wheel
+
+- name: Create tmp and log folders
+  file:
+    path: "{{ shared_dir }}/{{ item }}"
+    state: directory
+    owner: "{{ deploy_user }}"
+    group: wheel
+    mode: 0755
+  with_items:
+    - "tmp"
+    - "log"
+
+- name: Create pids and sockets folders
+  file:
+    path: "{{ shared_dir }}/tmp/{{ item }}"
+    state: directory
+    owner: "{{ deploy_user }}"
+    group: wheel
+    mode: 0775
+  with_items:
+    - "pids"
+    - "sockets"
+
+- name: Check that puma is running
+  stat:
+    path: "{{ shared_dir }}/tmp/pids/puma.pid"
+  register: puma_process
+
+- name: Get running puma process
+  shell: "cat {{ shared_dir }}/tmp/pids/puma.pid"
+  register: running_process
+  when: puma_process.stat.exists == True
+
+- name: Kill running process
+  shell: "kill -QUIT {{ item }}"
+  with_items: "{{ running_process.stdout_lines }}"
+  when: puma_process.stat.exists == True
+
+- name: Start puma
+  become: true
+  become_user: "{{ deploy_user }}"
+  shell: "source {{ home_dir }}/.rvm/scripts/rvm && bundle exec puma -C {{ shared_dir }}/puma.rb -e {{ env }} -d"
+  args:
+    chdir: "{{ consul_dir }}"
+    executable: /bin/bash

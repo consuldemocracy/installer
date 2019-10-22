@@ -11,8 +11,8 @@
     - letsencrypt
     - email
     - queue
-    - unicorn
     - nginx
+    - puma
     - memcached
     - timezone
     # - capistrano
