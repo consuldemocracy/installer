@@ -16,7 +16,6 @@
     - puma
     - memcached
     - timezone
-    # - capistrano
 
 - name: Check system
   hosts: all

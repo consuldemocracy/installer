@@ -3,7 +3,6 @@ app_name: consul
 #domain: your_domain.com
 
 server_hostname: "{{ domain | default(ansible_default_ipv4.address) }}"
-secret_key_base: "change_me"
 
 # Server Timzone + Locale
 timezone: Europe/Madrid
