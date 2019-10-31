@@ -1,16 +1,8 @@
 ---
-- name: Creates shared environment folder
-  file:
-    path: "{{ shared_dir }}/config/environments"
-    state: directory
-
 - name: Creates shared initializers folder
   file:
     path: "{{ shared_dir }}/config/initializers"
     state: directory
-
-- name: Copy environment configuration to shared folder
-  command: "cp {{ release_dir }}/config/environments/{{ env }}.rb {{ shared_dir }}/config/environments/{{ env }}.rb"
 
 - name: Copy delayed jobs configuration to shared folder
   command: "cp {{ release_dir }}/config/initializers/delayed_job_config.rb {{ shared_dir }}/config/initializers/delayed_job_config.rb"
