@@ -5,8 +5,8 @@
   vars:
     ansible_user: "{{ deploy_user }}"
   roles:
-    - nginx
     - letsencrypt
+    - nginx
 
 - name: Set up CONSUL
   hosts: all
