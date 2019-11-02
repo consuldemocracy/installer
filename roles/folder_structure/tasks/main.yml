@@ -29,11 +29,10 @@
     state: directory
   with_items: "{{ shared_dirs }}"
 
-- name: Remove log/.keep
-  shell: "rm {{ release_dir }}/log/.keep"
-
 - name: Remove log folder
-  shell: "rmdir {{ release_dir }}/log"
+  file:
+    path: "{{ release_dir }}/log"
+    state: absent
 
 - name: Link shared folders
   file:
