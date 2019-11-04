@@ -1,4 +1,5 @@
 - name: Disable queue with DelayedJobs (for now )
-  template:
-    src: "{{ playbook_dir }}/roles/queue/templates/delayed_job_config.rb"
-    dest: "{{ release_dir }}/config/initializers/delayed_job_config.rb"
+  replace:
+    path: "{{ shared_dir }}/config/secrets.yml"
+    regexp: "  delay_jobs: true"
+    replace: "  delay_jobs: false"

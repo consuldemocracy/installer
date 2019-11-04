@@ -92,26 +92,14 @@ admin@consul.dev
 To restart the server and deploy new code to the server we have to configure Capistrano.
 
 ### Screencast
+
+Note this screencast is not up to date and contains more steps than actually needed; when in doubt, do what we say on this README file.
+
 [How to setup Capistrano](https://youtu.be/SgJzJ-clIrQ)
 
 Create your [fork](https://help.github.com/articles/fork-a-repo/)
 
 Setup locally for your [development environment](https://docs.consulproject.org/docs/english-documentation/introduction/local_installation)
-
-Run the capistrano playbook:
-
-```
-sudo ansible-playbook -v capistrano.yml -i hosts
-```
-
-Download changes from the `capistrano` branch to your fork
-
-```
-git remote add upstream git@github.com:consul/consul.git
-git fetch upstream
-git merge upstream/capistrano
-git push origin master
-```
 
 Create your `deploy-secrets.yml`
 
