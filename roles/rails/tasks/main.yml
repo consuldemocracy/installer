@@ -8,6 +8,7 @@
   git:
     repo: https://github.com/consul/consul.git
     dest: /home/{{ deploy_user }}/consul
+    version: 1.0.0
     clone: yes
   when: consul_repo.stat.exists == False
 
