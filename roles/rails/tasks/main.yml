@@ -1,4 +1,3 @@
----
 - name: Check that CONSUL exists
   stat:
     path: /home/{{ deploy_user }}/consul
@@ -21,50 +20,80 @@
     mode: 0755
 
 - name: Install gems (this may take a few minutes)
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle install"
+  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle install --path {{ shared_dir }}/bundle --without development test"
   args:
-    chdir: /home/{{ deploy_user }}/consul
+    chdir: "{{ release_dir }}"
     executable: /bin/bash
 
-- name: Copy secrets configuration
+- name: Copy secrets configuration to shared folder
   copy:
-    src: /home/{{ deploy_user }}/consul/config/secrets.yml.example
-    dest: /home/{{ deploy_user }}/consul/config/secrets.yml
+    src: "{{ release_dir }}/config/secrets.yml.example"
+    dest: "{{ shared_dir }}/config/secrets.yml"
     remote_src: yes
+    force: no
 
-- name: Update secret_key_base configuration in secrets.yml
-  lineinfile:
-    path: /home/{{ deploy_user }}/consul/config/secrets.yml
-    regexp: 'secret_key_base'
-    line: '  secret_key_base: "{{ secret_key_base }}"'
+- name: Copy database configuration to shared folder
+  template:
+    src: "{{ playbook_dir }}/roles/rails/templates/database.yml"
+    dest: "{{ shared_dir }}/config/database.yml"
+    force: no
+
+- name: Add symbolic links for secrets and database configuration
+  file:
+    state: "link"
+    src: "{{ shared_dir }}/config/{{ item }}"
+    dest: "{{ release_dir }}/config/{{ item }}"
+  with_items:
+    - "secrets.yml"
+    - "database.yml"
 
 - name: Update host configuration in secrets.yml
   lineinfile:
-    path: /home/{{ deploy_user }}/consul/config/secrets.yml
+    path: "{{ release_dir }}/config/secrets.yml"
     regexp: 'server_name'
     line: '  server_name: "{{ server_hostname }}"'
 
-- name: Copy database configuration
-  template:
-    src: "{{ playbook_dir }}/roles/rails/templates/database.yml"
-    dest: "/home/{{ deploy_user}}/consul/config/database.yml"
-    owner: "{{ deploy_user }}"
-    group: wheel
+- name: Generate secret key
+  shell: "source {{ home_dir }}/.rvm/scripts/rvm && bin/rake secret"
+  register: secret_key_base
+  args:
+    chdir: "{{ release_dir }}"
+    executable: /bin/bash
+
+- name: Update secret_key_base configuration in secrets.yml
+  replace:
+    path: "{{ shared_dir }}/config/secrets.yml"
+    regexp: '^{{ env }}:\n  secret_key_base: ""'
+    replace: '{{ env }}:\n  secret_key_base: "{{ secret_key_base.stdout }}"'
+
+- name: Force https connection
+  lineinfile:
+    path: "{{ release_dir }}/config/environments/production.rb"
+    regexp: "force_ssl"
+    line: "  config.force_ssl = true"
+  when: domain is defined
+
+- name: Do not force https connection
+  lineinfile:
+    path: "{{ release_dir }}/config/environments/production.rb"
+    regexp: "force_ssl"
+    line: "  config.force_ssl = false"
+  when: domain is not defined
 
 - name: Create Database
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && /home/{{ deploy_user}}/.rvm/gems/ruby-2.3.2/bin/rake db:migrate RAILS_ENV={{ env }}"
+  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bin/rake db:migrate RAILS_ENV={{ env }}"
   args:
-    chdir: /home/{{ deploy_user }}/consul
+    chdir: "{{ release_dir }}"
     executable: /bin/bash
 
 - name: Load configuration seeds
   shell: "source /home/{{ deploy_user}}/.rvm/scripts/rvm && bin/rake db:seed RAILS_ENV={{ env }}"
   args:
-    chdir: /home/{{ deploy_user }}/consul
+    chdir: "{{ release_dir }}"
     executable: /bin/bash
 
 - name: Precompile assets
   shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bin/rake assets:precompile RAILS_ENV={{ env }}"
   args:
-    chdir: /home/{{ deploy_user }}/consul
+    chdir: "{{ release_dir }}"
     executable: /bin/bash

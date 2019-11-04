@@ -1,7 +1,7 @@
 ---
 - name: Install Nginx
-  apt: 
-    name: nginx 
+  apt:
+    name: nginx
     state: latest
 
 - name: Add default virtual host

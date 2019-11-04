@@ -1,76 +1,16 @@
 ---
-- name: Creates shared folder
-  file:
-    path: /home/{{ deploy_user }}/consul/shared
-    state: directory
-    owner: "{{ deploy_user }}"
-    group: wheel
-    mode: 0755
-
-- name: Creates shared config folder
-  file:
-    path: /home/{{ deploy_user }}/consul/shared/config
-    state: directory
-    owner: "{{ deploy_user }}"
-    group: wheel
-    mode: 0755
-
 - name: Creates shared environment folder
   file:
-    path: /home/{{ deploy_user }}/consul/shared/config/environments
+    path: "{{ shared_dir }}/config/environments"
     state: directory
-    owner: "{{ deploy_user }}"
-    group: wheel
-    mode: 0755
 
 - name: Creates shared initializers folder
   file:
-    path: /home/{{ deploy_user }}/consul/shared/config/initializers
+    path: "{{ shared_dir }}/config/initializers"
     state: directory
-    owner: "{{ deploy_user }}"
-    group: wheel
-    mode: 0755
-
-- name: Copy secrets configuration to shared folder
-  command: cp /home/{{ deploy_user }}/consul/config/secrets.yml /home/{{ deploy_user }}/consul/shared/config/secrets.yml
-
-- name: Copy database configuration to shared folder
-  command: cp /home/{{ deploy_user }}/consul/config/database.yml /home/{{ deploy_user }}/consul/shared/config/database.yml
 
 - name: Copy environment configuration to shared folder
-  command: cp /home/{{ deploy_user }}/consul/config/environments/{{ env }}.rb /home/{{ deploy_user }}/consul/shared/config/environments/{{ env }}.rb
+  command: "cp {{ release_dir }}/config/environments/{{ env }}.rb {{ shared_dir }}/config/environments/{{ env }}.rb"
 
 - name: Copy delayed jobs configuration to shared folder
-  command: cp /home/{{ deploy_user }}/consul/config/initializers/delayed_job_config.rb /home/{{ deploy_user }}/consul/shared/config/initializers/delayed_job_config.rb
-
-- name: Copy unicorn.rb template for capistrano to shared folder
-  template:
-    src: "{{ playbook_dir }}/roles/capistrano/templates/unicorn.rb"
-    dest: "/home/{{ deploy_user }}/consul/shared/config/unicorn.rb"
-    owner: "{{ deploy_user }}"
-    group: wheel
-
-- name: Create Unicorn folders
-  file:
-    path: "/home/{{ deploy_user }}/consul/shared/{{ item }}"
-    state: directory
-    owner: "{{ deploy_user }}"
-    group: wheel
-    mode: 0775
-  with_items:
-    - "pids"
-    - "sockets"
-    - "log"
-
-- name: Update Nginx template for capistrano
-  become: true
-  become_method: sudo
-  template:
-    src: "{{ playbook_dir }}/roles/capistrano/templates/consul_vhost.j2"
-    dest: /etc/nginx/sites-enabled/default
-    owner: "{{ deploy_user }}"
-    group: wheel
-
-- name: Restart nginx
-  become: true
-  service: name=nginx state=restarted
+  command: "cp {{ release_dir }}/config/initializers/delayed_job_config.rb {{ shared_dir }}/config/initializers/delayed_job_config.rb"

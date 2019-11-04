@@ -7,7 +7,7 @@ Using [Ansible](http://docs.ansible.com/), it will install and configure the fol
  - Rails
  - Postgres
  - Nginx
- - Unicorn
+ - Puma
  - SMTP
  - Memcached
  - DelayedJobs
@@ -98,16 +98,10 @@ Create your [fork](https://help.github.com/articles/fork-a-repo/)
 
 Setup locally for your [development environment](https://docs.consulproject.org/docs/english-documentation/introduction/local_installation))
 
-Uncomment this line in `app.yml` and rerun the installer
+Run the capistrano playbook:
 
 ```
-# - capistrano
-```
-
-Run the ansible playbook
-
-```
-sudo ansible-playbook -v consul.yml -i hosts
+sudo ansible-playbook -v capistrano.yml -i hosts
 ```
 
 Download changes from the `capistrano` branch to your fork
@@ -226,7 +220,7 @@ locale: en_US.UTF-8
 ssh_public_key_path: "change_me/.ssh/id_rsa.pub"
 
 # Ruby
-ruby_version: 2.3.2
+ruby_version: 2.4.9
 
 #Postgresql
 postgresql_version: 9.6
