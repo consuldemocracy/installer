@@ -17,7 +17,7 @@ Using [Ansible](http://docs.ansible.com/), it will install and configure the fol
 It will also create a `deploy` user to install these libraries
 
 ## Screencast
-[How to setup CONSUL for a production environment](https://public.3.basecamp.com/p/dSTKWbqxtZSaSSpMiYWiqR9U)
+[How to setup CONSUL for a production environment](https://youtu.be/1lvnjDuRFzw)
 
 ## Prerequisities
 
@@ -92,7 +92,7 @@ admin@consul.dev
 To restart the server and deploy new code to the server we have to configure Capistrano.
 
 ### Screencast
-[How to setup Capistrano](https://public.3.basecamp.com/p/SxF1BrYFHBZkRWkqVX4NUxGU)
+[How to setup Capistrano](https://youtu.be/SgJzJ-clIrQ)
 
 Create your [fork](https://help.github.com/articles/fork-a-repo/)
 
@@ -152,7 +152,7 @@ You should now see that change at your remote server's ip address
 ## Email configuration
 
 ### Screencast
-[How to setup email deliveries](https://public.3.basecamp.com/p/yAGcyJeSVHaW43M7aoHCxu6L)
+[How to setup email deliveries](https://youtu.be/9W6txGpe4v4)
 
 Update the following file in your production server:
 `/home/deploy/consul/shared/config/environments/production.rb`
@@ -265,7 +265,7 @@ Aside from just using managed databases, you might also look into platform-as-a-
 
 By default the installer assumes you can log in as `root`. The `root` user will only be used once to login and create a `deploy` user. The `deploy` user is the one that will actually install all libraries and is the user that must be used to login to the server to do maintenance tasks.
 
-If you do not have `root` access, you will need your system administrator to grant you: sudo privileges for a `deploy` user in the `wheel` group without password. 
+If you do not have `root` access, you will need your system administrator to grant you: sudo privileges for a `deploy` user in the `wheel` group without password.
 
 Also you will need to change the variable [root access](https://github.com/consul/installer/compare/no_root_user?expand=1#diff-fc7cb0a7b647c6ff35b553a10d616c4bR11) to `false`.
 
