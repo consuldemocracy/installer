@@ -10,7 +10,6 @@ locale: en_US.UTF-8
 
 # General settings
 env: production
-root_access: true
 deploy_user: deploy
 home_dir: "/home/{{ deploy_user }}"
 deploy_password: test

@@ -263,9 +263,7 @@ Aside from just using managed databases, you might also look into platform-as-a-
 
 By default the installer assumes you can log in as `root`. The `root` user will only be used once to login and create a `deploy` user. The `deploy` user is the one that will actually install all libraries and is the user that must be used to login to the server to do maintenance tasks.
 
-If you do not have `root` access, you will need your system administrator to grant you: sudo privileges for a `deploy` user in the `wheel` group without password.
-
-Also you will need to change the variable [root access](https://github.com/consul/installer/compare/no_root_user?expand=1#diff-fc7cb0a7b647c6ff35b553a10d616c4bR11) to `false`.
+If you do not have `root` access, you will need your system administrator to grant you sudo privileges for a `deploy` user in the `wheel` group without password. You will also need to change the variable `ansible_user` to `deploy` in your `hosts` file.
 
 ## Using a different user than deploy
 
