@@ -145,17 +145,17 @@ You should now see that change at your remote server's ip address
 Update the following file in your production server:
 `/home/deploy/consul/shared/config/secrets.yml`
 
-You want to change this block of code and use your own SMTP credentials:
+You want to change this block of code for your production environment and use your own SMTP credentials:
 ```
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address:              "smtp.example.com",
-    port:                 "25",
-    domain:               "your_domain.com or ip address",
-    user_name:            "username",
-    password:             "password",
-    authentication:       "plain",
-    enable_starttls_auto: true }
+  mailer_delivery_method: "smtp"
+  smtp_settings:
+    address:              "smtp.example.com"
+    port:                 "25"
+    domain:               "your_domain.com"
+    user_name:            "username"
+    password:             "password"
+    authentication:       "plain"
+    enable_starttls_auto: true
 ```
 
 And restart the server running this command from your local CONSUL installation (see [Deploys with Capistrano](https://github.com/consul/installer#deploys-with-capistrano) for details).
