@@ -76,8 +76,10 @@ remote-server-ip-address (maintain other default options)
 Run the ansible playbook
 
 ```
-sudo ansible-playbook -v consul.yml -i hosts
+ansible-playbook -v consul.yml -i hosts
 ```
+
+Note about old versions: if you've already used the installer before version 1.1 was released, you might need to remove your `~/.ansible` folder.
 
 Visit remote-server-ip-address in your browser and you should see CONSUL running!
 
@@ -198,7 +200,7 @@ Next, uncomment the `letsencrypt_email` variable in the [configuration file](htt
 Re-run the installer:
 
 ```
-sudo ansible-playbook -v consul.yml -i hosts
+ansible-playbook -v consul.yml -i hosts
 ```
 
 You should now be able to see the application running at https://your_domain.com in your browser.
@@ -250,7 +252,7 @@ To set up the application by itself:
 1. Run the [`app` playbook](app.yml) instead of the [`consul`](consul.yml) one against a clean server.
 
 ```sh
-sudo ansible-playbook -v app.yml -i hosts
+ansible-playbook -v app.yml -i hosts
 ```
 
 ### Platform-as-a-Service (PaaS)
