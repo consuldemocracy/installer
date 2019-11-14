@@ -3,20 +3,22 @@
 [CONSUL](https://github.com/consul/consul) installer for production environments
 
 Using [Ansible](http://docs.ansible.com/), it will install and configure the following:
- - Ruby
- - Rails
- - Postgres
- - Nginx
- - Puma
- - SMTP
- - Memcached
- - DelayedJobs
- - HTTPS
- - Capistrano
+
+- Ruby
+- Rails
+- Postgres
+- Nginx
+- Puma
+- SMTP
+- Memcached
+- DelayedJobs
+- HTTPS
+- Capistrano
 
 It will also create a `deploy` user to install these libraries
 
 ## Screencast
+
 [How to setup CONSUL for a production environment](https://youtu.be/1lvnjDuRFzw)
 
 ## Prerequisities
@@ -35,6 +37,7 @@ ssh root@remote-server-ip-address
 ```
 
 Updated system package versions
+
 ```
 sudo apt-get update
 ```
@@ -44,7 +47,6 @@ Python 2 installed in the remote server
 ```
 sudo apt-get -y install python-simplejson
 ```
-
 
 ## Running the installer
 
@@ -60,6 +62,7 @@ cd installer
 ```
 
 Create your local `hosts` file
+
 ```
 cp hosts.example hosts
 ```
@@ -117,6 +120,7 @@ server_name: "your_remote_ip_address"
 ```
 
 Update your `repo_url` in `deploy.rb`
+
 ```
 set :repo_url, 'https://github.com/your_github_username/consul.git'
 ```
@@ -140,12 +144,14 @@ You should now see that change at your remote server's ip address
 ## Email configuration
 
 ### Screencast
+
 [How to setup email deliveries](https://youtu.be/9W6txGpe4v4)
 
 Update the following file in your production server:
 `/home/deploy/consul/shared/config/secrets.yml`
 
 You want to change this block of code for your production environment and use your own SMTP credentials:
+
 ```
   mailer_delivery_method: "smtp"
   smtp_settings:
@@ -165,6 +171,7 @@ cap production deploy:restart
 ```
 
 Once you setup your domain, depending on your SMTP provider, you will have to do two things:
+
 - Update the `server_name` with your domain in `/home/deploy/consul/shared/config/secrets.yml`.
 - Update the `sender_email_address` from the admin section (`remote-server-ip-address/admin/settings`)
 
@@ -189,6 +196,7 @@ Next, uncomment the `letsencrypt_email` variable in the [configuration file](htt
 ```
 
 Re-run the installer:
+
 ```
 sudo ansible-playbook -v consul.yml -i hosts
 ```
@@ -241,9 +249,9 @@ To set up the application by itself:
 1. Specify your database credentials (see the `database_*` [group variables](group_vars/all)) in a [vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html).
 1. Run the [`app` playbook](app.yml) instead of the [`consul`](consul.yml) one against a clean server.
 
-    ```sh
-    sudo ansible-playbook -v app.yml -i hosts
-    ```
+```sh
+sudo ansible-playbook -v app.yml -i hosts
+```
 
 ### Platform-as-a-Service (PaaS)
 
@@ -266,11 +274,13 @@ Change the variable [deploy_user](https://github.com/consul/installer/blob/maste
 http://docs.ansible.com/
 
 ## Roadmap
+
 Cross platform compatibility (Ubuntu, CentOS)
 
 Greater diversity of interchangeable roles (nginx/apache, unicorn/puma/passenger, rvm/rbenv)
 
 ## How to contribute
+
 - [Open an issue](https://help.github.com/en/articles/creating-an-issue)
 - [Send us a Pull Request](https://help.github.com/en/articles/creating-a-pull-request)
 
