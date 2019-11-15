@@ -28,10 +28,14 @@
     url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
     state: present
 
+- name: Get distribution codename
+  shell: lsb_release -c --short
+  register: distro_codename
+
 - name: Add Node repository
   become: true
   apt_repository:
-    repo: deb https://deb.nodesource.com/node_6.x bionic main
+    repo: "deb https://deb.nodesource.com/node_6.x {{ distro_codename.stdout }} main"
     state: present
 
 - name: Remove apache server
