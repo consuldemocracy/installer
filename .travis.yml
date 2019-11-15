@@ -1,9 +1,6 @@
-dist: xenial
 language: python
 python:
   - "2.7"
-before_install:
-  - "__rvm_unload ; rm -rf ~/.rvm"
 install:
   - sudo apt-get update -y
   - sudo apt-get install -y openssh-server
@@ -14,7 +11,27 @@ before_script:
   # Generate dummy SSH key
   - ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
 script: ansible-playbook consul.yml -i hosts --extra-vars "env=${RAILS_ENV}"
-matrix:
+jobs:
   include:
-  - env: RAILS_ENV=production
-  - env: RAILS_ENV=staging
+    - name: Xenial (production)
+      dist: xenial
+      env: RAILS_ENV=production
+      before_install:
+        - "__rvm_unload; rm -rf ~/.rvm"
+    - name: Xenial (staging)
+      dist: xenial
+      env: RAILS_ENV=staging
+      before_install:
+        - "__rvm_unload; rm -rf ~/.rvm"
+    - name: Bionic (production)
+      dist: bionic
+      env: RAILS_ENV=production
+      before_install:
+        - rvm get 1.28.0
+        - "__rvm_unload; rm -rf ~/.rvm"
+    - name: Bionic (staging)
+      dist: bionic
+      env: RAILS_ENV=staging
+      before_install:
+        - rvm get 1.28.0
+        - "__rvm_unload; rm -rf ~/.rvm"
