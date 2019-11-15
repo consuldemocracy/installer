@@ -1,3 +1,13 @@
 ---
-- include_role:
+- name: Read needed Ruby version
+  shell: "cat .ruby-version"
+  args:
+    chdir: "{{ release_dir }}"
+  register: ruby_version
+
+- name: Install RVM and ruby
+  include_role:
     name: galaxy/rvm.ruby
+  vars:
+    rvm1_user: "{{ deploy_user }}"
+    rvm1_rubies: ["ruby-{{ ruby_version.stdout }}"]

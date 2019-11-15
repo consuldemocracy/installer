@@ -16,8 +16,8 @@
     # https://github.com/ansible/proposals/issues/89
     ansible_user: "{{ deploy_user }}"
   roles:
-    - ruby
     - folder_structure
+    - ruby
     - rails
     - email
     - queue

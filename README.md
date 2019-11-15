@@ -217,9 +217,6 @@ locale: en_US.UTF-8
 # Authorized Hosts
 ssh_public_key_path: "change_me/.ssh/id_rsa.pub"
 
-# Ruby
-ruby_version: 2.4.9
-
 #Postgresql
 postgresql_version: 9.6
 database_name: "consul_production"
