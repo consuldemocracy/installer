@@ -43,10 +43,6 @@ sudo apt-get update
 
 Python 2.7 installed in the remote server
 
-```
-sudo apt-get -y install python-simplejson
-```
-
 ## Running the installer
 
 The following commands must be executed in your local machine
