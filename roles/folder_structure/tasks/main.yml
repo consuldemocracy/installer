@@ -5,10 +5,19 @@
   register: consul_repo
 
 - name: Git clone CONSUL
-  git:
-    repo: https://github.com/consul/consul.git
-    dest: "{{ consul_dir }}/releases/0-installer"
-    clone: yes
+  shell: "git clone --mirror https://github.com/consul/consul.git {{ consul_dir }}/repo"
+  when: consul_repo.stat.exists == False
+
+- name: Create first release folder
+  file:
+    path: "{{ consul_dir }}/releases/0-installer"
+    state: directory
+  when: consul_repo.stat.exists == False
+
+- name: Create first release
+  shell: "git archive master | /usr/bin/env tar -x -f - -C {{ consul_dir }}/releases/0-installer"
+  args:
+    chdir: "{{ consul_dir }}/repo"
   when: consul_repo.stat.exists == False
 
 - name: Add symbolic link for current release folder
