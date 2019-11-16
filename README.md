@@ -42,7 +42,7 @@ Updated system package versions
 sudo apt-get update
 ```
 
-Python 2 installed in the remote server
+Python 2.7 installed in the remote server
 
 ```
 sudo apt-get -y install python-simplejson
@@ -52,7 +52,7 @@ sudo apt-get -y install python-simplejson
 
 The following commands must be executed in your local machine
 
-[Install Ansible >= 2.4](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+[Install Ansible >= 2.7](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 
 Get the Ansible Playbook
 
