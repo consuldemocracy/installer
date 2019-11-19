@@ -4,19 +4,33 @@
     path: "{{ consul_dir }}"
   register: consul_repo
 
-- name: Git clone CONSUL
-  git:
-    repo: https://github.com/consul/consul.git
-    dest: "{{ consul_dir }}/releases/0-installer"
-    clone: yes
+- name: Get current timestamp
+  shell: "date -u +%Y%m%d%H%M%S"
+  register: current_timestamp
   when: consul_repo.stat.exists == False
 
-- name: Add symbolic link for current release folder
-  file:
-    state: "link"
-    src: "{{ consul_dir }}/releases/0-installer"
-    dest: "{{ release_dir }}"
-  when: consul_repo.stat.exists == False
+- when: consul_repo.stat.exists == False
+  vars:
+    first_release_dir: "{{ consul_dir }}/releases/{{ current_timestamp.stdout }}"
+  block:
+    - name: Git clone CONSUL
+      shell: "git clone --mirror https://github.com/consul/consul.git {{ consul_dir }}/repo"
+
+    - name: Create first release folder
+      file:
+        path: "{{ first_release_dir }}"
+        state: directory
+
+    - name: Create first release
+      shell: "git archive master | /usr/bin/env tar -x -f - -C {{ first_release_dir }}"
+      args:
+        chdir: "{{ consul_dir }}/repo"
+
+    - name: Add symbolic link for current release folder
+      file:
+        state: "link"
+        src: "{{ first_release_dir }}"
+        dest: "{{ release_dir }}"
 
 - name: Create shared folder
   file:
