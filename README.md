@@ -42,7 +42,7 @@ Updated system package versions
 sudo apt-get update
 ```
 
-Python 2 installed in the remote server
+Python 2.7 installed in the remote server
 
 ```
 sudo apt-get -y install python-simplejson
@@ -52,7 +52,7 @@ sudo apt-get -y install python-simplejson
 
 The following commands must be executed in your local machine
 
-[Install Ansible >= 2.4](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+[Install Ansible >= 2.7](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 
 Get the Ansible Playbook
 
@@ -76,8 +76,10 @@ remote-server-ip-address (maintain other default options)
 Run the ansible playbook
 
 ```
-sudo ansible-playbook -v consul.yml -i hosts
+ansible-playbook -v consul.yml -i hosts
 ```
+
+Note about old versions: if you've already used the installer before version 1.1 was released, you might need to remove your `~/.ansible` folder.
 
 Visit remote-server-ip-address in your browser and you should see CONSUL running!
 
@@ -198,7 +200,7 @@ Next, uncomment the `letsencrypt_email` variable in the [configuration file](htt
 Re-run the installer:
 
 ```
-sudo ansible-playbook -v consul.yml -i hosts
+ansible-playbook -v consul.yml -i hosts
 ```
 
 You should now be able to see the application running at https://your_domain.com in your browser.
@@ -250,7 +252,7 @@ To set up the application by itself:
 1. Run the [`app` playbook](app.yml) instead of the [`consul`](consul.yml) one against a clean server.
 
 ```sh
-sudo ansible-playbook -v app.yml -i hosts
+ansible-playbook -v app.yml -i hosts
 ```
 
 ### Platform-as-a-Service (PaaS)
@@ -261,9 +263,7 @@ Aside from just using managed databases, you might also look into platform-as-a-
 
 By default the installer assumes you can log in as `root`. The `root` user will only be used once to login and create a `deploy` user. The `deploy` user is the one that will actually install all libraries and is the user that must be used to login to the server to do maintenance tasks.
 
-If you do not have `root` access, you will need your system administrator to grant you: sudo privileges for a `deploy` user in the `wheel` group without password.
-
-Also you will need to change the variable [root access](https://github.com/consul/installer/compare/no_root_user?expand=1#diff-fc7cb0a7b647c6ff35b553a10d616c4bR11) to `false`.
+If you do not have `root` access, you will need your system administrator to grant you sudo privileges for a `deploy` user in the `wheel` group without password. You will also need to change the variable `ansible_user` to `deploy` in your `hosts` file.
 
 ## Using a different user than deploy
 

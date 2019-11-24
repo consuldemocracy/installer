@@ -10,7 +10,7 @@ install:
   - pip install ansible
 before_script:
   # Set up host inventory
-  - echo "localhost ansible_connection=local" > hosts
+  - echo "localhost ansible_connection=local ansible_user=root" > hosts
   # Generate dummy SSH key
   - ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
 script: ansible-playbook consul.yml -i hosts
