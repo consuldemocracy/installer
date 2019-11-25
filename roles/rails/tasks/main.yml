@@ -34,7 +34,7 @@
     line: '  server_name: "{{ server_hostname }}"'
 
 - name: Generate secret key
-  shell: "source {{ home_dir }}/.rvm/scripts/rvm && bin/rake secret"
+  shell: "source {{ home_dir }}/.rvm/scripts/rvm && bin/rake secret RAILS_ENV={{ env }}"
   register: secret_key_base
   args:
     chdir: "{{ release_dir }}"
