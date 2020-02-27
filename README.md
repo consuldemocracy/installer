@@ -98,9 +98,7 @@ To restart the server and deploy new code to the server we have to configure Cap
 
 ### Screencast
 
-Note this screencast is not up to date and contains more steps than actually needed; when in doubt, do what we say on this README file.
-
-[How to setup Capistrano](https://youtu.be/SgJzJ-clIrQ)
+[How to setup Capistrano](https://youtu.be/ZCfPz_c_H6g)
 
 Create your [fork](https://help.github.com/articles/fork-a-repo/)
 
