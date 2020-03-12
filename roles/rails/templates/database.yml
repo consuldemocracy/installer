@@ -8,4 +8,4 @@ default: &default
 
 {{ env }}:
   <<: *default
-  database: consul_{{ env }}
+  database: {{ database_name }}
