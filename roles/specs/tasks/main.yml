@@ -45,3 +45,11 @@
         follow_redirects: no
         validate_certs: yes
         status_code: 301
+
+- name: Get running delayed job processes
+  shell: "ps -ef | grep -v grep | grep -w delayed_job | awk '{print $2}'"
+  register: delayed_job_process
+
+- fail:
+    msg: "Delayed Jobs is not running"
+  when: delayed_job_process.stdout == ""
