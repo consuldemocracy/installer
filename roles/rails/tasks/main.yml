@@ -72,7 +72,7 @@
     executable: /bin/bash
 
 - name: Update crontab with whenever
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle exec whenever --update-crontab consul --set environment={{ env }}"
+  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle exec whenever --update-crontab {{ app_name }} --set environment={{ env }}"
   args:
     chdir: "{{ release_dir }}"
     executable: /bin/bash

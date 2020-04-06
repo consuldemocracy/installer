@@ -15,7 +15,7 @@ home_dir: "/home/{{ deploy_user }}"
 deploy_password: test
 deploy_app_name: test
 deploy_server_hostname: 127.0.0.1
-consul_dir: "{{ home_dir }}/consul"
+consul_dir: "{{ home_dir }}/{{ app_name }}"
 shared_dir: "{{ consul_dir }}/shared"
 release_dir: "{{ consul_dir }}/current"
 shared_dirs:
@@ -29,7 +29,7 @@ shared_public_dirs:
 ssh_public_key_path: "~/.ssh/id_rsa.pub"
 
 #Postgresql
-database_name: "consul_{{ env }}"
+database_name: "{{app_name}}_{{ env }}"
 database_user: "{{ deploy_user }}"
 database_password: "{{ deploy_user }}"
 database_hostname: "localhost"
