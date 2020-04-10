@@ -2,6 +2,10 @@
 - name: gather facts
   setup:
 
+- name: Print environment settings
+  debug:
+    msg: "Setting up {{ env }} environment"
+
 - name: Update and upgrade apt packages (this may take a few minutes)
   become: true
   become_method: sudo

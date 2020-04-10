@@ -185,6 +185,24 @@ Once you setup your domain, depending on your SMTP provider, you will have to do
 
 If your SMTP provider uses an authentication other than `plain`, check out the [Rails docs on email configuration](https://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration) for the different authentation options.
 
+## Staging server
+
+To setup a staging server to try things out before deploying to a production server:
+
+Update your local `hosts` file with the staging server's ip address
+
+```
+remote-server-ip-address (maintain other default options)
+```
+
+And run the playbook with an extra var "env":
+
+```
+sudo ansible-playbook -v consul.yml --extra-vars "env=staging" -i hosts
+```
+
+Visit remote-server-ip-address in your browser and you should now see CONSUL running in your staging server.
+
 ## SSL with LetsEncrypt
 
 Using https instead of http is an important security configuration. Before you begin, you will need to either buy a domain or get access to the configuration of an existing domain. Next, you need to make sure you have an A Record in the DNS configuration of your domain, pointing to the correponding IP address of your server. You can check if your domain is correctly configured at this url https://dnschecker.org/, where you should see your IP address when searching for your domain name.
