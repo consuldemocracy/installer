@@ -13,6 +13,8 @@
 
 - become: true
   become_user: postgres
+  vars:
+    ansible_python_interpreter: python
   block:
     - name: Create PostgreSQL database
       postgresql_db:
@@ -23,6 +25,7 @@
         name: "{{ database_user }}"
         password: "{{ database_password }}"
         db: "{{ database_name }}"
+        encrypted: yes
         priv: ALL
 
     - name: Add PostgreSQL extensions
