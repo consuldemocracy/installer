@@ -5,12 +5,13 @@ install:
   - sudo apt-get update -y
   - sudo apt-get install -y openssh-server
   - pip install ansible
+services: mongodb
 before_script:
   # Set up host inventory
   - echo "localhost ansible_connection=local ansible_user=root" > hosts
   # Generate dummy SSH key
   - ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
-script: ansible-playbook consul.yml -i hosts --extra-vars "env=${RAILS_ENV} domain=localhost"
+script: ansible-playbook consul.yml -i hosts --extra-vars "env=${RAILS_ENV} domain=localhost errbit=True"
 jobs:
   include:
     - name: Xenial (production)

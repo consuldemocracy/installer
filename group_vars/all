@@ -45,3 +45,8 @@ smtp_authentication: "plain"
 
 #LetsEncrypt
 #letsencrypt_email: "your_email@example.com"
+
+# Errbit
+errbit: False
+errbit_dir: "{{ home_dir }}/errbit"
+errbit_domain: "errbit.{{ domain }}"

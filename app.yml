@@ -32,6 +32,18 @@
     - memcached
     - timezone
 
+- name: Install Errbit
+  hosts: all
+  become: true
+  vars:
+    ansible_user: "{{ deploy_user }}"
+  roles:
+    - role: mongodb
+      when: errbit|bool
+    - role: errbit
+      become_user: "{{ deploy_user }}"
+      when: errbit|bool
+
 - name: Check system
   hosts: all
   become: true
