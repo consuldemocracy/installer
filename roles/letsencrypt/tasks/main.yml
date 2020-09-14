@@ -1,5 +1,5 @@
 ---
-- when: domain is defined
+- when: domain is defined and not lookup("env", "CI")
   block:
     - name: Install software-properties-common
       apt:
