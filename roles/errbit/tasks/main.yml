@@ -1,0 +1,132 @@
+---
+- name: Check that errbit repo exists
+  stat:
+    path: "{{ errbit_dir }}"
+  register: errbit_repo
+
+- name: Clone Errbit repository
+  shell: "git clone https://github.com/errbit/errbit.git {{ errbit_dir }}"
+  when: errbit_repo.stat.exists == False
+
+# TODO: Remove when we upgrade to bundler 2.x
+- name: Use bundler 1.x
+  replace:
+    path: "{{ errbit_dir }}/Gemfile.lock"
+    regexp: '   2.1.2'
+    replace: '   1.17.1'
+
+- name: Create log folder
+  file:
+    path: "{{ errbit_dir }}/log"
+    state: directory
+
+- name: Install Errbit dependencies
+  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle install"
+  args:
+    chdir: "{{ errbit_dir }}"
+    executable: /bin/bash
+
+- name: Create environment file
+  file:
+    path: "{{ errbit_dir }}/.env"
+    state: touch
+
+- name: Update host configuration
+  lineinfile:
+    path: "{{ errbit_dir }}/.env"
+    line: "ERRBIT_HOST={{ errbit_domain }}"
+
+- name: Check whether the secret key is already defined
+  lineinfile:
+    state: absent
+    path: "{{ errbit_dir }}/.env"
+    regexp: "^SECRET_KEY_BASE="
+  check_mode: true
+  changed_when: false
+  register: existing_secret_key_base
+
+- when: not existing_secret_key_base.found
+  block:
+    - name: Generate secret key
+      shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bin/rake secret"
+      register: secret_key_base
+      args:
+        chdir: "{{ errbit_dir }}"
+        executable: /bin/bash
+
+    - name: Update secret_key_base configuration
+      lineinfile:
+        path: "{{ errbit_dir }}/.env"
+        line: "SECRET_KEY_BASE={{ secret_key_base.stdout }}"
+
+    - name: Setup Errbit
+      shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && RAILS_ENV={{ env }} bin/rake errbit:bootstrap"
+      args:
+        chdir: "{{ errbit_dir }}"
+        executable: /bin/bash
+
+    - name: Precompile Errbit assets
+      shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && RAILS_ENV={{ env }} bin/rake assets:precompile"
+      args:
+        chdir: "{{ errbit_dir }}"
+        executable: /bin/bash
+
+    - name: Start Errbit
+      shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && RAILS_ENV={{ env }} bundle exec puma -C config/puma.default.rb -e {{ env }} -d"
+      args:
+        chdir: "{{ errbit_dir }}"
+        executable: /bin/bash
+
+- name: Create app if it does not exist
+  shell: 'source /home/{{ deploy_user }}/.rvm/scripts/rvm && bin/rails runner -e {{ env }} "App.create(name: \"{{ domain }}\")"'
+  args:
+    chdir: "{{ errbit_dir }}"
+    executable: /bin/bash
+
+- name: Read app key
+  shell: "mongo --eval \"db.apps.findOne({ name: '{{ domain }}' }).api_key\" --quiet errbit_{{ env }}"
+  register: errbit_api_key
+  args:
+    chdir: "{{ errbit_dir }}"
+    executable: /bin/bash
+
+- name: Add Errbit API key to CONSUL secrets file
+  replace:
+    path: "{{ shared_dir }}/config/secrets.yml"
+    regexp: '^  errbit_project_key:(.+)$'
+    replace: '  errbit_project_key: "{{ errbit_api_key.stdout }}"'
+
+- name: Add Errbit host to CONSUL secrets file
+  replace:
+    path: "{{ shared_dir }}/config/secrets.yml"
+    regexp: '^  errbit_host:(.+)$'
+    replace: '  errbit_host: "https://{{ errbit_domain }}"'
+
+- name: Restart CONSUL
+  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && RAILS_ENV={{ env }} bin/rails restart"
+  args:
+    chdir: "{{ release_dir }}"
+    executable: /bin/bash
+
+- name: Generate SSL certificate
+  become: true
+  become_user: root
+  command: "certbot certonly --nginx --noninteractive --agree-tos --expand -d {{ domain }},{{ errbit_domain }}"
+  when: not lookup("env", "CI")
+
+- name: Update nginx configuration
+  become: true
+  become_user: root
+  template:
+    src: "{{ playbook_dir }}/roles/errbit/templates/errbit.example.com"
+    dest: /etc/nginx/sites-enabled/errbit
+    owner: "{{ deploy_user }}"
+    group: wheel
+
+- name: Restart Nginx
+  become: true
+  become_user: root
+  service:
+    name: nginx
+    state: restarted
+    enabled: true

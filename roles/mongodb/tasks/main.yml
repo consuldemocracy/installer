@@ -1,0 +1,5 @@
+- name: Install MongoDB
+  apt:
+    name:
+      - mongodb
+      - mongodb-server
