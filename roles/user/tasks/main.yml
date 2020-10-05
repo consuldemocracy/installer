@@ -22,4 +22,3 @@
   authorized_key:
     user: "{{ deploy_user }}"
     key: "{{ lookup('file', '{{ ssh_public_key_path }}') }}"
-  notify: Restart ssh
