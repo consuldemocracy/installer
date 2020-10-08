@@ -197,7 +197,7 @@ remote-server-ip-address (maintain other default options)
 And run the playbook with an extra var "env":
 
 ```
-sudo ansible-playbook -v consul.yml --extra-vars "env=staging" -i hosts
+ansible-playbook -v consul.yml --extra-vars "env=staging" -i hosts
 ```
 
 Visit remote-server-ip-address in your browser and you should now see CONSUL running in your staging server.
