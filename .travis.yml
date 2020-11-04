@@ -1,10 +1,10 @@
 language: python
 python:
-  - "2.7"
+  - "3.6"
 install:
   - sudo apt-get update -y
   - sudo apt-get install -y openssh-server
-  - pip install ansible
+  - pip3 install ansible
 services: mongodb
 before_script:
   # Set up host inventory

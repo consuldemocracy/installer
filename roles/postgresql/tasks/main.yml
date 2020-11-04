@@ -5,7 +5,7 @@
     name:
       - postgresql
       - postgresql-contrib
-      - python-psycopg2
+      - python3-psycopg2
 
 - name: Start Postgres
   become: true
@@ -13,8 +13,6 @@
 
 - become: true
   become_user: postgres
-  vars:
-    ansible_python_interpreter: python
   block:
     - name: Create PostgreSQL database
       postgresql_db:

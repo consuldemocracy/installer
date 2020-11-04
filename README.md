@@ -41,11 +41,7 @@ Updated system package versions
 sudo apt-get update
 ```
 
-Python 2.7 installed in the remote server
-
-```
-sudo apt-get -y install python-simplejson
-```
+Python 3 installed in the remote server
 
 ## Running the installer
 
