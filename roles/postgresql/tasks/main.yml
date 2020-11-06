@@ -1,4 +1,11 @@
 ---
+- name: Remove pre-installed PostgreSQL versions
+  become: true
+  apt:
+    name: postgresql*
+    purge: true
+    state: absent
+
 - name: Install PostgreSQL
   become: true
   apt:
