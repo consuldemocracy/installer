@@ -1,0 +1,25 @@
+name: Test suite
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test-xenial:
+    runs-on: ubuntu-16.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.6"
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+      - name: Install Ansible
+        run: pip3 install ansible
+      - name: Create hosts file
+        run: echo "localhost ansible_connection=local ansible_user=root" > hosts
+      - name: Run CONSUL installer
+        env:
+          RAILS_ENV: production
+        run: ansible-playbook consul.yml -i hosts --extra-vars "env=${RAILS_ENV} domain=localhost errbit=True"
