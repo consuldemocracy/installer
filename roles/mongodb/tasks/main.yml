@@ -1,3 +1,8 @@
+- name: Uninstall conflicting MongoDB package
+  apt:
+    name: mongodb-database-tools
+    state: absent
+
 - name: Install MongoDB
   apt:
     name:
