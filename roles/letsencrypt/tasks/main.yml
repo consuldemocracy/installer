@@ -25,14 +25,7 @@
     - name: Ensure python OpenSSL dependencies are installed
       apt:
         name:
-          - python3-setuptools
-          - python3-pip
-        state: present
-
-    - name: Ensure python OpenSSL dependencies are installed
-      pip:
-        name: 
-          - pyOpenSSL
+          - python3-openssl
         state: present
 
     - name: Ensure directory exists for local self-signed TLS certs.
