@@ -35,7 +35,7 @@
 - name: Add Node repository
   become: true
   apt_repository:
-    repo: "deb https://deb.nodesource.com/node_6.x {{ distro_codename.stdout }} main"
+    repo: "deb https://deb.nodesource.com/node_10.x {{ distro_codename.stdout }} main"
     state: present
 
 - name: Remove apache server
