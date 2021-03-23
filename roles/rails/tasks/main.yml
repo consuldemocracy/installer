@@ -40,10 +40,16 @@
     chdir: "{{ release_dir }}"
     executable: /bin/bash
 
-- name: Update secret_key_base configuration in secrets.yml
+- name: Update secret_key_base configuration in secrets.yml (CONSUL 1.2 and earlier)
   replace:
     path: "{{ shared_dir }}/config/secrets.yml"
     regexp: '^{{ env }}:\n  secret_key_base: ""'
+    replace: '{{ env }}:\n  secret_key_base: "{{ secret_key_base.stdout }}"'
+
+- name: Update secret_key_base configuration in secrets.yml (CONSUL 1.3+)
+  replace:
+    path: "{{ shared_dir }}/config/secrets.yml"
+    regexp: '^{{ env }}:\n  # secret_key_base: ""'
     replace: '{{ env }}:\n  secret_key_base: "{{ secret_key_base.stdout }}"'
 
 - name: Do not force https connection
