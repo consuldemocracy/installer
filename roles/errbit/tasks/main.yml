@@ -12,7 +12,7 @@
 - name: Use bundler 1.x
   replace:
     path: "{{ errbit_dir }}/Gemfile.lock"
-    regexp: '   2.1.2'
+    regexp: '   2.*'
     replace: '   1.17.1'
 
 - name: Create log folder

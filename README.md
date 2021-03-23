@@ -1,4 +1,4 @@
-# CONSUL Installer [![Build Status](https://travis-ci.com/consul/installer.svg?branch=master)](https://travis-ci.com/consul/installer)
+# CONSUL Installer ![Build status](https://github.com/consul/installer/workflows/tests/badge.svg)
 
 [CONSUL](https://github.com/consul/consul) installer for production environments
 
