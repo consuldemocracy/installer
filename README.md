@@ -237,12 +237,10 @@ locale: en_US.UTF-8
 ssh_public_key_path: "change_me/.ssh/id_rsa.pub"
 
 #Postgresql
-postgresql_version: 9.6
 database_name: "consul_production"
 database_user: "deploy"
 database_password: "change_me"
 database_hostname: "localhost"
-database_port: 5432
 
 #SMTP
 smtp_address:        "smtp.example.com"

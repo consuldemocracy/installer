@@ -12,8 +12,6 @@ locale: en_US.UTF-8
 env: production
 deploy_user: deploy
 home_dir: "/home/{{ deploy_user }}"
-deploy_password: test
-deploy_app_name: test
 deploy_server_hostname: 127.0.0.1
 consul_dir: "{{ home_dir }}/{{ app_name }}"
 shared_dir: "{{ consul_dir }}/shared"
@@ -33,7 +31,6 @@ database_name: "{{app_name}}_{{ env }}"
 database_user: "{{ deploy_user }}"
 database_password: "{{ deploy_user }}"
 database_hostname: "localhost"
-database_port: 5432
 
 #SMTP
 smtp_address:        "smtp.example.com"

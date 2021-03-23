@@ -1,10 +1,10 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: localhost
+  host: {{ database_hostname }}
   pool: 5
-  username: {{ deploy_user}}
-  password: {{ deploy_user }}
+  username: {{ database_user}}
+  password: {{ database_password }}
 
 {{ env }}:
   <<: *default
