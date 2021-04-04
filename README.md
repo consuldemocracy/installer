@@ -116,8 +116,6 @@ Update `deploy-secrets.yml` with your server's info
 ```
 deploy_to: "/home/deploy/consul"
 server1: "your_remote_ip_address"
-db_server: "localhost"
-server_name: "your_remote_ip_address"
 ```
 
 Update your `repo_url` in `deploy.rb`
