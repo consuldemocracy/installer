@@ -114,10 +114,11 @@ cp config/deploy-secrets.yml.example config/deploy-secrets.yml
 Update `deploy-secrets.yml` with your server's info
 
 ```
-deploy_to: "/home/deploy/consul"
-server1: "your_remote_ip_address"
-db_server: "localhost"
-server_name: "your_remote_ip_address"
+production:
+  deploy_to: "/home/deploy/consul"
+  ssh_port: "22"
+  server1: "your_remote_ip_address"
+  user: "deploy"
 ```
 
 Update your `repo_url` in `deploy.rb`
