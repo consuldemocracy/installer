@@ -12,6 +12,12 @@ server {
 
   client_max_body_size 32M;
 
+  location ^~ /assets/ {
+    gzip_static on;
+    expires max;
+    add_header Cache-Control public;
+  }
+
   {% if domain is defined %}
 
     listen [::]:443 ssl ipv6only=on;
