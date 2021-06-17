@@ -5,13 +5,20 @@
       apt:
         name: software-properties-common
 
+    - name: Check python3-certbot-nginx is available
+      command: apt-cache show python3-certbot-nginx
+      ignore_errors: yes
+      register: certbot_nginx_available
+
     - name: Add Certbot repository
       apt_repository:
         repo: "ppa:certbot/certbot"
+      when: certbot_nginx_available is not succeeded
 
     - name: Update system
       apt:
         update_cache: yes
+      when: certbot_nginx_available is not succeeded
 
     - name: Install python-certbot-nginx
       apt:
