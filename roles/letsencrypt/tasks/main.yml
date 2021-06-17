@@ -1,5 +1,5 @@
 ---
-- when: domain is defined and not lookup("env", "CI")
+- when: domain is defined
   block:
     - name: Install software-properties-common
       apt:
@@ -17,8 +17,9 @@
       apt:
         name: "python3-certbot-nginx"
 
-    - name: Grab Certbot certificate
-      command: "sudo certbot --nginx --noninteractive --agree-tos --email {{ letsencrypt_email }} -d {{ domain }}"
+- name: Grab Certbot certificate
+  command: "sudo certbot --nginx --noninteractive --agree-tos --email {{ letsencrypt_email }} -d {{ domain }}"
+  when: domain is defined and not lookup("env", "CI")
 
 - when: lookup('env', 'CI')
   block:
