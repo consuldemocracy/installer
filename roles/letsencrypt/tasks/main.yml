@@ -1,24 +1,32 @@
 ---
-- when: domain is defined and not lookup("env", "CI")
+- when: domain is defined
   block:
     - name: Install software-properties-common
       apt:
         name: software-properties-common
 
+    - name: Check python3-certbot-nginx is available
+      command: apt-cache show python3-certbot-nginx
+      ignore_errors: yes
+      register: certbot_nginx_available
+
     - name: Add Certbot repository
       apt_repository:
         repo: "ppa:certbot/certbot"
+      when: certbot_nginx_available is not succeeded
 
     - name: Update system
       apt:
         update_cache: yes
+      when: certbot_nginx_available is not succeeded
 
     - name: Install python-certbot-nginx
       apt:
         name: "python3-certbot-nginx"
 
-    - name: Grab Certbot certificate
-      command: "sudo certbot --nginx --noninteractive --agree-tos --email {{ letsencrypt_email }} -d {{ domain }}"
+- name: Grab Certbot certificate
+  command: "sudo certbot --nginx --noninteractive --agree-tos --email {{ letsencrypt_email }} -d {{ domain }}"
+  when: domain is defined and not lookup("env", "CI")
 
 - when: lookup('env', 'CI')
   block:
