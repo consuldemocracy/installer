@@ -235,7 +235,8 @@ timezone: Europe/Madrid
 locale: en_US.UTF-8
 
 # Authorized Hosts
-ssh_public_key_path: "change_me/.ssh/id_rsa.pub"
+ssh_public_key_path: "~/.ssh/id_rsa.pub"
+ansible_ssh_private_key_file: "~/.ssh/id_rsa"
 
 #Postgresql
 database_name: "consul_production"
