@@ -8,12 +8,12 @@
   shell: "git clone https://github.com/errbit/errbit.git {{ errbit_dir }}"
   when: errbit_repo.stat.exists == False
 
-# TODO: Remove when we upgrade to bundler 2.x
-- name: Use bundler 1.x
-  replace:
-    path: "{{ errbit_dir }}/Gemfile.lock"
-    regexp: '   2.*'
-    replace: '   1.17.1'
+- name: Add Ruby 2.7 compatibility
+  template:
+    src: "{{ playbook_dir }}/roles/errbit/templates/UserGemfile"
+    dest: "{{ errbit_dir }}/UserGemfile"
+    owner: "{{ deploy_user }}"
+    group: "{{ deploy_group }}"
 
 - name: Create log folder
   file:
