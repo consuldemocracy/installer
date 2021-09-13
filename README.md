@@ -25,8 +25,8 @@ It will also create a `deploy` user to install these libraries
 
 A remote server with one of the supported distributions:
 
-- Ubuntu 16.04 x64
 - Ubuntu 18.04 x64
+- Ubuntu 20.04 x64
 
 Access to a remote server via public ssh key without password.
 The default user is `deploy` but you can [use any user](#using-a-different-user-than-deploy) with sudo privileges.
