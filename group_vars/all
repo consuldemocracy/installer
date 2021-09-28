@@ -41,6 +41,14 @@ smtp_user_name:      "username"
 smtp_password:       "password"
 smtp_authentication: "plain"
 
+# RVM
+rvm1_gpg_key_server: "hkp://keys.openpgp.org"
+rvm1_gpg_key_servers:
+  - "{{ rvm1_gpg_key_server }}"
+  - "hkp://keyserver.ubuntu.com"
+  - "hkp://pgp.mit.edu"
+  - "hkp://keyserver.pgp.com"
+
 #LetsEncrypt
 #letsencrypt_email: "your_email@example.com"
 
