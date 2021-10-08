@@ -1,20 +1,20 @@
 ---
-- name: Make sure we have a 'wheel' group
+- name: Make sure we have a '{{ deploy_group }}' group
   group:
-    name: wheel
+    name: "{{ deploy_group }}"
     state: present
 
-- name: Allow 'wheel' group to have passwordless sudo
+- name: Allow '{{ deploy_group }}' group to have passwordless sudo
   lineinfile:
     dest: /etc/sudoers
     state: present
-    regexp: '^%wheel'
-    line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+    regexp: '^%{{ deploy_group }}'
+    line: '%{{ deploy_group }} ALL=(ALL) NOPASSWD: ALL'
 
 - name: Create the deploy user
   user:
     name: "{{ deploy_user }}"
-    group: wheel
+    group: "{{ deploy_group }}"
     state: present
     shell: /bin/bash
 
