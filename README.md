@@ -283,7 +283,7 @@ If you do not have `root` access, you will need your system administrator to gra
 
 ## Using a different user than deploy
 
-Change the variable [deploy_user](https://github.com/consul/installer/blob/1.3.1/group_vars/all#L12) to the username you would like to use.
+Change the variable [deploy_user](https://github.com/consul/installer/blob/1.3.1/group_vars/all#L13) to the username you would like to use.
 
 ## Ansible Documentation
 
