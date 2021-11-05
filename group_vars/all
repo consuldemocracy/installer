@@ -11,6 +11,7 @@ locale: en_US.UTF-8
 # General settings
 env: production
 deploy_user: deploy
+deploy_group: wheel
 home_dir: "/home/{{ deploy_user }}"
 deploy_server_hostname: 127.0.0.1
 consul_dir: "{{ home_dir }}/{{ app_name }}"

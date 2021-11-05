@@ -121,7 +121,7 @@
     src: "{{ playbook_dir }}/roles/errbit/templates/errbit.example.com"
     dest: /etc/nginx/sites-enabled/errbit
     owner: "{{ deploy_user }}"
-    group: wheel
+    group: "{{ deploy_group }}"
 
 - name: Restart Nginx
   become: true

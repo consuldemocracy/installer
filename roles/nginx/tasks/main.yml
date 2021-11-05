@@ -9,7 +9,7 @@
     src: "{{ playbook_dir }}/roles/nginx/templates/consul_vhost.j2"
     dest: /etc/nginx/sites-enabled/default
     owner: "{{ deploy_user }}"
-    group: wheel
+    group: "{{ deploy_group }}"
 
 - name: Restart Nginx
   service:

@@ -63,7 +63,7 @@
         src: "{{ playbook_dir }}/roles/letsencrypt/templates/options-ssl-nginx.conf"
         dest: /etc/letsencrypt/options-ssl-nginx.conf
         owner: "{{ deploy_user }}"
-        group: wheel
+        group: "{{ deploy_group }}"
 
     - name: Generate /etc/ssl/certs/dhparam.pem (this may take a few minutes)
       command: openssl dhparam -out /etc/letsencrypt/ssl-dhparams.pem 2048
