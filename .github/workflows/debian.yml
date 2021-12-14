@@ -1,0 +1,30 @@
+name: debian
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image: ["debian:buster", "debian:bullseye"]
+        rails_env: [staging, production]
+    container:
+      image: ${{ matrix.image }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Update system packages
+        run: apt-get update -y
+      - name: Install needed packages
+        run: apt-get install -y lsb-release sudo python3-pip openssh-server
+      - name: Install Ansible
+        run: pip3 install ansible
+      - name: Create hosts file
+        run: echo "localhost ansible_connection=local ansible_user=root" > hosts
+      - name: Generate dummy SSH key
+        run: mkdir ~/.ssh && ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
+      - name: Run CONSUL installer
+        run: ansible-playbook consul.yml -i hosts --extra-vars "env=${{ matrix.rails_env }} domain=localhost errbit=False"

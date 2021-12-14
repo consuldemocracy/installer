@@ -5,6 +5,7 @@
     update_cache: true
     name:
       - build-essential
+      - cron
       - tmux
       - vim
       - htop
