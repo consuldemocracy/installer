@@ -27,3 +27,9 @@
   args:
     chdir: "{{ release_dir }}"
     executable: /bin/bash
+
+- name: Make sure Nginx has write access to the puma socket
+  shell: "chmod o+w tmp/sockets/*"
+  args:
+    chdir: "{{ release_dir }}"
+    executable: /bin/bash
