@@ -9,7 +9,10 @@
 
 - name: Start Postgres
   become: true
-  command: systemctl start postgresql
+  service:
+    name: postgresql
+    state: started
+    enabled: true
 
 - become: true
   become_user: postgres

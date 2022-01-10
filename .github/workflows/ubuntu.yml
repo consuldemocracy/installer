@@ -1,4 +1,4 @@
-name: tests
+name: ubuntu
 on:
   push:
     branches:
@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  tests:
+  ubuntu:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
