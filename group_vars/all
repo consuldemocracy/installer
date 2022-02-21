@@ -4,16 +4,14 @@ app_name: consul
 
 server_hostname: "{{ domain | default(ansible_default_ipv4.address) }}"
 
-# Server Timzone + Locale
+# Server Timezone
 timezone: Europe/Madrid
-locale: en_US.UTF-8
 
 # General settings
 env: production
 deploy_user: deploy
 deploy_group: wheel
 home_dir: "/home/{{ deploy_user }}"
-deploy_server_hostname: 127.0.0.1
 consul_dir: "{{ home_dir }}/{{ app_name }}"
 shared_dir: "{{ consul_dir }}/shared"
 release_dir: "{{ consul_dir }}/current"

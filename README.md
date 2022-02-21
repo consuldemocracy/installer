@@ -232,9 +232,8 @@ You should now be able to see the application running at https://your_domain.com
 These are the main configuration variables:
 
 ```
-# Server Timzone + Locale
+# Server Timezone
 timezone: Europe/Madrid
-locale: en_US.UTF-8
 
 # Authorized Hosts
 ssh_public_key_path: "~/.ssh/id_rsa.pub"

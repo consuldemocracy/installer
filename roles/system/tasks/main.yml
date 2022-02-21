@@ -44,5 +44,4 @@
     name: apache2
     state: absent
 
-#- include: hostname.yml
 - include: tools.yml
