@@ -4,9 +4,8 @@ app_name: consul
 
 server_hostname: "{{ domain | default(ansible_default_ipv4.address) }}"
 
-# Server Timzone + Locale
+# Server Timezone
 timezone: Europe/Madrid
-locale: en_US.UTF-8
 
 # General settings
 env: production
