@@ -8,13 +8,6 @@
   shell: "git clone https://github.com/errbit/errbit.git {{ errbit_dir }}"
   when: errbit_repo.stat.exists == False
 
-- name: Add Ruby 2.7 compatibility
-  template:
-    src: "{{ playbook_dir }}/roles/errbit/templates/UserGemfile"
-    dest: "{{ errbit_dir }}/UserGemfile"
-    owner: "{{ deploy_user }}"
-    group: "{{ deploy_group }}"
-
 - name: Create log folder
   file:
     path: "{{ errbit_dir }}/log"
