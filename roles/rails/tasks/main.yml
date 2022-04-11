@@ -28,10 +28,10 @@
     - "database.yml"
 
 - name: Update host configuration in secrets.yml
-  lineinfile:
+  replace:
     path: "{{ release_dir }}/config/secrets.yml"
-    regexp: 'server_name'
-    line: '  server_name: "{{ server_hostname }}"'
+    regexp: '^{{ env }}:\n  # secret_key_base: ""\n  server_name: ""'
+    replace: '{{ env }}:\n  # secret_key_base: ""\n  server_name: "{{ server_hostname }}"'
 
 - name: Generate secret key
   shell: "source {{ home_dir }}/.rvm/scripts/rvm && bin/rake secret RAILS_ENV={{ env }}"
