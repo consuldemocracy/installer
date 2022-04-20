@@ -161,13 +161,13 @@ You want to change this block of code for your production environment and use yo
 ```
   mailer_delivery_method: "smtp"
   smtp_settings:
-    address:              "smtp.example.com"
-    port:                 "25"
-    domain:               "your_domain.com"
-    user_name:            "username"
-    password:             "password"
-    authentication:       "plain"
-    enable_starttls_auto: true
+    :address:              "smtp.example.com"
+    :port:                 "25"
+    :domain:               "your_domain.com"
+    :user_name:            "username"
+    :password:             "password"
+    :authentication:       "plain"
+    :enable_starttls_auto: true
 ```
 
 And restart the server running this command from your local CONSUL installation (see [Deploys with Capistrano](https://github.com/consul/installer#deploys-with-capistrano) for details).
