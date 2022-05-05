@@ -254,6 +254,12 @@ smtp_password:       "password"
 smtp_authentication: "plain"
 ```
 
+If you are on Ubuntu and would like to use its default `sudo` group instead of `wheel`, change the `deploy_group` variable to:
+
+```
+deploy_group: sudo
+```
+
 There are many more variables available check them out [here]((https://github.com/consul/installer/blob/1.4.1/group_vars/all))
 
 ## Other deployment options
