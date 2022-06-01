@@ -1,0 +1,16 @@
+[Unit]
+Description=Errbit - Error tracking application for {{ app_name }}
+Requires=mongodb.service
+After=mongodb.service network.target
+
+[Service]
+Type=simple
+WorkingDirectory={{ errbit_dir }}
+Environment=RAILS_ENV={{ env }}
+ExecStart=/bin/bash -lc 'source {{ home_dir }}/.rvm/scripts/rvm && bundle exec puma -C {{ errbit_dir }}/config/puma.default.rb -e {{ env }}'
+Restart=always
+User={{ errbit_user }}
+Group={{ errbit_group }}
+
+[Install]
+WantedBy=multi-user.target
