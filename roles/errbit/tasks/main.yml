@@ -64,11 +64,21 @@
         chdir: "{{ errbit_dir }}"
         executable: /bin/bash
 
-    - name: Start Errbit
-      shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && RAILS_ENV={{ env }} bundle exec puma -C config/puma.default.rb -e {{ env }} -d"
-      args:
-        chdir: "{{ errbit_dir }}"
-        executable: /bin/bash
+- name: Copy Errbit service file to the systemd folder
+  become: true
+  become_user: root
+  template:
+    src: "{{ playbook_dir }}/roles/errbit/templates/errbit.service"
+    dest: "/etc/systemd/system/{{ errbit_service }}.service"
+
+- name: Start Errbit
+  become: true
+  become_user: root
+  systemd:
+    name: "{{ errbit_service }}"
+    daemon_reload: yes
+    state: started
+    enabled: true
 
 - name: Create app if it does not exist
   shell: 'source /home/{{ deploy_user }}/.rvm/scripts/rvm && bin/rails runner -e {{ env }} "App.create(name: \"{{ domain }}\")"'

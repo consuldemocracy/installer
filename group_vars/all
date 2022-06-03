@@ -55,3 +55,6 @@ rvm1_gpg_key_servers:
 errbit: False
 errbit_dir: "{{ home_dir }}/errbit"
 errbit_domain: "errbit.{{ domain }}"
+errbit_service: "{{ app_name }}_errbit"
+errbit_user: "{{ deploy_user }}"
+errbit_group: "{{ deploy_group }}"
