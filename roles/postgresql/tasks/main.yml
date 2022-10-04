@@ -29,11 +29,26 @@
         encrypted: yes
         priv: ALL
 
+    - name: Create the shared extensions schema
+      postgresql_schema:
+        name: shared_extensions
+        db: "{{ database_name }}"
+        owner: "{{ database_user }}"
+
     - name: Add PostgreSQL extensions
       postgresql_ext:
         name: "{{ item }}"
         db: "{{database_name}}"
+        schema: shared_extensions
       with_items:
         - plpgsql
         - unaccent
         - pg_trgm
+
+    - name: Grant usage on shared extensions schema
+      postgresql_privs:
+        db: "{{database_name}}"
+        privs: USAGE
+        type: schema
+        objs: shared_extensions
+        role: public
