@@ -18,6 +18,7 @@ release_dir: "{{ consul_dir }}/current"
 shared_dirs:
   - "tmp"
   - "log"
+  - "storage"
 shared_public_dirs:
   - "assets"
   - "system"
