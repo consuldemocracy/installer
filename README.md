@@ -103,7 +103,7 @@ Setup locally for your [development environment](https://docs.consuldemocracy.or
 Checkout the latest stable version:
 
 ```
-git checkout origin/1.5.0 -b stable
+git checkout origin/2.0.0 -b stable
 ```
 
 Create your `deploy-secrets.yml`
@@ -206,13 +206,13 @@ Using https instead of http is an important security configuration. Before you b
 
 Once you have that setup we need to configure the Installer to use your domain in the application.
 
-First, uncomment the `domain` variable in the [configuration file](https://github.com/consuldemocracy/installer/blob/1.5.0/group_vars/all) and update it with your domain name:
+First, uncomment the `domain` variable in the [configuration file](https://github.com/consuldemocracy/installer/blob/2.0.0/group_vars/all) and update it with your domain name:
 
 ```
 #domain: "your_domain.com"
 ```
 
-Next, uncomment the `letsencrypt_email` variable in the [configuration file](https://github.com/consuldemocracy/installer/blob/1.5.0/group_vars/all) and update it with a valid email address:
+Next, uncomment the `letsencrypt_email` variable in the [configuration file](https://github.com/consuldemocracy/installer/blob/2.0.0/group_vars/all) and update it with a valid email address:
 
 ```
 #letsencrypt_email: "your_email@example.com"
@@ -259,7 +259,7 @@ If you are on Ubuntu and would like to use its default `sudo` group instead of `
 deploy_group: sudo
 ```
 
-There are many more variables available check them out [here]((https://github.com/consuldemocracy/installer/blob/1.5.0/group_vars/all))
+There are many more variables available check them out [here]((https://github.com/consuldemocracy/installer/blob/2.0.0/group_vars/all))
 
 ## Other deployment options
 
@@ -289,7 +289,7 @@ If you do not have `root` access, you will need your system administrator to gra
 
 ## Using a different user than deploy
 
-Change the variable [deploy_user](https://github.com/consuldemocracy/installer/blob/1.5.0/group_vars/all#L13) to the username you would like to use.
+Change the variable [deploy_user](https://github.com/consuldemocracy/installer/blob/2.0.0/group_vars/all#L12) to the username you would like to use.
 
 ## Ansible Documentation
 
