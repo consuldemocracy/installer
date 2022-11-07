@@ -3,6 +3,7 @@ default: &default
   encoding: unicode
   host: {{ database_hostname }}
   pool: 5
+  schema_search_path: "public,shared_extensions"
   username: {{ database_user}}
   password: {{ database_password }}
 
