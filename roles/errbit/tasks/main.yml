@@ -119,19 +119,19 @@
     chdir: "{{ errbit_dir }}"
     executable: /bin/bash
 
-- name: Add Errbit API key to CONSUL secrets file
+- name: Add Errbit API key to CONSUL DEMOCRACY secrets file
   replace:
     path: "{{ shared_dir }}/config/secrets.yml"
     regexp: '^  errbit_project_key:(.+)$'
     replace: '  errbit_project_key: "{{ errbit_api_key.stdout }}"'
 
-- name: Add Errbit host to CONSUL secrets file
+- name: Add Errbit host to CONSUL DEMOCRACY secrets file
   replace:
     path: "{{ shared_dir }}/config/secrets.yml"
     regexp: '^  errbit_host:(.+)$'
     replace: '  errbit_host: "https://{{ errbit_domain }}"'
 
-- name: Restart CONSUL
+- name: Restart CONSUL DEMOCRACY
   shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && RAILS_ENV={{ env }} bin/rails restart"
   args:
     chdir: "{{ release_dir }}"
