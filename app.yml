@@ -8,7 +8,7 @@
     - letsencrypt
     - nginx
 
-- name: Set up CONSUL
+- name: Set up CONSUL DEMOCRACY
   hosts: all
   become: true
   become_user: "{{ deploy_user }}"

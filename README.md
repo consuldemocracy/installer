@@ -1,6 +1,6 @@
-# CONSUL Installer ![Build status](https://github.com/consul/installer/workflows/tests/badge.svg)
+# CONSUL DEMOCRACY Installer ![Build status](https://github.com/consul/installer/workflows/tests/badge.svg)
 
-[CONSUL](https://github.com/consul/consul) installer for production environments
+[CONSUL DEMOCRACY](https://github.com/consul/consul) installer for production environments
 
 Using [Ansible](http://docs.ansible.com/), it will install and configure the following:
 
@@ -19,7 +19,7 @@ It will also create a `deploy` user to install these libraries
 
 ## Screencast
 
-[How to setup CONSUL for a production environment](https://youtu.be/1lvnjDuRFzw)
+[How to setup CONSUL DEMOCRACY for a production environment](https://youtu.be/1lvnjDuRFzw)
 
 ## Prerequisities
 
@@ -78,7 +78,7 @@ ansible-playbook -v consul.yml -i hosts
 
 Note about old versions: if you've already used the installer before version 1.1 was released, you might need to remove your `~/.ansible` folder.
 
-Visit remote-server-ip-address in your browser and you should see CONSUL running!
+Visit remote-server-ip-address in your browser and you should see CONSUL DEMOCRACY running!
 
 ## Admin user
 
@@ -170,7 +170,7 @@ You want to change this block of code for your production environment and use yo
     :enable_starttls_auto: true
 ```
 
-And restart the server running this command from your local CONSUL installation (see [Deploys with Capistrano](https://github.com/consul/installer#deploys-with-capistrano) for details).
+And restart the server running this command from your local CONSUL DEMOCRACY installation (see [Deploys with Capistrano](https://github.com/consul/installer#deploys-with-capistrano) for details).
 
 ```
 cap production deploy:restart
@@ -199,7 +199,7 @@ And run the playbook with an extra var "env":
 ansible-playbook -v consul.yml --extra-vars "env=staging" -i hosts
 ```
 
-Visit remote-server-ip-address in your browser and you should now see CONSUL running in your staging server.
+Visit remote-server-ip-address in your browser and you should now see CONSUL DEMOCRACY running in your staging server.
 
 ## SSL with LetsEncrypt
 
