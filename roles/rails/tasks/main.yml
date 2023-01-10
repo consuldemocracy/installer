@@ -1,6 +1,18 @@
 ---
+- name: Configure Bundler path
+  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle config --local path {{ shared_dir }}/bundle"
+  args:
+    chdir: "{{ release_dir }}"
+    executable: /bin/bash
+
+- name: Configure Bundler environments
+  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle config --local without development:test"
+  args:
+    chdir: "{{ release_dir }}"
+    executable: /bin/bash
+
 - name: Install gems (this may take a few minutes)
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle install --path {{ shared_dir }}/bundle --without development test"
+  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle install"
   args:
     chdir: "{{ release_dir }}"
     executable: /bin/bash
