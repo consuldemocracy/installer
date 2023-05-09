@@ -5,32 +5,32 @@
   vars:
     ansible_user: "{{ deploy_user }}"
   roles:
-    - letsencrypt
+    # - letsencrypt
     - nginx
 
-- name: Set up CONSUL DEMOCRACY
-  hosts: all
-  become: true
-  become_user: "{{ deploy_user }}"
-  vars:
-    # https://github.com/ansible/proposals/issues/89
-    ansible_user: "{{ deploy_user }}"
-  roles:
-    - folder_structure
-    - ruby
-    - rails
-    - email
-    - queue
-    - puma
+# - name: Set up CONSUL DEMOCRACY
+#   hosts: all
+#   become: true
+#   become_user: "{{ deploy_user }}"
+#   vars:
+#     # https://github.com/ansible/proposals/issues/89
+#     ansible_user: "{{ deploy_user }}"
+#   roles:
+#     - folder_structure
+#     - ruby
+#     - rails
+#     - email
+#     - queue
+#     - puma
 
-- name: Post-installation tasks
-  hosts: all
-  become: true
-  vars:
-    ansible_user: "{{ deploy_user }}"
-  roles:
-    - memcached
-    - timezone
+# - name: Post-installation tasks
+#   hosts: all
+#   become: true
+#   vars:
+#     ansible_user: "{{ deploy_user }}"
+#   roles:
+#     - memcached
+#     - timezone
 
 - name: Install Errbit
   hosts: all
@@ -44,10 +44,10 @@
       become_user: "{{ deploy_user }}"
       when: errbit|bool
 
-- name: Check system
-  hosts: all
-  become: true
-  vars:
-    ansible_user: "{{ deploy_user }}"
-  roles:
-    - specs
+# - name: Check system
+#   hosts: all
+#   become: true
+#   vars:
+#     ansible_user: "{{ deploy_user }}"
+#   roles:
+#     - specs
