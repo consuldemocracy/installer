@@ -137,25 +137,25 @@
 #     chdir: "{{ release_dir }}"
 #     executable: /bin/bash
 
-- name: Generate SSL certificate
-  become: true
-  become_user: root
-  command: "certbot certonly --nginx --noninteractive --agree-tos --expand -d {{ domain }},{{ errbit_domain }}"
-  when: not lookup("env", "CI")
+# - name: Generate SSL certificate
+#   become: true
+#   become_user: root
+#   command: "certbot certonly --nginx --noninteractive --agree-tos --expand -d {{ domain }},{{ errbit_domain }}"
+#   when: not lookup("env", "CI")
 
-- name: Update nginx configuration
-  become: true
-  become_user: root
-  template:
-    src: "{{ playbook_dir }}/roles/errbit/templates/errbit.example.com"
-    dest: /etc/nginx/sites-enabled/errbit
-    owner: "{{ deploy_user }}"
-    group: "{{ deploy_group }}"
+# - name: Update nginx configuration
+#   become: true
+#   become_user: root
+#   template:
+#     src: "{{ playbook_dir }}/roles/errbit/templates/errbit.example.com"
+#     dest: /etc/nginx/sites-enabled/errbit
+#     owner: "{{ deploy_user }}"
+#     group: "{{ deploy_group }}"
 
-- name: Restart Nginx
-  become: true
-  become_user: root
-  service:
-    name: nginx
-    state: restarted
-    enabled: true
+# - name: Restart Nginx
+#   become: true
+#   become_user: root
+#   service:
+#     name: nginx
+#     state: restarted
+#     enabled: true
