@@ -2,21 +2,53 @@
 
 ### NEXT
 
-* ...
+...
+
+
+### 2.2.0
+2022-03-26 &middot; [Changes](https://github.com/rvm/rvm1-ansible/compare/v2.1.2...v2.2.0)
+
+#### New features
+
+* Report when Ruby is removed and don't ignore when version listing fails (#212)
+* Add option to disable binary symlink (#94)
+
+#### Bug fixes
+
+* Fix RHEL 7 & 8 based distros to work around /tmp execution issues (#155)
+* Fix bare variables in conditionals (deprecation warnings with Ansible 2.8+) (#204)
+* Fix boolean values when checking array (#207)
+* Fix regression forbidding installation of rubies (#209, fixed via #207)
+* Fix conditional logic for detecting and removing versions of Ruby (#212)
+* Report when Ruby is removed and don't ignore when version listing fails (#212)
+* Refactor rubies install and remove tasks, allow rvm to handle idempotency around this (#219)
+* Update key server URLs and decommission of sks-keyservers.net (#232)
+
+#### Changes
+
+* Migrate CI to GitHub Actions (#235)
+* Extend test matrix with: (#215)
+  * CentOS 8, Debian 10, Ubuntu 18.04 and 20.04
+  * Ruby 2.6.6 and 2.7.1
+* Modify some test assertions to better abstract RVM behaviour from its internal implementation ("blackbox" testing) (#205)
+* Fix and enhance Travis CI setup (#205)
+  * Install more recent versions of Ruby, to be compatible with latest Bundler version
+  * Validate system-wide setup (root.yml)
+  * Parallelize the tests to speed up the builds
 
 ### 2.1.2
-2018-12-28
+2018-12-28 &middot; [Changes](https://github.com/rvm/rvm1-ansible/compare/v2.1.1...v2.1.2)
 
 * Fallback to alternative GPG key servers (#192)
 * Remove keys.gnupg.net in favour of pool.sks-keyservers.net (#192)
 
 ### 2.1.1
-2018-12-18
+2018-12-18 &middot; [Changes](https://github.com/rvm/rvm1-ansible/compare/v2.1.0...v2.1.1)
 
 * Fix RVM verification process after changing `command` to `shell`
 
 ### 2.1.0
-2018-12-18
+2018-12-18 &middot; [Changes](https://github.com/rvm/rvm1-ansible/compare/v2.0.1...v2.1.0)
 
 * Support centos6 and centos7
 * Reduce the verbosity
