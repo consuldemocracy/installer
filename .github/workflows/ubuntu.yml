@@ -11,18 +11,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-18.04, ubuntu-20.04]
+        os: [ubuntu-20.04]
         rails_env: [staging, production]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
-          python-version: 3.6
-        if: ${{ matrix.os != 'ubuntu-20.04' }}
-      - uses: actions/setup-python@v2
-        with:
           python-version: 3.8
-        if: ${{ matrix.os == 'ubuntu-20.04' }}
       - name: Update system packages
         run: sudo apt-get update -y
       - name: Install OpenSSH
