@@ -13,6 +13,20 @@
     path: "{{ errbit_dir }}/log"
     state: directory
 
+- name: Read Ruby version needed by Errbit
+  shell: "cat .ruby-version"
+  args:
+    chdir: "{{ errbit_dir }}"
+  register: errbit_ruby_version
+
+- name: Install Ruby version needed by Errbit
+  include_role:
+    name: galaxy/rvm.ruby
+    tasks_from: rubies
+  vars:
+    rvm1_user: "{{ deploy_user }}"
+    rvm1_rubies: ["ruby-{{ errbit_ruby_version.stdout }}"]
+
 - name: Get libv8-node version dependency
   shell: "cat Gemfile.lock | grep 'libv8-node (' | head -n 1 | sed 's/.*(\\(.*\\))/\\1/'"
   register: libv8_version
