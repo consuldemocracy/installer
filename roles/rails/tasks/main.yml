@@ -11,6 +11,20 @@
     chdir: "{{ release_dir }}"
     executable: /bin/bash
 
+- name: Check if files needed to compile the racc gem exist
+  stat:
+    path: "/usr/bin/mkdir"
+  register: usr_bin_mkdir
+
+- name: Make sure racc finds the files it needs to compile
+  become: true
+  become_user: root
+  file:
+    state: "link"
+    src: "/bin/mkdir"
+    dest: "/usr/bin/mkdir"
+  when: not usr_bin_mkdir.stat.exists
+
 - name: Install gems (this may take a few minutes)
   shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle install"
   args:
