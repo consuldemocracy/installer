@@ -14,7 +14,7 @@
     first_release_dir: "{{ consul_dir }}/releases/{{ current_timestamp.stdout }}"
   block:
     - name: Git clone CONSUL DEMOCRACY
-      shell: "git clone --mirror https://github.com/consul/consul.git {{ consul_dir }}/repo"
+      shell: "git clone --mirror https://github.com/consuldemocracy/consuldemocracy.git {{ consul_dir }}/repo"
 
     - name: Create first release folder
       file:
