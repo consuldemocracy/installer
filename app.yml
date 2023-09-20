@@ -18,6 +18,7 @@
   roles:
     - folder_structure
     - ruby
+    - nodejs
     - rails
     - email
     - queue

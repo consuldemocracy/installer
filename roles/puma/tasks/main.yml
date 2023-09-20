@@ -23,7 +23,7 @@
   when: puma_process.stat.exists == True
 
 - name: Start puma
-  shell: "source {{ home_dir }}/.rvm/scripts/rvm && bundle exec puma -C {{ release_dir }}/config/puma/{{ env }}.rb -e {{ env }} -d"
+  shell: "{{ fnm_command }} && {{ rvm_command }} && fnm exec bundle exec puma -C {{ release_dir }}/config/puma/{{ env }}.rb -e {{ env }} -d"
   args:
     chdir: "{{ release_dir }}"
     executable: /bin/bash
