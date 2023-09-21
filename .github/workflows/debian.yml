@@ -18,8 +18,8 @@ jobs:
         run: apt-get install -y lsb-release sudo python3-pip openssh-server
       - name: Install Ansible
         run: pip3 install ansible
-      - name: Install PyYaml
-        run: pip3 install pyyaml
+      - name: Install Python3 Yaml
+        run: pip3 install python3-yaml
       - name: Create hosts file
         run: echo "localhost ansible_connection=local ansible_user=root" > hosts
       - name: Generate dummy SSH key
