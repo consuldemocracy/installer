@@ -12,6 +12,9 @@ jobs:
       image: ${{ matrix.image }}
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
       - name: Update system packages
         run: apt-get update -y
       - name: Install needed packages
