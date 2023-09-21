@@ -12,15 +12,14 @@ jobs:
       image: ${{ matrix.image }}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
       - name: Update system packages
         run: apt-get update -y
       - name: Install needed packages
         run: apt-get install -y lsb-release sudo python3-pip openssh-server
       - name: Install Ansible
         run: pip3 install ansible
+      - name: Install PyYaml
+        run: pip3 install pyyaml
       - name: Create hosts file
         run: echo "localhost ansible_connection=local ansible_user=root" > hosts
       - name: Generate dummy SSH key
