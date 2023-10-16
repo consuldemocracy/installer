@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 WorkingDirectory={{ release_dir }}
-ExecStart=fnm exec bundle exec --keep-file-descriptors puma -C {{ puma_config_file }}
+ExecStart=/bin/bash -lc '{{ fnm_command }} && {{ rvm_command }} && fnm exec bundle exec puma -C {{ puma_config_file }} -e {{ env }}'
 ExecReload=/bin/kill -USR1 $MAINPID
 StandardOutput=append:{{ puma_access_log }}
 StandardError=append:{{ puma_error_log }}
