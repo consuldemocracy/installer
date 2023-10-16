@@ -7,7 +7,7 @@ After=mongodb.service network.target
 Type=simple
 WorkingDirectory={{ errbit_dir }}
 Environment=RAILS_ENV={{ env }}
-ExecStart=/bin/bash -lc 'source {{ home_dir }}/.rvm/scripts/rvm && bundle exec puma -C {{ errbit_dir }}/config/puma.default.rb -e {{ env }}'
+ExecStart=/bin/bash -lc '{{ rvm_command }} && bundle exec puma -C {{ errbit_dir }}/config/puma.default.rb -e {{ env }}'
 Restart=always
 User={{ errbit_user }}
 Group={{ errbit_group }}
