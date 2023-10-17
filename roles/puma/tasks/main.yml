@@ -17,37 +17,43 @@
     src: "{{ playbook_dir }}/roles/puma/templates/puma.service"
     dest: "{{ home_dir }}/.config/systemd/user/{{ puma_service_unit_name }}.service"
 
-- name: Check if user has access to systemd while running ansible tasks
-  stat:
-    path: "/var/lib/systemd/linger/{{ deploy_user }}"
-  register: linger_enabled
+- name: Get distribution codename
+  shell: lsb_release -c --short
+  register: distro_codename
 
-- name: Enable systemd access if needed
-  command: "loginctl enable-linger {{ deploy_user }}"
-  when: not linger_enabled.stat.exists
+- when: distro_codename.stdout == "focal" or distro_codename.stdout == "jammy" or not lookup("env", "CI")
+  block:
+    - name: Check if user has access to systemd while running ansible tasks
+      stat:
+        path: "/var/lib/systemd/linger/{{ deploy_user }}"
+      register: linger_enabled
 
-- name: Get user UID
-  shell: "id -u"
-  register: current_uid
+    - name: Enable systemd access if needed
+      command: "loginctl enable-linger {{ deploy_user }}"
+      when: not linger_enabled.stat.exists
 
-- name: Start puma
-  systemd:
-    name: "{{ puma_service_unit_name }}"
-    daemon_reload: true
-    enabled: true
-    state: started
-    scope: user
-  environment:
-    XDG_RUNTIME_DIR: "/run/user/{{ current_uid.stdout }}"
+    - name: Get user UID
+      shell: "id -u"
+      register: current_uid
 
-- name: Wait until Puma has created the socket
-  wait_for:
-    path: "{{ release_dir }}/tmp/sockets/puma.sock"
-    state: present
-    msg: Puma socket is not available
+    - name: Start puma
+      systemd:
+        name: "{{ puma_service_unit_name }}"
+        daemon_reload: true
+        enabled: true
+        state: started
+        scope: user
+      environment:
+        XDG_RUNTIME_DIR: "/run/user/{{ current_uid.stdout }}"
 
-- name: Make sure Nginx has write access to the puma socket
-  shell: "chmod o+w tmp/sockets/*"
-  args:
-    chdir: "{{ release_dir }}"
-    executable: /bin/bash
+    - name: Wait until Puma has created the socket
+      wait_for:
+        path: "{{ release_dir }}/tmp/sockets/puma.sock"
+        state: present
+        msg: Puma socket is not available
+
+    - name: Make sure Nginx has write access to the puma socket
+      shell: "chmod o+w tmp/sockets/*"
+      args:
+        chdir: "{{ release_dir }}"
+        executable: /bin/bash
