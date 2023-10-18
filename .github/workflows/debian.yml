@@ -1,4 +1,4 @@
-name: debian-buster
+name: debian
 on:
   push:
     branches:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        image: ["debian:buster"]
+        image: ["debian:buster", "debian:bullseye"]
         rails_env: [staging, production]
     container:
       image: ${{ matrix.image }}
