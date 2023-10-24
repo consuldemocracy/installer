@@ -18,6 +18,10 @@
   args:
     chdir: "{{ release_dir }}"
     executable: /bin/bash
+  register: fnm_install_result
+  until: "fnm_install_result is not failed"
+  retries: 10
+  delay: 10
 
 - name: Install Node packages
   shell: "{{ fnm_command }} && {{ rvm_command }} && fnm exec npm install --production"
