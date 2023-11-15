@@ -2,6 +2,13 @@
 
 [CONSUL DEMOCRACY](https://github.com/consuldemocracy/consuldemocracy) installer for production environments
 
+The Consul Democracy installer's objective is to help the community provision a brand-new server running one of the [supported operating systems](#prerequisities) with all the libraries and tools needed to run Consul Democracy in production (staging or preproduction). We do not recommend using the installer on servers already running other services.
+
+It's important to note that the installer does not work for updating the configuration or the libraries of servers provisioned with previous installer versions. The idea is to run the installer once to provision the servers and then manually maintain them.
+
+If you use a Consul Democracy fork and want to upload custom changes to the server, you must use Capistrano. If you need to upgrade your fork to a new Consul Democracy release, follow the release notes to integrate the new release code into your fork and deploy the new version of your fork to the server with Capistrano.
+
+
 Using [Ansible](http://docs.ansible.com/), it will install and configure the following:
 
 - Ruby
