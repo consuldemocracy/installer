@@ -68,6 +68,8 @@ Update your local `hosts` file with the remote server's ip address
 remote-server-ip-address (maintain other default options)
 ```
 
+Before running the installer you may want to check the [configurable variables](#configuration-variables) the installer provides.
+
 Run the ansible playbook
 
 ```
