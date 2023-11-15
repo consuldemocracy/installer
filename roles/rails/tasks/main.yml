@@ -72,6 +72,12 @@
     regexp: '^{{ env }}:\n  # secret_key_base: ""'
     replace: '{{ env }}:\n  secret_key_base: "{{ secret_key_base.stdout }}"'
 
+- name: Update application timezone configuration in secrets.yml
+  replace:
+    path: "{{ shared_dir }}/config/secrets.yml"
+    regexp: '^  # time_zone: ""'
+    replace: '  time_zone: "{{ application_timezone }}"'
+
 - name: Do not force https connection
   replace:
     path: "{{ shared_dir }}/config/secrets.yml"
