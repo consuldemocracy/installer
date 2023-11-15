@@ -71,6 +71,8 @@ Update your local `hosts` file with the remote server's ip address
 remote-server-ip-address (maintain other default options)
 ```
 
+Before running the playbook, review the defaults in `group_vars/all` and the [configuration variables](#configuration-variables) in this README.
+
 Run the ansible playbook
 
 ```
