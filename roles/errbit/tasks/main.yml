@@ -35,7 +35,7 @@
     executable: /bin/bash
 
 - name: Install libv8-node for the right platform
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && gem install libv8-node --version '{{ libv8_version.stdout }}' --platform x86_64-linux-libc"
+  shell: "{{ rvm_command }} && gem install libv8-node --version '{{ libv8_version.stdout }}' --platform x86_64-linux-libc"
   args:
     chdir: "{{ errbit_dir }}"
     executable: /bin/bash
@@ -48,13 +48,13 @@
     executable: /bin/bash
 
 - name: Install the mini_racer gem
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && gem install mini_racer --version '{{ mini_racer_version.stdout }}'"
+  shell: "{{ rvm_command }} && gem install mini_racer --version '{{ mini_racer_version.stdout }}'"
   args:
     chdir: "{{ errbit_dir }}"
     executable: /bin/bash
 
 - name: Install Errbit dependencies
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle install"
+  shell: "{{ rvm_command }} && bundle install"
   args:
     chdir: "{{ errbit_dir }}"
     executable: /bin/bash
@@ -81,7 +81,7 @@
 - when: not existing_secret_key_base.found
   block:
     - name: Generate secret key
-      shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bin/rake secret"
+      shell: "{{ rvm_command }} && bin/rake secret"
       register: secret_key_base
       args:
         chdir: "{{ errbit_dir }}"
@@ -93,13 +93,13 @@
         line: "SECRET_KEY_BASE={{ secret_key_base.stdout }}"
 
     - name: Setup Errbit
-      shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && RAILS_ENV={{ env }} bin/rake errbit:bootstrap"
+      shell: "{{ rvm_command }} && RAILS_ENV={{ env }} bin/rake errbit:bootstrap"
       args:
         chdir: "{{ errbit_dir }}"
         executable: /bin/bash
 
     - name: Precompile Errbit assets
-      shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && RAILS_ENV={{ env }} bin/rake assets:precompile"
+      shell: "{{ rvm_command }} && RAILS_ENV={{ env }} bin/rake assets:precompile"
       args:
         chdir: "{{ errbit_dir }}"
         executable: /bin/bash
@@ -121,7 +121,7 @@
     enabled: true
 
 - name: Create app if it does not exist
-  shell: 'source /home/{{ deploy_user }}/.rvm/scripts/rvm && bin/rails runner -e {{ env }} "App.create(name: \"{{ domain }}\")"'
+  shell: '{{ rvm_command }} && bin/rails runner -e {{ env }} "App.create(name: \"{{ domain }}\")"'
   args:
     chdir: "{{ errbit_dir }}"
     executable: /bin/bash
@@ -146,7 +146,7 @@
     replace: '  errbit_host: "https://{{ errbit_domain }}"'
 
 - name: Restart CONSUL DEMOCRACY
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && RAILS_ENV={{ env }} bin/rails restart"
+  shell: "{{ fnm_command }} && {{ rvm_command }} && fnm exec bin/rails restart RAILS_ENV={{ env }}"
   args:
     chdir: "{{ release_dir }}"
     executable: /bin/bash

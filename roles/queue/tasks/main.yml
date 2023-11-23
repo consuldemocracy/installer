@@ -1,5 +1,5 @@
 - name: Start DelayedJobs queue
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && RAILS_ENV={{ env }} bin/delayed_job -m -n 2 restart"
+  shell: "{{ fnm_command }} && {{ rvm_command }} && RAILS_ENV={{ env }} fnm exec bin/delayed_job -m -n 2 restart"
   args:
     executable: /bin/bash
     chdir: "{{ release_dir }}"
