@@ -1,0 +1,17 @@
+[Unit]
+Description=Puma HTTP Server for {{ app_name }} ({{ env }})
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory={{ release_dir }}
+ExecStart=/bin/bash -lc '{{ fnm_command }} && {{ rvm_command }} && fnm exec bundle exec puma -C {{ puma_config_file }} -e {{ env }}'
+ExecReload=/bin/kill -USR1 $MAINPID
+StandardOutput=append:{{ puma_access_log }}
+StandardError=append:{{ puma_error_log }}
+Restart=always
+RestartSec=1
+SyslogIdentifier=puma
+
+[Install]
+WantedBy=default.target
