@@ -7,11 +7,14 @@ on:
 
 jobs:
   ubuntu:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.platforms.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04]
+        platforms: [
+          { os: "ubuntu-20.04", errbit: "True" },
+          { os: "ubuntu-22.04", errbit: "False"}
+        ]
         rails_env: [staging, production]
     steps:
       - uses: actions/checkout@v2
@@ -29,4 +32,4 @@ jobs:
       - name: Generate dummy SSH key
         run: ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
       - name: Run CONSUL DEMOCRACY installer
-        run: ansible-playbook consul.yml -i hosts --extra-vars "env=${{ matrix.rails_env }} domain=localhost errbit=True"
+        run: ansible-playbook consul.yml -i hosts --extra-vars "env=${{ matrix.rails_env }} domain=localhost errbit=${{ matrix.platforms.errbit }}"
