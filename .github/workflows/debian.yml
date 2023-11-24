@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        image: ["debian:bullseye"]
+        image: ["debian:bullseye", "debian:bookworm"]
         rails_env: [staging, production]
     container:
       image: ${{ matrix.image }}
@@ -19,9 +19,7 @@ jobs:
       - name: Update system packages
         run: apt-get update -y
       - name: Install needed packages
-        run: apt-get install -y lsb-release sudo python3-pip openssh-server
-      - name: Install Ansible
-        run: pip3 install ansible
+        run: apt-get install -y lsb-release sudo python3-pip openssh-server ansible
       - name: Create hosts file
         run: echo "localhost ansible_connection=local ansible_user=root" > hosts
       - name: Generate dummy SSH key

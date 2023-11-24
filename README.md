@@ -28,6 +28,7 @@ A remote server with one of the supported distributions:
 - Ubuntu 20.04 x64
 - Ubuntu 22.04 x64
 - Debian Bullseye x64
+- Debian Bookworm x64
 
 Access to a remote server via public ssh key without password.
 The default user is `deploy` but you can [use any user](#using-a-different-user-than-deploy) with sudo privileges.
