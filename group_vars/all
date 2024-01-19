@@ -7,6 +7,9 @@ server_hostname: "{{ domain | default(ansible_default_ipv4.address) }}"
 # Server Timezone
 timezone: Europe/Madrid
 
+# Consul Democracy Timezone
+application_timezone: "{{ timezone }}"
+
 # General settings
 env: production
 deploy_user: deploy
