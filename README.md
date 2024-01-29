@@ -97,7 +97,7 @@ To restart the server and deploy new code to the server we have to configure Cap
 
 Create your [fork](https://help.github.com/articles/fork-a-repo/)
 
-Setup locally for your [development environment](https://docs.consuldemocracy.org/docs/english-documentation/introduction/local_installation)
+Setup locally for your [development environment](https://docs.consuldemocracy.org/tech_docs/introduction-1/local_installation)
 
 Checkout the latest stable version:
 
