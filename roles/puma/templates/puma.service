@@ -5,10 +5,11 @@ After=network.target
 [Service]
 Type=simple
 WorkingDirectory={{ release_dir }}
-ExecStart=/bin/bash -lc '{{ fnm_command }} && {{ rvm_command }} && fnm exec bundle exec puma -C {{ puma_config_file }} -e {{ env }}'
+ExecStart=/bin/bash -lc '{{ rvm_command }} && bundle exec puma -C {{ puma_config_file }} -e {{ env }}'
 ExecReload=/bin/kill -USR1 $MAINPID
 StandardOutput=append:{{ puma_access_log }}
 StandardError=append:{{ puma_error_log }}
+Environment=EXECJS_RUNTIME=Disabled
 Restart=always
 RestartSec=1
 SyslogIdentifier=puma
