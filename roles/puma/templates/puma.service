@@ -1,6 +1,7 @@
 [Unit]
 Description=Puma HTTP Server for {{ app_name }} ({{ env }})
 After=network.target
+Requires={{ puma_service_unit_name }}.socket
 
 [Service]
 Type=simple

@@ -17,6 +17,11 @@
     src: "{{ playbook_dir }}/roles/puma/templates/puma.service"
     dest: "{{ home_dir }}/.config/systemd/user/{{ puma_service_unit_name }}.service"
 
+- name: Copy Puma socket file to the systemd folder
+  template:
+    src: "{{ playbook_dir }}/roles/puma/templates/puma.socket"
+    dest: "{{ home_dir }}/.config/systemd/user/{{ puma_service_unit_name }}.socket"
+
 - name: Get distribution codename
   shell: lsb_release -c --short
   register: distro_codename
@@ -36,9 +41,19 @@
       shell: "id -u"
       register: current_uid
 
+    - name: Enable puma socket activation
+      systemd:
+        name: "{{ puma_service_unit_name }}.socket"
+        daemon_reload: true
+        enabled: true
+        state: started
+        scope: user
+      environment:
+        XDG_RUNTIME_DIR: "/run/user/{{ current_uid.stdout }}"
+
     - name: Start puma
       systemd:
-        name: "{{ puma_service_unit_name }}"
+        name: "{{ puma_service_unit_name }}.service"
         daemon_reload: true
         enabled: true
         state: started
