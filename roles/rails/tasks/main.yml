@@ -1,12 +1,12 @@
 ---
 - name: Configure Bundler path
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle config --local path {{ shared_dir }}/bundle"
+  shell: "{{ rvm_command }} && bundle config --local path {{ shared_dir }}/bundle"
   args:
     chdir: "{{ release_dir }}"
     executable: /bin/bash
 
 - name: Configure Bundler environments
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle config --local without development:test"
+  shell: "{{ rvm_command }} && bundle config --local without development:test"
   args:
     chdir: "{{ release_dir }}"
     executable: /bin/bash
@@ -26,7 +26,7 @@
   when: not usr_bin_mkdir.stat.exists
 
 - name: Install gems (this may take a few minutes)
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle install"
+  shell: "{{ rvm_command }} && bundle install"
   args:
     chdir: "{{ release_dir }}"
     executable: /bin/bash
@@ -60,7 +60,7 @@
     replace: '{{ env }}:\n  # secret_key_base: ""\n  server_name: "{{ server_hostname }}"'
 
 - name: Generate secret key
-  shell: "source {{ home_dir }}/.rvm/scripts/rvm && bin/rake secret RAILS_ENV={{ env }}"
+  shell: "{{ fnm_command }} && {{ rvm_command }} && fnm exec bin/rake secret RAILS_ENV={{ env }}"
   register: secret_key_base
   args:
     chdir: "{{ release_dir }}"
@@ -86,25 +86,25 @@
   when: domain is not defined
 
 - name: Create Database
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bin/rake db:migrate RAILS_ENV={{ env }}"
+  shell: "{{ fnm_command }} && {{ rvm_command }} && fnm exec bin/rake db:migrate RAILS_ENV={{ env }}"
   args:
     chdir: "{{ release_dir }}"
     executable: /bin/bash
 
 - name: Load configuration seeds
-  shell: "source /home/{{ deploy_user}}/.rvm/scripts/rvm && bin/rake db:seed RAILS_ENV={{ env }}"
+  shell: "{{ fnm_command }} && {{ rvm_command }} && fnm exec bin/rake db:seed RAILS_ENV={{ env }}"
   args:
     chdir: "{{ release_dir }}"
     executable: /bin/bash
 
 - name: Precompile assets
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bin/rake assets:precompile RAILS_ENV={{ env }}"
+  shell: "{{ fnm_command }} && {{ rvm_command }} && fnm exec bin/rake assets:precompile RAILS_ENV={{ env }}"
   args:
     chdir: "{{ release_dir }}"
     executable: /bin/bash
 
 - name: Update crontab with whenever
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle exec whenever --update-crontab {{ app_name }} --set environment={{ env }}"
+  shell: "{{ fnm_command }} && {{ rvm_command }} && fnm exec bundle exec whenever --update-crontab {{ app_name }} --set environment={{ env }}"
   args:
     chdir: "{{ release_dir }}"
     executable: /bin/bash

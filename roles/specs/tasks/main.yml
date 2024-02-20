@@ -1,34 +1,36 @@
 ---
-- when: domain is defined
+- when: distro_codename.stdout == "focal" or distro_codename.stdout == "jammy" or not lookup("env", "CI")
   block:
-    - action: uri url=https://{{ server_hostname }} return_content=yes validate_certs=False
-      register: webpage_https_with_domain
+    - when: domain is defined
+      block:
+        - action: uri url=https://{{ server_hostname }} return_content=yes validate_certs=False
+          register: webpage_https_with_domain
 
-    - fail:
-        msg: "service is not happy {{ webpage_https_with_domain.content }}"
-      when: "'CONSUL' not in webpage_https_with_domain.content"
+        - fail:
+            msg: "service is not happy {{ webpage_https_with_domain.content }}"
+          when: "'CONSUL' not in webpage_https_with_domain.content"
 
-    - name: Redirect to https
-      uri:
-        url: http://{{ server_hostname }}
-        follow_redirects: no
-        validate_certs: yes
-        status_code: 301
+        - name: Redirect to https
+          uri:
+            url: http://{{ server_hostname }}
+            follow_redirects: no
+            validate_certs: yes
+            status_code: 301
 
-- when: domain is not defined
-  block:
-    - action: uri url=http://127.0.0.1 return_content=yes validate_certs=False
-      register: webpage_https
+    - when: domain is not defined
+      block:
+        - action: uri url=http://127.0.0.1 return_content=yes validate_certs=False
+          register: webpage_https
 
-    - fail:
-        msg: "service is not happy {{ webpage_https.content }}"
-      when: "'CONSUL' not in webpage_https.content"
+        - fail:
+            msg: "service is not happy {{ webpage_https.content }}"
+          when: "'CONSUL' not in webpage_https.content"
 
-    - name: Do not redirect to https
-      uri:
-        url: http://{{ server_hostname }}
-        follow_redirects: no
-        status_code: 200
+        - name: Do not redirect to https
+          uri:
+            url: http://{{ server_hostname }}
+            follow_redirects: no
+            status_code: 200
 
 - name: Get running delayed job processes
   shell: "ps -ef | grep -v grep | grep -w delayed_job | awk '{print $2}'"

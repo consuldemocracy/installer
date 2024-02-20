@@ -7,29 +7,68 @@
     - "pids"
     - "sockets"
 
-- name: Check that puma is running
-  stat:
-    path: "{{ shared_dir }}/tmp/pids/puma.pid"
-  register: puma_process
+- name: Create systemd folder
+  file:
+    path: "{{ home_dir }}/.config/systemd/user"
+    state: directory
 
-- name: Get running puma process
-  shell: "cat {{ shared_dir }}/tmp/pids/puma.pid"
-  register: running_process
-  when: puma_process.stat.exists == True
+- name: Copy Puma service file to the systemd folder
+  template:
+    src: "{{ playbook_dir }}/roles/puma/templates/puma.service"
+    dest: "{{ home_dir }}/.config/systemd/user/{{ puma_service_unit_name }}.service"
 
-- name: Kill running process
-  shell: "kill -QUIT {{ item }}"
-  with_items: "{{ running_process.stdout_lines }}"
-  when: puma_process.stat.exists == True
+- name: Copy Puma socket file to the systemd folder
+  template:
+    src: "{{ playbook_dir }}/roles/puma/templates/puma.socket"
+    dest: "{{ home_dir }}/.config/systemd/user/{{ puma_service_unit_name }}.socket"
 
-- name: Start puma
-  shell: "source {{ home_dir }}/.rvm/scripts/rvm && bundle exec puma -C {{ release_dir }}/config/puma/{{ env }}.rb -e {{ env }} -d"
-  args:
-    chdir: "{{ release_dir }}"
-    executable: /bin/bash
+- name: Get distribution codename
+  shell: lsb_release -c --short
+  register: distro_codename
 
-- name: Make sure Nginx has write access to the puma socket
-  shell: "chmod o+w tmp/sockets/*"
-  args:
-    chdir: "{{ release_dir }}"
-    executable: /bin/bash
+- when: distro_codename.stdout == "focal" or distro_codename.stdout == "jammy" or not lookup("env", "CI")
+  block:
+    - name: Check if user has access to systemd while running ansible tasks
+      stat:
+        path: "/var/lib/systemd/linger/{{ deploy_user }}"
+      register: linger_enabled
+
+    - name: Enable systemd access if needed
+      command: "loginctl enable-linger {{ deploy_user }}"
+      when: not linger_enabled.stat.exists
+
+    - name: Get user UID
+      shell: "id -u"
+      register: current_uid
+
+    - name: Enable puma socket activation
+      systemd:
+        name: "{{ puma_service_unit_name }}.socket"
+        daemon_reload: true
+        enabled: true
+        state: started
+        scope: user
+      environment:
+        XDG_RUNTIME_DIR: "/run/user/{{ current_uid.stdout }}"
+
+    - name: Start puma
+      systemd:
+        name: "{{ puma_service_unit_name }}.service"
+        daemon_reload: true
+        enabled: true
+        state: started
+        scope: user
+      environment:
+        XDG_RUNTIME_DIR: "/run/user/{{ current_uid.stdout }}"
+
+    - name: Wait until Puma has created the socket
+      wait_for:
+        path: "{{ release_dir }}/tmp/sockets/puma.sock"
+        state: present
+        msg: Puma socket is not available
+
+    - name: Make sure Nginx has write access to the puma socket
+      shell: "chmod o+w tmp/sockets/*"
+      args:
+        chdir: "{{ release_dir }}"
+        executable: /bin/bash

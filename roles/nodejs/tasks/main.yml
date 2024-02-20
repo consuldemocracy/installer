@@ -1,0 +1,30 @@
+---
+- name: Install fnm
+  shell: |
+    curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir "{{ fnm_dir }}"
+  args:
+    chdir: "{{ home_dir }}"
+    executable: /bin/bash
+    creates: "{{ fnm_dir }}/fnm"
+
+- name: Read Node.js version
+  shell: "cat .node-version"
+  args:
+    chdir: "{{ release_dir }}"
+  register: node_version
+
+- name: Install nodejs via fnm
+  shell: "{{ fnm_command }} && {{ rvm_command }} && fnm install {{ node_version.stdout }}"
+  args:
+    chdir: "{{ release_dir }}"
+    executable: /bin/bash
+  register: fnm_install_result
+  until: "fnm_install_result is not failed"
+  retries: 10
+  delay: 10
+
+- name: Install Node packages
+  shell: "{{ fnm_command }} && {{ rvm_command }} && fnm exec npm install --production"
+  args:
+    chdir: "{{ release_dir }}"
+    executable: /bin/bash

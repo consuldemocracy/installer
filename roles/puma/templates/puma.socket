@@ -1,0 +1,20 @@
+[Unit]
+Description=Puma HTTP Server Accept Sockets for {{ app_name }} ({{ env }})
+
+[Socket]
+ListenStream={{ shared_dir }}/tmp/sockets/puma.sock
+
+# Don't let systemd accept the request, wait for Puma to do that.
+# Systemd will start the puma service upon first request if it wasn't started.
+#
+# You might also want to set your Nginx upstream to have a fail_timeout large enough to accomodate your app's
+# startup time.
+Accept=no
+
+ReusePort=true
+Backlog=1024
+
+SyslogIdentifier=puma_socket
+
+[Install]
+WantedBy=sockets.target

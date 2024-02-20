@@ -1,2 +1,2 @@
 ---
-- include: timezone.yml
+- include_tasks: timezone.yml

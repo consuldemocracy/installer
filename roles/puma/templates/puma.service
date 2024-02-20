@@ -1,0 +1,19 @@
+[Unit]
+Description=Puma HTTP Server for {{ app_name }} ({{ env }})
+After=network.target
+Requires={{ puma_service_unit_name }}.socket
+
+[Service]
+Type=simple
+WorkingDirectory={{ release_dir }}
+ExecStart=/bin/bash -lc '{{ rvm_command }} && bundle exec puma -C {{ puma_config_file }} -e {{ env }}'
+ExecReload=/bin/kill -USR1 $MAINPID
+StandardOutput=append:{{ puma_access_log }}
+StandardError=append:{{ puma_error_log }}
+Environment=EXECJS_RUNTIME=Disabled
+Restart=always
+RestartSec=1
+SyslogIdentifier=puma
+
+[Install]
+WantedBy=default.target

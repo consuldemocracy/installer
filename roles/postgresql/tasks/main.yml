@@ -17,17 +17,18 @@
 - become: true
   become_user: postgres
   block:
-    - name: Create PostgreSQL database
-      postgresql_db:
-        name: "{{ database_name }}"
-
     - name: Create PostgreSQL users
       postgresql_user:
+        state: present
         name: "{{ database_user }}"
         password: "{{ database_password }}"
-        db: "{{ database_name }}"
         encrypted: yes
-        priv: ALL
+
+    - name: Create PostgreSQL database
+      postgresql_db:
+        state: present
+        name: "{{ database_name }}"
+        owner: "{{ database_user }}"
 
     - name: Create the shared extensions schema
       postgresql_schema:

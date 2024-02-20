@@ -18,6 +18,14 @@
     state: present
     shell: /bin/bash
 
+- name: Ensure correct permissions of deploy user home directory
+  file:
+    path: "{{ home_dir }}"
+    owner: "{{ deploy_user }}"
+    group: "{{ deploy_group }}"
+    mode: 0755
+    state: directory
+
 - name: Install SSH key
   authorized_key:
     user: "{{ deploy_user }}"

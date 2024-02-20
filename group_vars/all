@@ -37,6 +37,14 @@ database_user: "{{ deploy_user }}"
 database_password: "{{ deploy_user }}"
 database_hostname: "localhost"
 
+# Puma
+# If you use Capistrano to deploy, make sure the puma_service_unit_name
+# variable is the same as `:puma_service_unit_name` in Capistrano
+puma_service_unit_name: "puma_{{ app_name }}_{{ env }}"
+puma_config_file: "{{ release_dir }}/config/puma/{{ env }}.rb"
+puma_access_log: "{{ shared_dir }}/log/puma_access.log"
+puma_error_log: "{{ shared_dir }}/log/puma_error.log"
+
 #SMTP
 smtp_address:        "smtp.example.com"
 smtp_port:           25
@@ -47,6 +55,13 @@ smtp_authentication: "plain"
 
 #LetsEncrypt
 #letsencrypt_email: "your_email@example.com"
+
+# Node.js
+fnm_dir: "{{ home_dir }}/.fnm"
+fnm_command: "export PATH=\"{{ fnm_dir }}/:$PATH\" && eval \"$(fnm env)\""
+
+# RVM
+rvm_command: "source {{ home_dir }}/.rvm/scripts/rvm"
 
 # Errbit
 errbit: False

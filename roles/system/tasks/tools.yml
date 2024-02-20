@@ -20,8 +20,8 @@
       - libffi-dev
       - curl
       - libcurl4-openssl-dev
-      - nodejs
       - libpq-dev
       - imagemagick
       - ruby-dev
       - shared-mime-info
+      - policykit-1
