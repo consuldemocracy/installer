@@ -22,7 +22,7 @@
         state: directory
 
     - name: Create first release
-      shell: "git archive master | /usr/bin/env tar -x -f - -C {{ first_release_dir }}"
+      shell: "git archive 2.1.0 | /usr/bin/env tar -x -f - -C {{ first_release_dir }}"
       args:
         chdir: "{{ consul_dir }}/repo"
 
