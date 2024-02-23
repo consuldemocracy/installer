@@ -1,4 +1,4 @@
-# CONSUL DEMOCRACY Installer ![Build status](https://github.com/consuldemocracy/installer/workflows/tests/badge.svg)
+# CONSUL DEMOCRACY Installer ![Build status on Ubuntu](https://github.com/consuldemocracy/installer/workflows/ubuntu/badge.svg)
 
 [CONSUL DEMOCRACY](https://github.com/consuldemocracy/consuldemocracy) installer for production environments
 
