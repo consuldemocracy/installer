@@ -13,7 +13,8 @@ jobs:
       matrix:
         platforms: [
           { os: "ubuntu-20.04", errbit: "True" },
-          { os: "ubuntu-22.04", errbit: "False"}
+          { os: "ubuntu-22.04", errbit: "False"},
+          { os: "ubuntu-24.04", errbit: "False"}
         ]
         rails_env: [staging, production]
     steps:
