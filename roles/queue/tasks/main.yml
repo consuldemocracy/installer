@@ -1,5 +1,5 @@
 - name: Start DelayedJobs queue
-  shell: "{{ rvm_command }} && RAILS_ENV={{ env }} EXECJS_RUNTIME=Disabled bin/delayed_job -m -n 2 restart"
+  shell: "{{ rvm_command }} && RAILS_ENV={{ env }} EXECJS_RUNTIME=Disabled bundle exec bin/delayed_job -m -n 2 restart"
   args:
     executable: /bin/bash
     chdir: "{{ release_dir }}"
