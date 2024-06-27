@@ -14,7 +14,7 @@
   register: node_version
 
 - name: Install nodejs via fnm
-  shell: "{{ fnm_command }} && {{ rvm_command }} && fnm install {{ node_version.stdout }}"
+  shell: "{{ fnm_command }} && fnm install {{ node_version.stdout }}"
   args:
     chdir: "{{ release_dir }}"
     executable: /bin/bash
@@ -24,7 +24,7 @@
   delay: 10
 
 - name: Install Node packages
-  shell: "{{ fnm_command }} && {{ rvm_command }} && fnm exec npm install --production"
+  shell: "{{ fnm_command }} && fnm exec npm install --production"
   args:
     chdir: "{{ release_dir }}"
     executable: /bin/bash

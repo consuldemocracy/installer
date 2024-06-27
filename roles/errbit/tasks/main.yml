@@ -146,7 +146,7 @@
     replace: '  errbit_host: "https://{{ errbit_domain }}"'
 
 - name: Restart CONSUL DEMOCRACY
-  shell: "{{ fnm_command }} && {{ rvm_command }} && fnm exec bin/rails restart RAILS_ENV={{ env }}"
+  shell: "{{ rvm_command }} && bin/rails restart RAILS_ENV={{ env }} EXECJS_RUNTIME=Disabled"
   args:
     chdir: "{{ release_dir }}"
     executable: /bin/bash

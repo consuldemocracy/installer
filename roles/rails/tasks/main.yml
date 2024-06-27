@@ -60,7 +60,7 @@
     replace: '{{ env }}:\n  # secret_key_base: ""\n  server_name: "{{ server_hostname }}"'
 
 - name: Generate secret key
-  shell: "{{ fnm_command }} && {{ rvm_command }} && fnm exec bin/rake secret RAILS_ENV={{ env }}"
+  shell: "{{ rvm_command }} && bin/rake secret RAILS_ENV={{ env }} EXECJS_RUNTIME=Disabled"
   register: secret_key_base
   args:
     chdir: "{{ release_dir }}"
@@ -86,13 +86,13 @@
   when: domain is not defined
 
 - name: Create Database
-  shell: "{{ fnm_command }} && {{ rvm_command }} && fnm exec bin/rake db:migrate RAILS_ENV={{ env }}"
+  shell: "{{ rvm_command }} && bin/rake db:migrate RAILS_ENV={{ env }} EXECJS_RUNTIME=Disabled"
   args:
     chdir: "{{ release_dir }}"
     executable: /bin/bash
 
 - name: Load configuration seeds
-  shell: "{{ fnm_command }} && {{ rvm_command }} && fnm exec bin/rake db:seed RAILS_ENV={{ env }}"
+  shell: "{{ rvm_command }} && bin/rake db:seed RAILS_ENV={{ env }} EXECJS_RUNTIME=Disabled"
   args:
     chdir: "{{ release_dir }}"
     executable: /bin/bash
@@ -104,7 +104,7 @@
     executable: /bin/bash
 
 - name: Update crontab with whenever
-  shell: "{{ fnm_command }} && {{ rvm_command }} && fnm exec bundle exec whenever --update-crontab {{ app_name }} --set environment={{ env }}"
+  shell: "{{ rvm_command }} && EXECJS_RUNTIME=Disabled bundle exec whenever --update-crontab {{ app_name }} --set environment={{ env }}"
   args:
     chdir: "{{ release_dir }}"
     executable: /bin/bash
