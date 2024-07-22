@@ -15,7 +15,7 @@ jobs:
     container:
       image: ${{ matrix.image }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Update system packages
         run: apt-get update -y
       - name: Install needed packages

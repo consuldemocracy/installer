@@ -18,7 +18,7 @@ jobs:
         ]
         rails_env: [staging, production]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Update system packages
         run: sudo apt-get update -y
       - name: Install needed packages
