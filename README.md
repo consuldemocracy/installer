@@ -25,7 +25,6 @@ It will also create a `deploy` user to install these libraries
 
 A remote server with one of the supported distributions:
 
-- Ubuntu 20.04 x64
 - Ubuntu 22.04 x64
 - Ubuntu 24.04 x64
 - Debian Bullseye x64
