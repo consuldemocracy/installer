@@ -41,7 +41,6 @@ database_hostname: "localhost"
 # If you use Capistrano to deploy, make sure the puma_service_unit_name
 # variable is the same as `:puma_service_unit_name` in Capistrano
 puma_service_unit_name: "puma_{{ app_name }}_{{ env }}"
-puma_config_file: "{{ release_dir }}/config/puma/{{ env }}.rb"
 puma_access_log: "{{ shared_dir }}/log/puma_access.log"
 puma_error_log: "{{ shared_dir }}/log/puma_error.log"
 
