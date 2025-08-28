@@ -17,7 +17,7 @@ Restart=on-failure
 StandardOutput=append:{{ puma_access_log }}
 StandardError=append:{{ puma_error_log }}
 
-SyslogIdentifier=puma
+SyslogIdentifier={{ puma_service_unit_name }}
 
 [Install]
 WantedBy=default.target
