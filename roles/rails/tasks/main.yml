@@ -60,7 +60,7 @@
     replace: '{{ env }}:\n  # secret_key_base: ""\n  server_name: "{{ server_hostname }}"'
 
 - name: Generate secret key
-  shell: "{{ rvm_command }} && bin/rake secret RAILS_ENV={{ env }} EXECJS_RUNTIME=Disabled"
+  shell: "{{ rvm_command }} && RAILS_ENV={{ env }} EXECJS_RUNTIME=Disabled bin/rails secret"
   register: secret_key_base
   args:
     chdir: "{{ release_dir }}"
