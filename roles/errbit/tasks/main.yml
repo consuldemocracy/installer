@@ -155,7 +155,7 @@
   become: true
   become_user: root
   command: "certbot certonly --nginx --noninteractive --agree-tos --expand -d {{ domain }},{{ errbit_domain }}"
-  when: not lookup("env", "CI")
+  when: lookup("env", "CI") != "true"
 
 - name: Update nginx configuration
   become: true
