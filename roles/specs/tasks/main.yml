@@ -1,5 +1,5 @@
 ---
-- when: ansible_distribution_release in ["focal", "jammy"] or not lookup("env", "CI")
+- when: ansible_distribution_release in ["jammy", "noble"] or not lookup("env", "CI")
   block:
     - when: domain is defined
       block:

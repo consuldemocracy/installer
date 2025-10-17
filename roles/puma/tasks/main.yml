@@ -22,7 +22,7 @@
     src: "{{ playbook_dir }}/roles/puma/templates/puma.socket"
     dest: "{{ home_dir }}/.config/systemd/user/{{ puma_service_unit_name }}.socket"
 
-- when: ansible_distribution_release in ["focal", "jammy"] or not lookup("env", "CI")
+- when: ansible_distribution_release in ["jammy", "noble"] or not lookup("env", "CI")
   block:
     - name: Check if user has access to systemd while running ansible tasks
       stat:
