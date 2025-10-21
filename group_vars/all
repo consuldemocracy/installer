@@ -61,6 +61,7 @@ fnm_command: "export PATH=\"{{ fnm_dir }}/:$PATH\" && eval \"$(fnm env)\""
 
 # RVM
 rvm_command: "source {{ home_dir }}/.rvm/scripts/rvm"
+rvm1_delete_ruby: False
 
 # Errbit
 errbit: False

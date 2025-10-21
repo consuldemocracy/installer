@@ -26,9 +26,9 @@
 
 - name: Grab Certbot certificate
   command: "sudo certbot --nginx --noninteractive --agree-tos --email {{ letsencrypt_email }} -d {{ domain }}"
-  when: domain is defined and not lookup("env", "CI")
+  when: domain is defined and lookup("env", "CI") != "true"
 
-- when: lookup('env', 'CI')
+- when: lookup("env", "CI") == "true"
   block:
     - name: Ensure python OpenSSL dependencies are installed
       apt:
