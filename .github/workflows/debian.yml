@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        image: ["debian:bullseye", "debian:bookworm"]
+        image: ["debian:bullseye", "debian:bookworm", "debian:trixie"]
         rails_env: [staging, production]
     container:
       image: ${{ matrix.image }}
