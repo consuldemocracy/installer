@@ -29,6 +29,7 @@ A remote server with one of the supported distributions:
 - Ubuntu 24.04 x64
 - Debian Bullseye x64
 - Debian Bookworm x64
+- Debian Trixie x64
 
 Access to a remote server via public ssh key without password.
 The default user is `deploy` but you can [use any user](#using-a-different-user-than-deploy) with sudo privileges.
@@ -49,7 +50,7 @@ Python 3 installed in the remote server
 
 The following commands must be executed in your local machine
 
-[Install Ansible >= 2.7](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+[Install Ansible >= 6.x](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) (that is, ansible-core >= 2.13).
 
 Get the Ansible Playbook
 

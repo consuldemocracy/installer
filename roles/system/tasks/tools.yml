@@ -10,6 +10,7 @@
       - vim
       - htop
       - git-core
+      - gpg
       - wget
       - zlib1g-dev
       - libssl-dev
@@ -24,4 +25,22 @@
       - imagemagick
       - ruby-dev
       - shared-mime-info
+
+- name: Install policykit-1
+  become: true
+  apt:
+    state: latest
+    update_cache: true
+    name:
       - policykit-1
+  when: ansible_distribution_release in ["bullseye"]
+
+- name: Install polkitd and pkexec
+  become: true
+  apt:
+    state: latest
+    update_cache: true
+    name:
+      - polkitd
+      - pkexec
+  when: ansible_distribution_release not in ["bullseye"]

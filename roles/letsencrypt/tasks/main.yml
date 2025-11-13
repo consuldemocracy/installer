@@ -1,10 +1,6 @@
 ---
 - when: domain is defined
   block:
-    - name: Install software-properties-common
-      apt:
-        name: software-properties-common
-
     - name: Check python3-certbot-nginx is available
       command: apt-cache show python3-certbot-nginx
       ignore_errors: yes
