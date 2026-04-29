@@ -2,6 +2,12 @@
 
 [CONSUL DEMOCRACY](https://github.com/consuldemocracy/consuldemocracy) installer for production environments
 
+The Consul Democracy installer's objective is to help the community provision a brand-new server with all the libraries and tools needed to run Consul Democracy on production. We do not recommend using the installer on servers already running other services.
+
+You can re-run the playbook for infrastructure changes the installer supports (such as HTTPS with Let's Encrypt or adjustments in `group_vars/all`) as in the SSL section below.
+
+Once you've got a working Consul Democracy installation, you should *not* use this installer to upgrade to a new version of Consul Democracy. That's not supported, and you might end up losing data. To upgrade to a new version of Consul Democracy, follow the instructions in the release notes for that version, and deploy the new version to the server with Capistrano. Check the [keep your fork updated documentation](https://docs.consuldemocracy.org/tech_docs/getting_started/update#pulling-changes-from-consul-democracy) for more information.
+
 Using [Ansible](http://docs.ansible.com/), it will install and configure the following:
 
 - Ruby
@@ -21,7 +27,7 @@ It will also create a `deploy` user to install these libraries
 
 [How to setup CONSUL DEMOCRACY for a production environment](https://youtu.be/1lvnjDuRFzw)
 
-## Prerequisities
+## Prerequisites
 
 A remote server with one of the supported distributions:
 
@@ -70,6 +76,8 @@ Update your local `hosts` file with the remote server's ip address
 ```
 remote-server-ip-address (maintain other default options)
 ```
+
+Before running the playbook, review the defaults in `group_vars/all` and the [configuration variables](#configuration-variables) in this README.
 
 Run the ansible playbook
 
