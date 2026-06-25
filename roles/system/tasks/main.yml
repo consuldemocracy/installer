@@ -16,12 +16,6 @@
   # since it's not production, ok if the packages are a bit out-of-date when running tests in exchange for faster builds
   when: lookup("env", "CI") != "true"
 
-# https://askubuntu.com/a/211531/501568
-- name: Install HTTPS package for Aptitude
-  become: true
-  apt:
-    name: apt-transport-https
-
 - name: Remove apache server
   become: true
   apt:
