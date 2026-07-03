@@ -9,7 +9,7 @@
       - tmux
       - vim
       - htop
-      - git-core
+      - git
       - gpg
       - wget
       - zlib1g-dev
